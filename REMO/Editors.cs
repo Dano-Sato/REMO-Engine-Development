@@ -162,7 +162,7 @@ namespace REMO_Engine_Developer
 
     }
 
-    public static class TxtEditor //특정 디렉토리에 대한 Txt파일을 관리합니다.
+    public static class TxtEditor //특정 디렉토리 내부의 Txt파일을 관리합니다.
     {
 
         public static string MakePath(string DirName, string FileName) //특정 디렉토리 내부의 txt파일의 경로를 불러옵니다.
@@ -217,6 +217,11 @@ namespace REMO_Engine_Developer
                     sw.WriteLine(contents[i]);
                 }
             }
+        }
+
+        public static void Clear(string DirName, string FileName) // 텍스트 파일의 내용을 전부 지웁니다.
+        {
+            File.WriteAllText(MakePath(DirName,FileName), String.Empty);
         }
 
         public static List<string> GetTxtListFrom(string DirName)//특정 디렉토리에 있는 텍스트 파일명들을 전부 불러옵니다.
