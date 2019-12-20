@@ -224,32 +224,42 @@ namespace REMO_Engine_Developer
 
         #endregion
 
+
         protected void CustomInit()
         {
-            Projector.FixedLoad(REMODebugger.scn);
-
-
+            Projector.FixedLoad(GAMEOPTION.DamExam_scn);
+            REMODebugger.scn.Camera = Examples.DamExam_MainScene.scn.Camera;
         }
 
         protected void CustomUpdate()
         {
+            REMODebugger.Enable();
         }
         protected void CustomDraw()
         {
-            Painter.OpenCanvas(() =>
-            {
-                Cursor.Draw(Color.White);
-            });
+
         }
     }
     public static class GAMEOPTION
     {
         // 게임의 옵션을 지정합니다. 
 
-        public static string[] NameSpaces = { "REMO" }; //작업중인 에셋들의 네임스페이스 이름들을 적어넣습니다. 나중에 에셋을 분류하기 용이합니다.
+        public static string[] NameSpaces = { "REMO", "DAMEXAM" }; //작업중인 에셋들의 네임스페이스）；이름들을 적어넣습니다. 나중에 에셋을 분류하기 용이합니다.
 
 
 
+
+        public static Scene DamExam_scn = new Scene(() => 
+        {
+            DamExam_scn.InitOnce(() => {
+                StandAlone.FullScreen = new Rectangle(0, 0, 800, 1000);
+                Projector.Load(Examples.DamExam_MainScene.scn);
+                DamExam_scn.Camera = Examples.DamExam_MainScene.scn.Camera;
+            });
+        }, () => { }, () => 
+        {
+            Cursor.Draw(Color.Black);
+        });
 
 
 
@@ -259,11 +269,12 @@ namespace REMO_Engine_Developer
 
 
     public static class TestScene // 씬 개념을 테스트해볼 수 있는 공간입니다.
-    {
+    {        
         //Write your own Update&Draw Action in here        
         public static Scene scn = new Scene(
             () =>
             {
+
             },
             () =>
             {

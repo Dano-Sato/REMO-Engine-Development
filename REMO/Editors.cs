@@ -215,8 +215,30 @@ namespace REMO_Engine_Developer
                 for (int i = 0; i < contents.Length; i++)
                 {
                     sw.WriteLine(contents[i]);
+                    sw.WriteLine(contents[i], 0);
                 }
             }
+        }
+
+        public static void AppendLinesToTop(string DirName, string FileName, string[] contents)//텍스트파일의 맨 위쪽에 새 라인들을 붙입니다.
+        {
+            string str;
+            using (StreamReader sreader = new StreamReader(MakePath(DirName,FileName)))
+            {
+                str = sreader.ReadToEnd();
+            }
+
+            File.Delete(MakePath(DirName, FileName));
+
+            using (StreamWriter swriter = new StreamWriter(MakePath(DirName, FileName), false))
+            {
+                for(int i=0;i<contents.Length; i++)
+                {
+                    swriter.WriteLine(contents[i]);
+                }
+                swriter.WriteLine(str);
+            }
+
         }
 
         public static void Clear(string DirName, string FileName) // 텍스트 파일의 내용을 전부 지웁니다.
@@ -371,6 +393,12 @@ namespace REMO_Engine_Developer
             AddCustomType(Keys.OemQuotes, "'");
         }
 
+        public void Empty() => typeLine = "";
+
+        public override string ToString()
+        {
+            return TypeLine;
+        }
 
         public void Update()
         {

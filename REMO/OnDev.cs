@@ -52,11 +52,21 @@ namespace REMO_Engine_Developer
 
         }
 
+        private static void SaveLog() //로그를 저장합니다.
+        {
+           if(DebugMode!=DebuggerMode.NULL)
+                TxtEditor.AppendLinesToTop("Logs", "DebugLog", new string[] { LogNameWriter.TypeLine + "=" + CurrentLog });
+           else
+                TxtEditor.AppendLinesToTop("Logs", "DebugLog", new string[] { LogNameWriter.TypeLine });
+
+            SavedTimer = 30;
+        }
+
         public static Scene scn = new Scene(() =>
         {
             scn.InitOnce(() => {
-
                 TxtEditor.MakeTextFile("Logs", "DebugLog"); // 디버깅 기록을 로그할 텍스트파일을 만듭니다.
+                LogNameWriter.AddCustomType(Keys.Space, " ");
             });
 
         }, () =>
@@ -69,7 +79,7 @@ namespace REMO_Engine_Developer
                     CurrentLog = "";
                     break;
                 case DebuggerMode.ShowCursorPos:
-                    CurrentLog = Cursor.Pos.ToString();
+                    CurrentLog = "new Point("+Cursor.Pos.X+","+Cursor.Pos.Y+")";
                     break;
                 case DebuggerMode.ShowRectangle:
                     if (User.JustLeftClicked())
@@ -78,27 +88,30 @@ namespace REMO_Engine_Developer
                     {
                         Bound = new Rectangle(Bound.Location, Cursor.Pos - Bound.Location);
                     }
-                    CurrentLog = Bound.ToString();
+                    CurrentLog = "new Rectangle(" + Bound.X + "," + Bound.Y + "," + Bound.Width + "," + Bound.Height + ")";
 
                     break;
             }
-            if (User.JustRightClicked()) //우클릭 : 지금 관심있는 디버그 로그를 로깅합니다.
+            DebugKeyAct(Keys.S, () =>
             {
-                TxtEditor.AppendLines("Logs", "DebugLog", new string[] { CurrentLog + "/" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") });
-                Bound = Rectangle.Empty;
-                SavedTimer = 30;
-            }
-            DebugKeyAct(Keys.D, () =>
-            {
+                SaveLog();
                 System.Diagnostics.Process.Start(TxtEditor.MakePath("Logs", "DebugLog"));
-            });// Ctrl+D : 디버그 로그를 불러옵니다.
+            });// Ctrl+S : 현재 로그를 저장하고 디버그 로그를 불러옵니다.
             DebugModeAct(Keys.Q,DebuggerMode.ShowCursorPos);// Ctrl+Q : 커서 위치를 보여주는 모드를 불러옵니다.
             DebugModeAct(Keys.W, DebuggerMode.ShowRectangle);// Ctrl+W : 사각형을 보여주는 모드를 불러옵니다.
 
-            DebugKeyAct(Keys.C, () =>
+
+            //로그에 주석을 달아주는 라이터 항목에 관한 업데이트입니다.
+            if(WriterIsOn&&!User.Pressing(Keys.LeftControl))
+                LogNameWriter.Update();
+            if(User.JustPressed(Keys.Enter))
             {
-                TxtEditor.Clear("Logs", "DebugLog");
-            });// Ctrl+C : 로그 기록을 전부 지웁니다.
+                if (WriterIsOn == true)
+                    LogNameWriter.Empty();
+               WriterIsOn = !WriterIsOn;
+
+            }
+
         }, () => 
         {
             if (DebugMode == DebuggerMode.ShowRectangle) 
@@ -112,6 +125,32 @@ namespace REMO_Engine_Developer
             }
             if (SavedTimer > 0)
                 StandAlone.DrawString("Saved", StandAlone.FullScreen.Center-new Point(30,0), Color.White, Color.Black);
+            
+            if(WriterIsOn)
+            {
+                StandAlone.DrawString("> " + LogNameWriter.TypeLine, Cursor.Pos + new Point(30, 20), Color.SkyBlue, Color.Black);
+            }
+
+            StandAlone.DrawString("DEBUG", new Point(0, 0), Color.White, Color.Black);
         });
+        private static bool WriterIsOn = false;
+        private static TypeWriter LogNameWriter=new TypeWriter(); //로깅할 때 로그에 주석을 달 수 있습니다.
+
+        public static void Enable() //이녀석을 업데이트 함수에 넣을 경우, Ctrl+Alt+Q를 통해 디버거를 로드할 수 있는 상태가 됩니다.
+        {
+            if (User.JustPressed(Keys.LeftControl, Keys.LeftAlt, Keys.Q))
+            {
+                if (!Projector.Loaded(REMODebugger.scn))
+                {
+                    Projector.PauseAll();
+                    Projector.Load(REMODebugger.scn);
+                }
+                else
+                {
+                    Projector.ResumeAll();
+                    Projector.Unload(REMODebugger.scn);
+                }
+            }
+        }
     }
 }
