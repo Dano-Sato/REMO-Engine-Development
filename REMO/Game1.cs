@@ -227,11 +227,12 @@ namespace REMO_Engine_Developer
         protected void CustomInit()
         {
             Projector.FixedLoad(REMODebugger.scn);
+
+
         }
 
         protected void CustomUpdate()
         {
-
         }
         protected void CustomDraw()
         {

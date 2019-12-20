@@ -51,9 +51,20 @@ namespace REMO_Engine_Developer
         }
 
 
-        public static Rectangle FullScreen //현재 게임 풀스크린에 대한 정보를 얻어옵니다.
+        public static Rectangle FullScreen //현재 게임 풀스크린을 다룹니다.
         {
+            set
+            {
+                Game1.graphics.PreferredBackBufferWidth = value.Width;
+                Game1.graphics.PreferredBackBufferHeight = value.Height;
+                Game1.graphics.ApplyChanges();
+            }
             get { return new Rectangle(0, 0, Game1.graphics.GraphicsDevice.Viewport.Width, Game1.graphics.GraphicsDevice.Viewport.Height); }
+        }
+
+        public static void ToggleFullScreen() // 윈도우 상단바가 없는 풀스크린 모드로 전환합니다.
+        {
+            Game1.graphics.ToggleFullScreen();
         }
 
         public static void DrawFullScreen(string SpriteName)
