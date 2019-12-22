@@ -296,33 +296,47 @@ namespace REMO_Engine_Developer
 
 
     }
-
-    public static class Projector
+    public static class Projectors
     {
-        private static event Action UpdateSceneEvent = () => { };
-        private static event Action DrawSceneEvent = () => { };
-        private static event Action PausedSceneEvent = () => { };
+        public static projector Projector = new projector();
+        public static projector SubProjector = new projector();
+        public static projector SubProjector2 = new projector();
 
-        private static event Action FixedSceneUpdateEvent = () => { };
-        private static event Action FixedSceneDrawEvent = () => { };
-
-        public static Camera2D MainCamera;
+        public static projector[] InvocationList = new projector[] { Projector, SubProjector, SubProjector2 };
 
         public static void Update()
         {
-            UpdateSceneEvent();
-            FixedSceneUpdateEvent();
-
+            for (int i = 0; i < InvocationList.Length; i++)
+                InvocationList[i].Update();
         }
 
         public static void Draw()
         {
-            DrawSceneEvent();
-            FixedSceneDrawEvent();
+            for (int i = 0; i < InvocationList.Length; i++)
+                InvocationList[i].Draw();
+        }
+    }
+    public class projector
+    {
+        private event Action UpdateSceneEvent = () => { };
+        private event Action DrawSceneEvent = () => { };
+        private event Action PausedSceneEvent = () => { };
+
+        public Camera2D MainCamera;
+
+        public void Update()
+        {
+            UpdateSceneEvent?.Invoke();
 
         }
 
-        public static void Clear()
+        public void Draw()
+        {
+            DrawSceneEvent?.Invoke();
+
+        }
+
+        public void Clear()
         {
             UpdateSceneEvent = () => { };
             DrawSceneEvent = () => { };
@@ -330,12 +344,12 @@ namespace REMO_Engine_Developer
             MusicBox.StopSong();
         }
 
-        public static bool Loaded(Scene s) // 특정 씬이 로드됐는지를 확인합니다. 정확히는 특정 씬이 드로우되고 있으면 로드되어있다고 판단합니다. 업데이트는 Pause에 의해 멈출 수 있지만 드로우는 로드되어있으면 멈추지 않기 떄문이죠.
+        public bool Loaded(Scene s) // 특정 씬이 로드됐는지를 확인합니다. 정확히는 특정 씬이 드로우되고 있으면 로드되어있다고 판단합니다. 업데이트는 Pause에 의해 멈출 수 있지만 드로우는 로드되어있으면 멈추지 않기 떄문이죠.
         {
             return DrawSceneEvent.GetInvocationList().Contains(s.drawAction);
         }
 
-        public static void Load(params Scene[] scs) //특정 씬을 로드합니다. 같은 씬을 중복해서 로드하더라도 단 한번만 등록됩니다.
+        public void Load(params Scene[] scs) //특정 씬을 로드합니다. 같은 씬을 중복해서 로드하더라도 단 한번만 등록됩니다.
         {
             foreach (Scene s in scs)
             {
@@ -352,26 +366,7 @@ namespace REMO_Engine_Developer
             }
         }
 
-
-        public static void FixedLoad(params Scene[] scs)//특정 신을 고정되게 로드합니다. 이 경우 한번 로드된 신을 제거할 방법이 없으므로, 백그라운드에서 항상 돌릴 씬들만 이 로드를 사용해서 불러야 합니다.
-        {
-            foreach (Scene s in scs)
-            {
-                if (!Loaded(s))
-                {
-                    s.InitAction?.Invoke();
-                    FixedSceneUpdateEvent += s.updateAction;
-                    FixedSceneDrawEvent += s.drawAction;
-                    if (s.bgm != "")
-                    {
-                        MusicBox.PlaySong(s.bgm);
-                    }
-                }
-            }
-
-        }
-
-        public static void Unload(params Scene[] scs) //특정 씬을 제거합니다.
+        public void Unload(params Scene[] scs) //특정 씬을 제거합니다.
         {
             foreach (Scene s in scs)
             {
@@ -382,7 +377,7 @@ namespace REMO_Engine_Developer
             }
         }
 
-        public static void Pause(params Scene[] scs)
+        public void Pause(params Scene[] scs)
         {
             foreach (Scene s in scs)
             {
@@ -390,7 +385,7 @@ namespace REMO_Engine_Developer
                 PausedSceneEvent += s.updateAction;
             }
         }
-        public static void Resume(params Scene[] scs)
+        public void Resume(params Scene[] scs)
         {
             foreach (Scene s in scs)
             {
@@ -399,20 +394,20 @@ namespace REMO_Engine_Developer
             }
         }
 
-        public static void PauseAll()
+        public void PauseAll()
         {
             PausedSceneEvent = UpdateSceneEvent;
             UpdateSceneEvent = null;
         }
 
-        public static void ResumeAll()
+        public void ResumeAll()
         {
             UpdateSceneEvent += PausedSceneEvent;
             PausedSceneEvent = null;
         }
 
 
-        public static void SwapTo(params Scene[] scs)
+        public void SwapTo(params Scene[] scs)
         {
             Clear();
             Load(scs);
@@ -433,9 +428,9 @@ namespace REMO_Engine_Developer
     {
         public Camera2D Camera = new Camera2D();
         public string bgm = "";
-        public Action updateAction;
-        public Action drawAction;
-        public Action InitAction;
+        public Action updateAction=()=> { };
+        public Action drawAction = () => { };
+        public Action InitAction = () => { };
 
         public Scene() { }
 

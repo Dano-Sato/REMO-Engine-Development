@@ -22,30 +22,30 @@ namespace REMO_Engine_Developer
        
     }
 
-    public static class REMODebugger // 레모 내장 디버거입니다.
+    public static class REMOBluePrinter // 레모 내장 블루프린터입니다. UI 세팅을 할때 활용할 수 있습니다.
     {
         private static string CurrentLog="";
         private static int SavedTimer = 0;
         private static Rectangle Bound = Rectangle.Empty;
-        enum DebuggerMode
+        enum BluePrintMode
         {
             NULL,
             ShowCursorPos,
             ShowRectangle
         }
-        private static DebuggerMode DebugMode = DebuggerMode.NULL;
+        private static BluePrintMode DebugMode = BluePrintMode.NULL;
 
-        private static void DebugKeyAct(Keys k, Action a)
+        private static void BluePrintKeyAct(Keys k, Action a)
         {
             if (User.JustPressed(Keys.LeftControl, k))
                 a();
         }
 
-        private static void DebugModeAct(Keys k, DebuggerMode m)
+        private static void BluePrintModeAct(Keys k, BluePrintMode m)
         {
-            DebugKeyAct(k, () => {
+            BluePrintKeyAct(k, () => {
                 if (DebugMode == m)
-                    DebugMode = DebuggerMode.NULL;
+                    DebugMode = BluePrintMode.NULL;
                 else
                     DebugMode = m;
             });// 특정 키에 대해 디버그모드 m을 할당합니다.
@@ -54,7 +54,7 @@ namespace REMO_Engine_Developer
 
         private static void SaveLog() //로그를 저장합니다.
         {
-           if(DebugMode!=DebuggerMode.NULL)
+           if(DebugMode!=BluePrintMode.NULL)
                 TxtEditor.AppendLinesToTop("Logs", "DebugLog", new string[] { LogNameWriter.TypeLine + "=" + CurrentLog });
            else
                 TxtEditor.AppendLinesToTop("Logs", "DebugLog", new string[] { LogNameWriter.TypeLine });
@@ -75,13 +75,13 @@ namespace REMO_Engine_Developer
                 SavedTimer--;
             switch (DebugMode)
             {
-                case DebuggerMode.NULL:
+                case BluePrintMode.NULL:
                     CurrentLog = "";
                     break;
-                case DebuggerMode.ShowCursorPos:
+                case BluePrintMode.ShowCursorPos:
                     CurrentLog = "new Point("+Cursor.Pos.X+","+Cursor.Pos.Y+")";
                     break;
-                case DebuggerMode.ShowRectangle:
+                case BluePrintMode.ShowRectangle:
                     if (User.JustLeftClicked())
                         Bound = new Rectangle(Cursor.Pos, Point.Zero);
                     if(User.Pressing(MouseButtons.LeftMouseButton))
@@ -92,13 +92,13 @@ namespace REMO_Engine_Developer
 
                     break;
             }
-            DebugKeyAct(Keys.S, () =>
+            BluePrintKeyAct(Keys.S, () =>
             {
                 SaveLog();
                 System.Diagnostics.Process.Start(TxtEditor.MakePath("Logs", "DebugLog"));
-            });// Ctrl+S : 현재 로그를 저장하고 디버그 로그를 불러옵니다.
-            DebugModeAct(Keys.Q,DebuggerMode.ShowCursorPos);// Ctrl+Q : 커서 위치를 보여주는 모드를 불러옵니다.
-            DebugModeAct(Keys.W, DebuggerMode.ShowRectangle);// Ctrl+W : 사각형을 보여주는 모드를 불러옵니다.
+            });// Ctrl+S : 현재 로그를 저장하고 블루프린트 로그를 불러옵니다.
+            BluePrintModeAct(Keys.Q,BluePrintMode.ShowCursorPos);// Ctrl+Q : 커서 위치를 보여주는 모드를 불러옵니다.
+            BluePrintModeAct(Keys.W, BluePrintMode.ShowRectangle);// Ctrl+W : 사각형을 보여주는 모드를 불러옵니다.
 
 
             //로그에 주석을 달아주는 라이터 항목에 관한 업데이트입니다.
@@ -114,12 +114,12 @@ namespace REMO_Engine_Developer
 
         }, () => 
         {
-            if (DebugMode == DebuggerMode.ShowRectangle) 
+            if (DebugMode == BluePrintMode.ShowRectangle) 
             {
                 Filter.Absolute(Bound, Color.Red * 0.5f);//사각형 영역을 표시합니다.
             }
 
-            if (DebugMode!=DebuggerMode.NULL) //NULL 모드가 아닐시 현재 로그를 불러옵니다.
+            if (DebugMode!=BluePrintMode.NULL) //NULL 모드가 아닐시 현재 로그를 불러옵니다.
             {
                 StandAlone.DrawString(CurrentLog, Cursor.Pos + new Point(30, 0), Color.White, Color.Black);
             }
@@ -140,15 +140,15 @@ namespace REMO_Engine_Developer
         {
             if (User.JustPressed(Keys.LeftControl, Keys.LeftAlt, Keys.Q))
             {
-                if (!Projector.Loaded(REMODebugger.scn))
+                if (!Projectors.SubProjector.Loaded(REMOBluePrinter.scn))
                 {
-                    Projector.PauseAll();
-                    Projector.Load(REMODebugger.scn);
+                    Projectors.Projector.PauseAll();
+                    Projectors.SubProjector.Load(REMOBluePrinter.scn);
                 }
                 else
                 {
-                    Projector.ResumeAll();
-                    Projector.Unload(REMODebugger.scn);
+                    Projectors.Projector.ResumeAll();
+                    Projectors.SubProjector.Unload(REMOBluePrinter.scn);
                 }
             }
         }

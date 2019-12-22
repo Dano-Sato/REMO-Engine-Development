@@ -62,8 +62,8 @@ namespace REMO_Engine_Developer.Examples
         public static void ShowFail(int number)
         {
             DamExam_FailScene.FailNumber = number;
-            Projector.PauseAll();
-            Projector.Load(DamExam_FailScene.scn);
+            Projectors.Projector.PauseAll();
+            Projectors.Projector.Load(DamExam_FailScene.scn);
         }
         
       
@@ -74,6 +74,7 @@ namespace REMO_Engine_Developer.Examples
             {
                 PhoneShow(0);
                 scn.InitOnce(() => {
+                    StandAlone.FullScreen = new Rectangle(0, 0, 800, 1000);
                     scn.Camera.Zoom = (float)StandAlone.FullScreen.Width / WholeScreen.Width;
                 });
             },
@@ -110,7 +111,7 @@ namespace REMO_Engine_Developer.Examples
                         break;
                     case 8:
                         if (User.JustLeftClicked())
-                            RouletteScene.LoadScene(1, () => { return User.JustLeftClicked(); }, () => { Projector.SwapTo(DamExam_DeliveryScene.scn); });
+                            RouletteScene.LoadScene(1, () => { return User.JustLeftClicked(); }, () => { Projectors.Projector.SwapTo(DamExam_DeliveryScene.scn); });
                         break;
                 
                 }
@@ -151,8 +152,8 @@ namespace REMO_Engine_Developer.Examples
             {
                 if(User.JustLeftClicked()||Keyboard.GetState().GetPressedKeys().Length>=1)
                 {
-                    Projector.Clear();
-                    Projector.Load(DamExam_MainScene.scn);
+                    Projectors.Projector.Clear();
+                    Projectors.Projector.Load(DamExam_MainScene.scn);
                 }
             },
             () =>
@@ -216,8 +217,8 @@ namespace REMO_Engine_Developer.Examples
                     }
                     if(DelNum==3)
                     {
-                        Projector.PauseAll();
-                        Projector.Load(DamExam_EndScene.scn);
+                        Projectors.Projector.PauseAll();
+                        Projectors.Projector.Load(DamExam_EndScene.scn);
                     }
 
                 }
@@ -281,8 +282,8 @@ namespace REMO_Engine_Developer.Examples
 
              if(EndNum==3&&(User.JustLeftClicked()||Keyboard.GetState().GetPressedKeys().Length>=1))
              {
-                 Projector.Clear();
-                 Projector.Load(DamExam_MainScene.scn);
+                 Projectors.Projector.Clear();
+                 Projectors.Projector.Load(DamExam_MainScene.scn);
              }
 
              OldEndNum = EndNum;
@@ -295,7 +296,7 @@ namespace REMO_Engine_Developer.Examples
                  Filter.Absolute(DamExam_MainScene.WholeScreen, Color.Red * 0.5f * Fader.Flicker(100));
              if (EndNum == 2)
                  Filter.Absolute(DamExam_MainScene.WholeScreen, Color.Red * 0.5f * Fader.Flicker(100));
-             if (Projector.Loaded(DamExam_FailScene.scn))
+             if (Projectors.Projector.Loaded(DamExam_FailScene.scn))
                  new Gfx2D("End" + (EndNum - 1), DamExam_MainScene.WholeScreen).Draw();
 
          }
@@ -338,8 +339,8 @@ namespace REMO_Engine_Developer.Examples
             FailNum = fNum;
             RCondition = Condition;
             SuccessAction = successAction;
-            Projector.PauseAll();
-            Projector.Load(scn);
+            Projectors.Projector.PauseAll();
+            Projectors.Projector.Load(scn);
         }
 
 
@@ -364,8 +365,8 @@ namespace REMO_Engine_Developer.Examples
 
                     if (!CheckSuccess(Probs[FailNum])) // 룰렛돌리기에 실패했으면 죽습니다
                     {
-                        Projector.Unload(scn);
-                        Projector.ResumeAll();
+                        Projectors.Projector.Unload(scn);
+                        Projectors.Projector.ResumeAll();
                         DamExam_MainScene.ShowFail(FailNum + 1);//관련된 페일상태를 띄웁니다.
                        
                     }
@@ -383,8 +384,8 @@ namespace REMO_Engine_Developer.Examples
                     STimer--;
                 if(STimer==0)
                 {
-                    Projector.Unload(scn);
-                    Projector.ResumeAll();
+                    Projectors.Projector.Unload(scn);
+                    Projectors.Projector.ResumeAll();
                     SuccessAction();
                 }
             },

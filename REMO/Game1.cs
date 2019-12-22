@@ -205,7 +205,7 @@ namespace REMO_Engine_Developer
             if (GameExit)
                 Exit();
 
-            Projector.Update();
+            Projectors.Update();
             StandAlone.InternalUpdate();
             CustomUpdate();
             User.Update();
@@ -216,7 +216,7 @@ namespace REMO_Engine_Developer
         {
             StandAlone.ElapsedMillisec = gameTime.ElapsedGameTime.Milliseconds;
             Game1.Painter.ClearBackground(Color.Black);
-            Projector.Draw();
+            Projectors.Draw();
             StandAlone.InternalDraw();
             CustomDraw();
             base.Draw(gameTime);
@@ -227,45 +227,49 @@ namespace REMO_Engine_Developer
 
         protected void CustomInit()
         {
-            Projector.FixedLoad(GAMEOPTION.DamExam_scn);
-            REMODebugger.scn.Camera = Examples.DamExam_MainScene.scn.Camera;
         }
 
         protected void CustomUpdate()
         {
-            REMODebugger.Enable();
         }
         protected void CustomDraw()
         {
-
         }
     }
-    public static class GAMEOPTION
+
+
+    #region GAMEOPTION CLASS
+    public static class GAMEOPTION // 게임의 빌드 옵션을 지정하는 클래스입니다.
     {
         // 게임의 옵션을 지정합니다. 
 
-        public static string[] NameSpaces = { "REMO", "DAMEXAM" }; //작업중인 에셋들의 네임스페이스）；이름들을 적어넣습니다. 나중에 에셋을 분류하기 용이합니다.
+        public static string[] NameSpaces = { "REMO"}; 
 
-
-
-
-        public static Scene DamExam_scn = new Scene(() => 
+    
+        public static void Build(string NameSpace, params Scene[] sceneInvocationList) // 특정 네임스페이스에 대해서 빌드합니다.
         {
-            DamExam_scn.InitOnce(() => {
-                StandAlone.FullScreen = new Rectangle(0, 0, 800, 1000);
-                Projector.Load(Examples.DamExam_MainScene.scn);
-                DamExam_scn.Camera = Examples.DamExam_MainScene.scn.Camera;
-            });
-        }, () => { }, () => 
-        {
-            Cursor.Draw(Color.Black);
-        });
-
-
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo("Content");
+            foreach (System.IO.FileInfo File in di.GetFiles()) //특정 네임스페이스를 제외한 콘텐츠들을 제거합니다.
+            {
+                if (!File.Name.Contains(NameSpace) && !File.Name.Contains("REMO"))
+                {
+                    File.Delete();
+                }
+            }
+            GAMEOPTION.NameSpaces = new string[] { "REMO", NameSpace };
+            
+            if(sceneInvocationList.Length>0)
+                Projectors.Projector.Load(sceneInvocationList[0]);//메인 씬을 불러옵니다.
+            if (sceneInvocationList.Length > 1)
+                Projectors.SubProjector.Load(sceneInvocationList[1]);//서브 씬을 불러옵니다.
+            if (sceneInvocationList.Length > 2)
+                Projectors.SubProjector2.Load(sceneInvocationList[2]);//서브2 씬을 불러옵니다.
+        }
 
 
 
     }
+    #endregion
 
 
     public static class TestScene // 씬 개념을 테스트해볼 수 있는 공간입니다.
