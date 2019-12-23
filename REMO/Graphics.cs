@@ -40,6 +40,11 @@ namespace REMO_Engine_Developer
         public float Rotate;  // 회전각. radian을 따릅니다.
 
 
+        public void MoveTo(Point p)
+        {
+            Pos = p;
+        }
+
         public void MoveTo(int x, int y, double speed) // (x,y)를 향해 등속운동.
         {
             double N = Method2D.Distance(new Point(x, y), Pos);//두 물체 사이의 거리
@@ -54,6 +59,8 @@ namespace REMO_Engine_Developer
             v = new Vector2((float)speed * v.X, (float)speed * v.Y);
             Pos = new Point(Bound.X + (int)(v.X), Bound.Y + (int)(v.Y));
         }
+
+        public void MoveTo(Point p, double speed) => MoveTo(p.X, p.Y, speed);
 
         public void MoveByVector(Point v, double speed) // 벡터 v의 방향으로 speed의 속도로 등속운동한다.
         {
@@ -156,6 +163,7 @@ namespace REMO_Engine_Developer
 
 
     }
+
 
     public class GfxStr : Gfx
     {
@@ -511,12 +519,43 @@ namespace REMO_Engine_Developer
             return new Point((int)(a.X * k), (int)(a.Y * k));
         }
 
-        //Origin을 중심으로 줌과 회전변환을 하는 변환매트릭스.
-        public static Matrix Matrix2D(Point Origin, float Rotate, float Zoom)
+        
+    }
+
+    public static class Matrix2D
+    {
+
+        public static Matrix Translate(Point p)
+        {
+            return Matrix.CreateTranslation(p.X, p.Y, 0);
+        }
+        public static Matrix Zoom(Point Origin, float Zoom)//Origin을 중심으로 줌을 한다. 기본값은 1f
         {
             Matrix translateToOrigin = Matrix.CreateTranslation(-Origin.X, -Origin.Y, 0);
-            Matrix rotationMatrix = Matrix.CreateRotationZ(MathHelper.ToRadians(Rotate));
             Matrix zoomMatrix = Matrix.CreateScale(Zoom);
+            Matrix translateBackToPosition = Matrix.CreateTranslation(Origin.X, Origin.Y, 0);
+
+            Matrix compositeMatrix = translateToOrigin * zoomMatrix * translateBackToPosition;
+
+            return compositeMatrix;
+        }
+
+        public static Matrix Rotate(Point Origin, float rotate)//Origin을 중심으로 회전한다. 기본값은 0f. 단위는 radian.
+        {
+            Matrix translateToOrigin = Matrix.CreateTranslation(-Origin.X, -Origin.Y, 0);
+            Matrix rotationMatrix = Matrix.CreateRotationZ(rotate);
+            Matrix translateBackToPosition = Matrix.CreateTranslation(Origin.X, Origin.Y, 0);
+
+            Matrix compositeMatrix = translateToOrigin * rotationMatrix * translateBackToPosition;
+
+            return compositeMatrix;
+        }
+
+        public static Matrix Mat2D(Point Origin, float rotate, float Zoom)//Origin을 중심으로 회전한 후 Zoom합니다.
+        {
+            Matrix translateToOrigin = Matrix.CreateTranslation(-Origin.X, -Origin.Y, 0);
+            Matrix zoomMatrix = Matrix.CreateScale(Zoom);
+            Matrix rotationMatrix = Matrix.CreateRotationZ(rotate);
             Matrix translateBackToPosition = Matrix.CreateTranslation(Origin.X, Origin.Y, 0);
 
             Matrix compositeMatrix = translateToOrigin * rotationMatrix * zoomMatrix * translateBackToPosition;
@@ -524,7 +563,6 @@ namespace REMO_Engine_Developer
             return compositeMatrix;
         }
     }
-
 
 
     public static class Fader // Fade 관련 애니메이션 처리

@@ -14,11 +14,15 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
+
 namespace REMO_Engine_Developer
 {
     public static class Repository
     {
         //다른 클래스로 편입되기 전의 임시 그래픽스 혹은 각종 인수를 선언합니다.
+
+
+        public static Aligned<Aligned<Gfx>> Squares = new Aligned<Aligned<Gfx>>(new Point(0, 0), new Point(30, 0));
 
 
 
@@ -50,6 +54,14 @@ namespace REMO_Engine_Developer
                   null,
                   null,
                    CanvasCam.get_transformation(Game1.graphics.GraphicsDevice));
+
+            private static void BeginCanvas(Matrix m) =>
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
+                    null,
+                    null,
+                    null,
+                    null,
+                    m);
             private static void CloseCanvas() => spriteBatch.End();
 
             public static void Draw(Gfx2D gfx) => Draw(gfx, Color.White);
@@ -80,7 +92,13 @@ namespace REMO_Engine_Developer
                 BeginCanvas(c);
                 a();
                 CloseCanvas();
+            }
 
+            public static void OpenCanvas(Matrix m, Action a)
+            {
+                BeginCanvas(m);
+                a();
+                CloseCanvas();
             }
         }
 
@@ -227,6 +245,7 @@ namespace REMO_Engine_Developer
 
         protected void CustomInit()
         {
+            GAMEOPTION.Build(TestScene.scn);
         }
 
         protected void CustomUpdate()
@@ -243,9 +262,29 @@ namespace REMO_Engine_Developer
     {
         // 게임의 옵션을 지정합니다. 
 
-        public static string[] NameSpaces = { "REMO"}; 
+        public static string[] NameSpaces = { "REMO" };
 
-    
+        public static void Build(params Scene[] sceneInvocationList) // 외부 콘텐츠 없이 레모엔진 컴포넌트만으로 빌드합니다.
+        {
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo("Content");
+            foreach (System.IO.FileInfo File in di.GetFiles()) //특정 네임스페이스를 제외한 콘텐츠들을 제거합니다.
+            {
+                if (!File.Name.Contains("REMO"))
+                {
+                    File.Delete();
+                }
+            }
+            GAMEOPTION.NameSpaces = new string[] { "REMO" };
+
+            if (sceneInvocationList.Length > 0)
+                Projectors.Projector.Load(sceneInvocationList[0]);//메인 씬을 불러옵니다.
+            if (sceneInvocationList.Length > 1)
+                Projectors.SubProjector.Load(sceneInvocationList[1]);//서브 씬을 불러옵니다.
+            if (sceneInvocationList.Length > 2)
+                Projectors.SubProjector2.Load(sceneInvocationList[2]);//서브2 씬을 불러옵니다.
+        }
+
+
         public static void Build(string NameSpace, params Scene[] sceneInvocationList) // 특정 네임스페이스에 대해서 빌드합니다.
         {
             System.IO.DirectoryInfo di = new System.IO.DirectoryInfo("Content");
@@ -257,8 +296,8 @@ namespace REMO_Engine_Developer
                 }
             }
             GAMEOPTION.NameSpaces = new string[] { "REMO", NameSpace };
-            
-            if(sceneInvocationList.Length>0)
+
+            if (sceneInvocationList.Length > 0)
                 Projectors.Projector.Load(sceneInvocationList[0]);//메인 씬을 불러옵니다.
             if (sceneInvocationList.Length > 1)
                 Projectors.SubProjector.Load(sceneInvocationList[1]);//서브 씬을 불러옵니다.
@@ -273,16 +312,51 @@ namespace REMO_Engine_Developer
 
 
     public static class TestScene // 씬 개념을 테스트해볼 수 있는 공간입니다.
-    {        
+    {
+        public static Gfx2D sqr = new Gfx2D(new Rectangle(200, 200, 50, 50));
+        public static Gfx2D apple = new Gfx2D(new Rectangle(0, 0, 20, 20));
+        public static double speed = 5;
+        public static int Score = 0;
         //Write your own Update&Draw Action in here        
+
+        public static void EatApple()
+        {
+            Score += 10;
+            speed += 0.1f;
+            apple.Pos = new Point(StandAlone.Random(0, StandAlone.FullScreen.Width), StandAlone.Random(0, StandAlone.FullScreen.Height));
+            //화면의 랜덤한 위치로 애플이 옮겨갑니다.
+        }
+
+
         public static Scene scn = new Scene(
             () =>
             {
+                scn.InitOnce(() =>
+                {
+                    EatApple();
+                    apple.RegisterDrawAct(() =>
+                    {
+                        apple.Draw(Color.Red);
+                        StandAlone.DrawString("I'm Apple!", apple.Pos + new Point(0, -30), Color.White * Fader.Flicker(100), Color.Black);
+                    }
+                    );
+                    Score = 0;
+                });
+            },
+            () =>
+            {
+                User.ArrowKeyPAct((p) => { sqr.MoveByVector(p, speed); });
+                if (Method2D.Distance(sqr.Center, apple.Center) < 30)
+                    EatApple();
 
             },
             () =>
             {
-
+                sqr.Draw(Color.White, Color.Purple * 0.5f * Fader.Flicker(100));
+                apple.Draw();
+                Cursor.Draw(Color.White);
+                StandAlone.DrawString("Press arrow keys to move square. and eat Apples.", new Point(344, 296), Color.White);
+                StandAlone.DrawString("Score : " + Score, new Point(300, 45), Color.White);
             }
             );
 

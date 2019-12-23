@@ -4,88 +4,12 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.Alert1.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.back.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.Circle.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.Delivery1.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.Delivery2.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.Delivery3.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.End1.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.End2.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.End3.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.Fail1.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.Fail2.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.Fail3.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.Fail4.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.Fail5.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.Fail6.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.PhoneScreen00.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.PhoneScreen01.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.PhoneScreen02.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.PhoneScreen03.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.PhoneScreen04.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.PhoneScreen05.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.PhoneScreen06.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.PhoneScreen07.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.PhoneScreen08.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.R1.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.R2.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.R3.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.R4.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.R5.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.R6.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.RArrow.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.RF1.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.RF2.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.RF3.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.RF4.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.RF5.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.RF6.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/DAMEXAM.Success.png</File>
     <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/REMO.Cursor.png</File>
     <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/REMO.DefaultFont.spritefont</File>
     <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/REMO.Light.png</File>
     <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/REMO.WhiteSpace.png</File>
   </SourceFiles>
   <DestFiles>
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

@@ -13,12 +13,41 @@ using REMO_Engine_Developer;
 
 namespace REMO_Engine_Developer
 {
-    public class Aligned<T> where T : IMovable, IDrawable, IBoundable  // 일렬로 정렬된 객체들을 포함하는 콜렉션입니다.
+    public class Aligned<T> : IMovable, IDrawable, IBoundable  where T : IMovable, IDrawable, IBoundable  // 일렬로 정렬된 객체들을 포함하는 콜렉션입니다.
     {
         public List<T> Components = new List<T>();
-        public Point Origin = Point.Zero;//집합을 정렬할 기준점입니다. 
-        public Point RV = Point.Zero;//기준점에 대한 상대벡터입니다.
+        public Point Pos { get; set; }//집합을 정렬할 기준점입니다. 
         public Point Interval;//각 컴포넌트간 간격을 설정하는 벡터입니다.
+
+        public Rectangle Bound { get {
+                Rectangle temp = Rectangle.Empty;
+                for (int i = 0; i < Count; i++)
+                    Rectangle.Union(temp, this[i].Bound);
+                return temp;
+            } } // 컬렉션의 영역은 각 컴포넌트를 모두 포함하는 최소의 사각형입니다. O(n)스케일.
+
+
+        public void MoveTo(Point p)
+        {
+            Pos = p;
+            Align();
+        }
+
+        public void MoveTo(Point p, double speed)//기준점 p에 맞춰 컴포넌트들이 줄을 섭니다.
+        {
+            Pos = p;
+            LazyAlign(speed);
+        }
+
+        public void MoveByVector(Point p, double speed)
+        {
+            double N = Method2D.Distance(new Point(0, 0), p);
+            int Dis_X = (int)(p.X * speed / N);
+            int Dis_Y = (int)(p.Y * speed / N);
+            Pos = new Point(Pos.X + Dis_X, Pos.Y + Dis_Y);
+
+            Align();
+        }
 
 
         public T this[int i]
@@ -47,15 +76,15 @@ namespace REMO_Engine_Developer
 
 
 
-        public Aligned(Point rv, Point interval)//상대벡터와 간격벡터를 설정합니다. 이후 Origin을 조정하여 특정 컴포넌트에 매달 수 있습니다.
+        public Aligned(Point pos, Point interval)//상대벡터와 간격벡터를 설정합니다. 이후 Origin을 조정하여 특정 컴포넌트에 매달 수 있습니다.
         {
-            RV = rv;
+            Pos = pos;
             Interval = interval;
         }
 
-        public Aligned(Point rv, Point interval, List<T> TList)
+        public Aligned(Point pos, Point interval, List<T> TList)
         {
-            RV = rv;
+            Pos = pos;
             Interval = interval;
             Components = TList;
         }
@@ -68,37 +97,27 @@ namespace REMO_Engine_Developer
 
         public void Align() //컴포넌트들이 즉시 정렬됩니다.
         {
-            Point temp = Origin + RV;
+            Point temp = Pos;
             for (int i = 0; i < Count; i++)
             {
-                this[i].Pos = temp;
+                this[i].MoveTo(temp);
                 temp += Interval;
             }
         }
 
-        public void LazyAlign(int AlignSpeed) // 컴포넌트들이 정해진 스피드에 맞춰 느긋하게 정렬됩니다.
+        public void LazyAlign(double AlignSpeed) // 컴포넌트들이 정해진 스피드에 맞춰 느긋하게 정렬됩니다.
         {
-            Point temp = Origin + RV;
+            Point temp = Pos;
             for (int i = 0; i < Count; i++)
             {
-                this[i].MoveTo(temp.X, temp.Y, AlignSpeed);
+                this[i].MoveTo(temp, AlignSpeed);
                 temp += Interval;
             }
 
         }
 
-        public void AttachTo(Point Target, Point rv) // Target의 위치에 상대적으로 RV에 있는 위치로 고정됩니다.
-        {
-            Origin = Target;
-            RV = rv;
-            Align();
-        }
 
-        public void AttachTo(Point Target)//Target에 고정됩니다.
-        {
-            Origin = Target;
-            Align();
-        }
+
 
         public T Pick(Func<T, bool> FilterCondition) // 특정 Condition을 만족하는 객체를 뽑아냅니다. O(n)이므로 유의하여 사용하는 것이 좋습니다.
         {
@@ -110,13 +129,15 @@ namespace REMO_Engine_Developer
             return default(T);
         }
 
-        public T OneContainsCursor() // 커서가 놓여있는 객체를 뽑아냅니다. O(n)이므로 유의하여 사용하는 것이 좋습니다. 반환값이 null일 수 있으므로 . 대신 ?. operator를 씁시다.
+        public T OneContains(Point p)
         {
             return Pick((t) =>
             {
-                return t.Bound.Contains(Cursor.Pos);
+                return t.Bound.Contains(p);
             });
         }
+
+        public T OneContainsCursor() => OneContains(Cursor.Pos); // 커서가 놓여있는 객체를 뽑아냅니다. O(n)이므로 유의하여 사용하는 것이 좋습니다. 반환값이 null일 수 있으므로 . 대신 ?. operator를 씁시다.
         public T OneJustClicked() // 막 클릭된 객체를 뽑아냅니다. O(n)이므로 유의하여 사용하는 것이 좋습니다. 반환값이 null일 수 있으므로 . 대신 ?. operator를 씁시다.
         {
             return Pick((t) =>
@@ -127,12 +148,23 @@ namespace REMO_Engine_Developer
 
 
 
+        private Action DrawAction;
+        public void RegisterDrawAct(Action a)
+        {
+            DrawAction = a;
+        }
         public void Draw()
         {
-            for (int i = 0; i < Count; i++)
-                this[i].Draw();
+            if (DrawAction == null)
+            {
+                for (int i = 0; i < Count; i++)
+                    this[i].Draw();
+            }
+            else
+                DrawAction();
         }
 
     }
 
 }
+
