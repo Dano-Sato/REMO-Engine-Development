@@ -245,7 +245,7 @@ namespace REMO_Engine_Developer
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build(TestScene.scn);
+            GAMEOPTION.Build(TestScene2.scn);
         }
 
         protected void CustomUpdate()
@@ -311,6 +311,24 @@ namespace REMO_Engine_Developer
     #endregion
 
 
+    public static class TestScene2
+    {
+        public static Gfx2D sqr = new Gfx2D(new Rectangle(200, 200, 100, 50));
+        public static Scene scn = new Scene(() => { }, () => 
+        {
+            sqr.Rotate += 0.1f;        
+        }, () => 
+        {
+            sqr.Draw(Color.White);
+            if (sqr.RContainsCursor())
+                sqr.Draw(Color.Red);
+            Cursor.Draw(Color.White);
+             
+        });       
+
+    }
+
+
     public static class TestScene // 씬 개념을 테스트해볼 수 있는 공간입니다.
     {
         public static Gfx2D sqr = new Gfx2D(new Rectangle(200, 200, 50, 50));
@@ -348,6 +366,11 @@ namespace REMO_Engine_Developer
                 User.ArrowKeyPAct((p) => { sqr.MoveByVector(p, speed); });
                 if (Method2D.Distance(sqr.Center, apple.Center) < 30)
                     EatApple();
+                if (User.Pressing(Keys.Z))
+                    scn.Camera.Zoom += 0.1f;
+                if (User.Pressing(Keys.X))
+                    scn.Camera.Zoom -= 0.1f;
+                scn.Camera.Origin = sqr.Center - new Point(300, 300);
 
             },
             () =>

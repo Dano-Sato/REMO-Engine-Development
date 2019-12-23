@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="REMO\Collections.cs" />
     <Compile Include="REMO\Editors.cs" />
+    <Compile Include="REMO\Examples.cs" />
     <Compile Include="REMO\Game1.cs" />
     <Compile Include="REMO\Graphics.cs" />
     <Compile Include="REMO\Interfaces.cs" />

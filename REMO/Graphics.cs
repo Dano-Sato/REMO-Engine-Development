@@ -244,8 +244,8 @@ namespace REMO_Engine_Developer
         public bool RContains(Point p)//만약 Gfx의 rotate값이 0이 아닐 경우, RContains 함수가 정확합니다. 다만, 보시다시피, 비싼 계산을 요구합니다.
         {
             Vector2 v = Method2D.PtV(p);
-            Vector3 RO = new Vector3(Pos.X + (ROrigin.X * Bound.Width) / Texture.Width, Pos.Y + (ROrigin.Y * Bound.Height) / Texture.Height, 0);
-            v = Vector2.Transform(v, Matrix.CreateTranslation(-RO) * Matrix.CreateRotationZ(-Rotate) * Matrix.CreateTranslation(RO));
+            Point RO = new Point(Pos.X + (ROrigin.X * Bound.Width) / Texture.Width, Pos.Y + (ROrigin.Y * Bound.Height) / Texture.Height); //실제 회전중심의 위치를 잡습니다.
+            v = Vector2.Transform(v, Matrix2D.Rotate(RO, -Rotate));
             return Bound.Contains(Method2D.VtP(v));
         }
         public bool RContainsCursor()
@@ -258,14 +258,15 @@ namespace REMO_Engine_Developer
     {
         protected float zoom; // Camera Zoom
         public Matrix transform; // Matrix Transform
-        public Vector2 pos; // Camera Position
+        public Point Origin; // Camera Position
+        public Point TransformOrigin;//회전, 줌 변환의 중심입니다.
         protected float rotation; // Camera Rotation
 
         public Camera2D()
         {
             zoom = 1.0f;
             rotation = 0.0f;
-            pos = Vector2.Zero;
+            Origin = Point.Zero;
         }
         public float Zoom
         {
@@ -282,23 +283,9 @@ namespace REMO_Engine_Developer
             set { rotation = value; }
         }
 
-        // Auxiliary function to move the camera
-        public void Move(Vector2 amount)
-        {
-            pos += amount;
-        }
-        // Get set position
-        public Vector2 Pos
-        {
-            get { return pos; }
-            set { pos = value; }
-        }
         public Matrix get_transformation(GraphicsDevice graphicsDevice)
         {
-            transform = Matrix.CreateTranslation(new Vector3(-pos.X, -pos.Y, 0)) *
-                                         Matrix.CreateRotationZ(Rotation) *
-                                         Matrix.CreateScale(new Vector3(Zoom, Zoom, 1));
-            //Matrix.CreateTranslation(-new Vector3(Game1.graphics.GraphicsDevice.Viewport.Width* (Zoom - 1) * 0.5f, Game1.graphics.GraphicsDevice.Viewport.Height* (Zoom - 1) * 0.5f, 0)); //마지막에 이걸 적용하면 중심에서 확대합니다.
+            transform = Matrix2D.Translate(Point.Zero - Origin)*Matrix2D.Mat2D(TransformOrigin,rotation,Zoom);
             return transform;
         }
 
