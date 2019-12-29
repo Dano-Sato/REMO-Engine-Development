@@ -180,18 +180,8 @@ namespace REMO_Engine_Developer
         public int Edge = 0;
         public SpriteFont Texture;
 
-        public GfxStr(string _text) : this(_text, Point.Zero)
-        {
-
-        }
-
-        public GfxStr(string _text, Point pos)
-        {
-            Texture = Game1.content.Load<SpriteFont>("DefaultFont");
-            Text = _text;
-            Pos = pos;
-            Bound = new Rectangle(pos, Method2D.VtP(Texture.MeasureString(Text)));
-        }
+        public GfxStr(string _text) : this(_text, Point.Zero) { }
+        public GfxStr(string _text, Point pos) : this(_text, pos, 0) { }
         public GfxStr(string text, Point pos, int edge)
         {
             Texture = Game1.content.Load<SpriteFont>("DefaultFont");
@@ -200,6 +190,15 @@ namespace REMO_Engine_Developer
             Bound = new Rectangle(pos, Method2D.VtP(Texture.MeasureString(Text)) + new Point(2 * Edge, 2 * Edge));
         }
 
+        public GfxStr(string font, string text) : this(font, text, Point.Zero, 0) { }
+        public GfxStr(string font, string text, Point pos) : this(font, text, pos, 0) { }
+        public GfxStr(string font, string text, Point pos, int edge)
+        {
+            Texture = Game1.content.Load<SpriteFont>(font);
+            Text = text;
+            Edge = edge;
+            Bound = new Rectangle(pos, Method2D.VtP(Texture.MeasureString(Text)) + new Point(2 * Edge, 2 * Edge));
+        }
 
         public override void Draw(params Color[] colors) => Game1.Painter.Draw(this, colors);
     }
@@ -257,11 +256,17 @@ namespace REMO_Engine_Developer
     public class Camera2D
     {
         protected float zoom; // Camera Zoom
-        public Matrix transform; // Matrix Transform
+        protected float rotation; // Camera Rotation
+        public Matrix Transform //카메라에 의한 변환행렬을 불러옵니다.
+        {
+            get
+            {
+                return Matrix2D.Translate(Point.Zero - Origin) * Matrix2D.Mat2D(TransformOrigin, rotation, Zoom);
+            }
+        } // Matrix Transform
         public Point Origin; // Camera Position
         public Point TransformOrigin;//회전, 줌 변환의 중심입니다.
-        protected float rotation; // Camera Rotation
-
+ 
         public Camera2D()
         {
             zoom = 1.0f;
@@ -283,11 +288,6 @@ namespace REMO_Engine_Developer
             set { rotation = value; }
         }
 
-        public Matrix get_transformation(GraphicsDevice graphicsDevice)
-        {
-            transform = Matrix2D.Translate(Point.Zero - Origin)*Matrix2D.Mat2D(TransformOrigin,rotation,Zoom);
-            return transform;
-        }
 
 
     }
@@ -642,7 +642,7 @@ namespace REMO_Engine_Developer
             Lighter = new Gfx2D("WhiteSpace", Bound);
             Lighter.Draw(c);
         }
-        public static void Absolute(Gfx g, Color c) => Absolute(g.Bound, c);
+        public static void Absolute(IBoundable g, Color c) => Absolute(g.Bound, c);
 
 
         public static void Vignette(Rectangle Bound, float opacity)
@@ -650,7 +650,7 @@ namespace REMO_Engine_Developer
             Lighter = new Gfx2D("Light", Bound);
             Lighter.Draw(Color.White * opacity);
         }
-        public static void Vignette(Gfx g, float opacity) => Vignette(g.Bound, opacity);
+        public static void Vignette(IBoundable g, float opacity) => Vignette(g.Bound, opacity);
 
 
     }

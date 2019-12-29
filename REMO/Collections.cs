@@ -20,10 +20,15 @@ namespace REMO_Engine_Developer
         public Point Interval;//각 컴포넌트간 간격을 설정하는 벡터입니다.
 
         public Rectangle Bound { get {
-                Rectangle temp = Rectangle.Empty;
-                for (int i = 0; i < Count; i++)
-                    Rectangle.Union(temp, this[i].Bound);
-                return temp;
+                if (Count > 0)
+                {
+                    Rectangle temp = this[0].Bound;
+                    for (int i = 1; i < Count; i++)
+                        temp = Rectangle.Union(temp, this[i].Bound);
+                    return temp;
+                }
+                else
+                    return Rectangle.Empty;
             } } // 컬렉션의 영역은 각 컴포넌트를 모두 포함하는 최소의 사각형입니다. O(n)스케일.
 
 
@@ -75,7 +80,10 @@ namespace REMO_Engine_Developer
         }
 
 
+        public Aligned()
+        {
 
+        }
         public Aligned(Point pos, Point interval)//상대벡터와 간격벡터를 설정합니다. 이후 Origin을 조정하여 특정 컴포넌트에 매달 수 있습니다.
         {
             Pos = pos;
@@ -95,7 +103,7 @@ namespace REMO_Engine_Developer
         }
 
 
-        public void Align() //컴포넌트들이 즉시 정렬됩니다.
+        public virtual void Align() //컴포넌트들이 즉시 정렬됩니다.
         {
             Point temp = Pos;
             for (int i = 0; i < Count; i++)
@@ -105,7 +113,7 @@ namespace REMO_Engine_Developer
             }
         }
 
-        public void LazyAlign(double AlignSpeed) // 컴포넌트들이 정해진 스피드에 맞춰 느긋하게 정렬됩니다.
+        public virtual void LazyAlign(double AlignSpeed) // 컴포넌트들이 정해진 스피드에 맞춰 느긋하게 정렬됩니다.
         {
             Point temp = Pos;
             for (int i = 0; i < Count; i++)
@@ -164,6 +172,77 @@ namespace REMO_Engine_Developer
                 DrawAction();
         }
 
+    }
+
+    public enum AlignMode { Vertical, Horizen}
+
+    public class SimpleAligned<T> : Aligned<T> where T : IMovable, IDrawable, IBoundable
+    {
+        public AlignMode Mode;
+
+        public int interval { get {
+                if (Mode == AlignMode.Horizen)
+                    return Interval.X;
+                else
+                    return Interval.Y;                       
+            } set {
+                if (Mode == AlignMode.Horizen)
+                    Interval = new Point(value, 0);
+                else
+                    Interval = new Point(0, value);
+
+            }
+        } //컴포넌트 간의 간격을 반환합니다.
+
+        public SimpleAligned(AlignMode mode, Point pos, int interval) : base()
+        {
+            Mode = mode;
+            Pos = pos;
+            if(Mode==AlignMode.Horizen)
+                Interval = new Point(interval,0);
+            else
+                Interval = new Point(0, interval);
+        }
+
+        public override void Align()
+        {
+            Point temp = Pos;
+            Point v;
+            if (Mode == AlignMode.Horizen)
+                v = new Point(0, 1);
+            else
+                v = new Point(1, 0);
+
+            for (int i=0;i<Count;i++)
+            {
+                this[i].MoveTo(temp);
+                temp += Interval;
+                if (Mode == AlignMode.Horizen)
+                    temp += new Point(this[i].Bound.Width, 0);
+                else
+                    temp += new Point(0, this[i].Bound.Height);
+            }
+        }
+
+        public override void LazyAlign(double AlignSpeed)
+        {
+            Point temp = Pos;
+            Point v;
+            if (Mode == AlignMode.Horizen)
+                v = new Point(0, 1);
+            else
+                v = new Point(1, 0);
+
+            for (int i = 0; i < Count; i++)
+            {
+                this[i].MoveTo(temp, AlignSpeed);
+                temp += Interval;
+                if (Mode == AlignMode.Horizen)
+                    temp += new Point(this[i].Bound.Width, 0);
+                else
+                    temp += new Point(0, this[i].Bound.Height);
+            }
+        }
     }
 
 }

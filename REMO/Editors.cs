@@ -278,6 +278,8 @@ namespace REMO_Engine_Developer
 
         private Dictionary<string, Action<string>> Rules = new Dictionary<string, Action<string>>();
 
+        public string Embracer="<>";//태그언어의 태그를 구분하는 Embracer입니다. <>, {},(),[]등 다양한 Embracer를 채택하는 것이 가능합니다.
+
         public TLReader()
         {
         }
@@ -293,7 +295,7 @@ namespace REMO_Engine_Developer
 
         public void ReadLine(string CodeLine)//특정 스트링을 읽어 명령줄을 실행합니다.
         {
-            string[] Statements = CodeLine.Split('<');
+            string[] Statements = CodeLine.Split(Embracer[0]);
             for (int i = 1; i < Statements.Length; i++)
             {
                 ReadStatement(Statements[i]);
@@ -319,7 +321,7 @@ namespace REMO_Engine_Developer
 
         private void ReadStatement(string Statement)
         {
-            string[] ParsedStatement = Statement.Split('>');
+            string[] ParsedStatement = Statement.Split(Embracer[1]);
             foreach (string Tag in Rules.Keys.ToList())
             {
                 if (String.Compare(ParsedStatement[0].Replace(" ", ""), Tag, true) == 0)
@@ -329,13 +331,13 @@ namespace REMO_Engine_Developer
             }
         }
 
-        public static Point ReadPoint(string s)
+        public static Point ReadPoint(string s) // 30,30 등의 Point 인수를 읽습니다.
         {
             string[] ps = s.Replace(" ", "").Split(',');
             return new Point(Int32.Parse(ps[0]), Int32.Parse(ps[1]));
         }
 
-        public static Rectangle ReadRect(string s)
+        public static Rectangle ReadRect(string s)// 0,0,50,50 등의 Rectangle 인수를 읽습니다.
         {
             string[] ps = s.Replace(" ", "").Split(',');
             return new Rectangle(Int32.Parse(ps[0]), Int32.Parse(ps[1]), Int32.Parse(ps[2]), Int32.Parse(ps[3]));
@@ -653,4 +655,67 @@ namespace REMO_Engine_Developer
             }
         }
     }
+
+
+
+    public class Scripter
+    {
+        public SimpleAligned<SimpleAligned<GfxStr>> Script = new SimpleAligned<SimpleAligned<GfxStr>>(AlignMode.Vertical, Point.Zero, 0);
+        public Point Pos
+        {
+            get
+            {
+                return Script.Pos;
+            }
+            set
+            {
+                Script.Pos = value;
+            }
+        }
+        public int LetterSpacing = 0;
+        public int LineSpacing
+        {
+            get { return Script.interval; }
+            set { Script.interval = value; }
+        }
+
+        public int LineWidth = 400;
+
+        public Scripter(Point _Pos, int _LetterSpacing, int _LineSpacing, int _LineWidth)
+        {
+            Pos = _Pos;
+            LetterSpacing = _LetterSpacing;
+            LineSpacing = _LineSpacing;
+            LineWidth = _LineWidth;
+        }
+
+        public void BuildScript(string s) // Script에 문장을 넣습니다.
+        {
+            Script.Clear();
+            string[] strs = s.Split(' ');
+
+            SimpleAligned<GfxStr> Strings = new SimpleAligned<GfxStr>(AlignMode.Horizen, Point.Zero, LetterSpacing);
+            int i = 0;
+            for (; i < strs.Length; i++)
+            {
+                Strings.Add(new GfxStr(strs[i]));
+                Strings.Align();
+                if (Strings.Bound.Width > LineWidth&&Strings.Count>1)
+                {
+                    Strings.RemoveAt(Strings.Count - 1);
+                    i--;
+                    Script.Add(Strings);//빌드된 스트링을 포함하고,
+                    Strings = new SimpleAligned<GfxStr>(AlignMode.Horizen, Point.Zero, LetterSpacing); //새로운 스트링을 씁니다.
+                }
+            }
+            Script.Add(Strings);//마지막으로 포함 안된 스트링을 포함합니다.
+            Script.Align();
+        }
+
+
+
+
+
+    }
+
 }

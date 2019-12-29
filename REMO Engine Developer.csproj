@@ -57,6 +57,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GACHAT\Vanilla.cs" />
     <Compile Include="REMO\Collections.cs" />
     <Compile Include="REMO\Editors.cs" />
     <Compile Include="REMO\Examples.cs" />
