@@ -36,6 +36,30 @@ namespace REMO_Engine_Developer
             set { bound.Location = new Point(value.X - bound.Width / 2, value.Y - bound.Height / 2); }
         }
 
+        public int X
+        {
+            get { return bound.X; }
+            set { bound.X = value; }
+        }
+
+        public int Y
+        {
+            get { return bound.Y; }
+            set { bound.Y = value; }
+        }
+        public int Width
+        {
+            get { return bound.Width; }
+            set { bound.Width = value; }
+        }
+        public int Height
+        {
+            get { return bound.Height; }
+            set { bound.Height = value; }
+        }
+
+
+
         public Point ROrigin; // 회전 중심점. 재할당을 하지 않을 경우 텍스처의 중심이 회전중심이 됩니다. 재할당을 할 때는 물체의 왼쪽 위 지점을 (0,0)이라고 생각해주십시오. 중요한 점은, 실제 텍스처 파일의 가로 세로값을 참조한다는 것입니다.
         public float Rotate;  // 회전각. radian을 따릅니다.
 
@@ -215,7 +239,10 @@ namespace REMO_Engine_Developer
             }
         }
 
-        public Gfx2D() // 메소드를 사용할 수 없는 Null 객체를 생성한다.
+        /// <summary>
+        /// 메소드를 사용할 수 없는 Null 객체를 생성합니다.
+        /// </summary>
+        public Gfx2D() 
         {
 
         }
@@ -239,8 +266,12 @@ namespace REMO_Engine_Developer
         public override void Draw(params Color[] colors) => Game1.Painter.Draw(this, colors);
 
 
-
-        public bool RContains(Point p)//만약 Gfx의 rotate값이 0이 아닐 경우, RContains 함수가 정확합니다. 다만, 보시다시피, 비싼 계산을 요구합니다.
+        /// <summary>
+        /// 만약 Gfx의 rotate값이 0이 아닐 경우, RContains 함수가 정확합니다. 다만, 보시다시피, 비싼 계산을 요구합니다.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public bool RContains(Point p)
         {
             Vector2 v = Method2D.PtV(p);
             Point RO = new Point(Pos.X + (ROrigin.X * Bound.Width) / Texture.Width, Pos.Y + (ROrigin.Y * Bound.Height) / Texture.Height); //실제 회전중심의 위치를 잡습니다.
@@ -567,6 +598,8 @@ namespace REMO_Engine_Developer
         public static Dictionary<Color, Dictionary<Gfx, int>> FadeAnimations = new Dictionary<Color, Dictionary<Gfx, int>>();
         public static Dictionary<Color, int> FadeAnimationTimers = new Dictionary<Color, int>();
         public static List<Color> ExcludedColorSets = new List<Color>();
+
+
 
         public static void Add(Gfx g, int Timer, Color c)
         {

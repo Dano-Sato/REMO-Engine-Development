@@ -21,12 +21,21 @@ namespace REMO_Engine_Developer
 
     public enum MouseButtons { LeftMouseButton, RightMouseButton, MouseScrollButton } //마우스가 가진 버튼들에 대한 묶음입니다.
 
+
+    /// <summary>
+    ///  유저 인터랙션을 담당하는 클래스입니다.
+    /// </summary>
     public static class User
     {
         private static KeyboardState OldKeyboardState = Keyboard.GetState();
         private static MouseState OldMouseState = Mouse.GetState();
 
 
+        /// <summary>
+        /// 유저가 키 k를 누르고 있는지를 판별하는 함수입니다. 
+        /// </summary>
+        /// <param name="k"></param>
+        /// <returns></returns>
         public static bool Pressing(Keys k)
         {
             return Keyboard.GetState().IsKeyDown(k);
@@ -144,6 +153,12 @@ namespace REMO_Engine_Developer
         public static Gfx2D Graphic = new Gfx2D("Cursor", new Rectangle(0, 0, 20, 20));
         public static Gfx DraggedTarget; // 현재 드래깅되고 있는 객체를 추적하는 Gfx 포인터입니다.
 
+        public static Point Size
+        {
+            get { return Graphic.Bound.Size; }
+            set { Graphic.Bound = new Rectangle(Pos, value); }
+
+        }
         public static Point Pos
         {
             get

@@ -21,6 +21,84 @@ namespace REMO_Engine_Developer
     {
        
     }
+    public static class TestScene2_Disposed
+    {
 
-   
+        public class CustomTLReader : TLReader
+        {
+            public CustomTLReader() : base()
+            {
+                this.Embracer = "[]";
+                this.AddRule("Script", (s) => { StandAlone.DrawString(s, new Point(100, 200), Color.White); });
+            }
+        }
+
+
+
+        public static CustomTLReader t = new CustomTLReader();
+
+
+        public static Scene scn = new Scene(() =>
+        {
+
+        }, () =>
+        {
+
+        }, () =>
+        {
+            t.ReadLine("[Script] My life is so great");
+            //Strings.Draw();
+            Cursor.Draw(Color.White);
+        });
+
+    }
+
+
+    public static class TestScene4_Disposed
+    {
+        public static Scripter s = new Scripter(new Point(100, 100), 10, 0, 20);
+
+        public static Scene scn = new Scene(() => {
+            s.BuildScript("Yesterday, love is such an easy game to play, now I need a place to hide away. ");
+
+
+        }, () => {
+
+
+
+        }, () => {
+            s.Script.Draw();
+            Cursor.Draw(Color.White);
+        });
+
+
+
+
+    }
+
+    public static class REMOTimer
+    {
+        private static Dictionary<Action, int> timers = new Dictionary<Action, int>();
+        public static void StopWatch(int ResetTime, Action TargetAction)
+        {
+            if (!timers.ContainsKey(TargetAction))
+            {
+                timers.Add(TargetAction, ResetTime);
+            }
+            else
+            {
+                if (timers[TargetAction] > 0)
+                    timers[TargetAction]--;
+                else
+                {
+                    timers[TargetAction] = ResetTime;
+                    TargetAction();
+                }
+
+            }
+        }
+
+
+    }
+
 }

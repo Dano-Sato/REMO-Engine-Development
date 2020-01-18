@@ -20,3 +20,29 @@ C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\obj\Debu
 C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\obj\Debug\REMO Engine Developer.csproj.CopyComplete
 C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\obj\Debug\REMO Engine.exe
 C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\obj\Debug\REMO Engine.pdb
+C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\Content\GACHAT.Field.xnb
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\x64\SDL2.dll
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\x64\soft_oal.dll
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\x86\SDL2.dll
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\x86\soft_oal.dll
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\libopenal.1.dylib
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\libSDL2-2.0.0.dylib
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\x64\libopenal.so.1
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\x64\libSDL2-2.0.so.0
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\x86\libopenal.so.1
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\x86\libSDL2-2.0.so.0
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\x64\msvcr120.dll
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\x64\msvcr120_clr0400.dll
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\Content\GACHAT.Field.xnb
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.Cursor.xnb
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.DefaultFont.xnb
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.Light.xnb
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.WhiteSpace.xnb
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll.config
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\REMO Engine.exe
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\REMO Engine.pdb
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\obj\Debug\REMO Engine Developer.csprojAssemblyReference.cache
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\obj\Debug\REMO Engine Developer.csproj.CopyComplete
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\obj\Debug\REMO Engine.exe
+\\home.realmono.net\REMO Engine Developer\REMO Engine Developer\obj\Debug\REMO Engine.pdb

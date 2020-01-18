@@ -4,12 +4,14 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/REMO.Cursor.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/REMO.DefaultFont.spritefont</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/REMO.Light.png</File>
-    <File>C:/Users/owner/source/repos/REMO Engine Developer/REMO Engine Developer/Content/REMO.WhiteSpace.png</File>
+    <File>Z:/REMO Engine Developer/Content/GACHAT.Field.png</File>
+    <File>Z:/REMO Engine Developer/Content/REMO.Cursor.png</File>
+    <File>Z:/REMO Engine Developer/Content/REMO.DefaultFont.spritefont</File>
+    <File>Z:/REMO Engine Developer/Content/REMO.Light.png</File>
+    <File>Z:/REMO Engine Developer/Content/REMO.WhiteSpace.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

@@ -14,7 +14,7 @@ using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
 
-namespace REMO_Engine_Developer
+namespace REMO_Engine_Developer.GACHAT
 {
 
     public class Stats
@@ -22,7 +22,7 @@ namespace REMO_Engine_Developer
         public double Attack = 0;//공격력
         public double Defense = 0;//방어력
         public double HP = 0;//체력
-
+          
         public Stats() : this(0, 0, 0) { }
 
         public Stats(double a, double d, double h)
@@ -90,8 +90,7 @@ namespace REMO_Engine_Developer
     public class Buff
     { 
         //Buff Tag : X(Stat Buff), A(Attack Buff), S(Speed Buff), R(Range Buff)
-        //각종 액션의 순간에 유닛의 버프리스트를 읽어들여 버프의 기능들을 수행합니다.
-    
+        //각종 액션의 순간에 유닛의 버프리스트를 읽어들여 버프의 기능들을 수행합니다.    
     }
 
 
@@ -104,6 +103,8 @@ namespace REMO_Engine_Developer
 
 
     }
+
+    //카드 계열. 카드 인터페이스를 계승받을 예정입니다.
 
     public class Unit //필드 위에 존재하는 유닛 카드입니다.
     {
@@ -125,11 +126,8 @@ namespace REMO_Engine_Developer
     }
 
 
-    public class Card
+    public interface ICard
     {
-        public Stats BasicStat;
-        public Stats BonusStat;
-        public List<Action<Stats>> UpgradeBuffList=new List<Action<Stats>>();
 
     }
     //Template for new Scene. 나중에 커스텀 항목 템플릿을 통해 Scene을 만들 수 있게 계획하겠음.

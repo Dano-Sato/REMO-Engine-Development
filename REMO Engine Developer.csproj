@@ -57,6 +57,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GACHAT\Field.cs" />
     <Compile Include="GACHAT\Vanilla.cs" />
     <Compile Include="REMO\Collections.cs" />
     <Compile Include="REMO\Editors.cs" />
@@ -115,6 +116,12 @@
     <Content Include="Content\REMO.Light.png" />
     <Content Include="Content\REMO.WhiteSpace.png" />
     <Content Include="REMO_icon.ico" />
+    <Content Include="x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x64\msvcr120_clr0400.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="x64\SDL2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
