@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>Z:/REMO Engine Developer/Content/GACHAT.Field.png</SourceFile>
+  <SourceFile>C:/Users/satodano/source/repos/REMO_Engine_Developer/REMO_Engine_Developer/Content/GACHAT.Field.png</SourceFile>
   <SourceTime>2019-12-31T02:15:50+09:00</SourceTime>
-  <DestFile>Z:/REMO Engine Developer/Content/bin/DesktopGL/Content/GACHAT.Field.xnb</DestFile>
-  <DestTime>2020-01-17T04:59:01+09:00</DestTime>
+  <DestFile>C:/Users/satodano/source/repos/REMO_Engine_Developer/REMO_Engine_Developer/Content/bin/DesktopGL/Content/GACHAT.Field.xnb</DestFile>
+  <DestTime>2020-01-20T21:59:58.0583662+09:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-09T01:35:54+09:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

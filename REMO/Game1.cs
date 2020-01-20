@@ -237,7 +237,7 @@ namespace REMO_Engine_Developer
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build("GACHAT",GACHAT.FieldScene.scn);
+            GAMEOPTION.Build(TestScene.scn);
         }
 
         protected void CustomUpdate()
@@ -347,10 +347,14 @@ namespace REMO_Engine_Developer
                 if (Method2D.Distance(sqr.Center, apple.Center) < 30)
                     EatApple();
                 if (User.Pressing(Keys.Z))
-                    scn.Camera.Zoom += 0.1f;
+                {
+                    sqr.Zoom(sqr.Center, 1.1f);
+                }
                 if (User.Pressing(Keys.X))
-                    scn.Camera.Zoom -= 0.1f;
-                scn.Camera.Origin = sqr.Center - new Point(300, 300);
+                {
+                    sqr.Zoom(sqr.Center, 0.9f);
+                }
+
 
             },
             () =>

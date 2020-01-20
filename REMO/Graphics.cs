@@ -144,7 +144,7 @@ namespace REMO_Engine_Developer
             public ALReader()
             {
                 /* TL을 읽는 두가지 룰을 만듭니다. Tag를 통해 Loop Setting을 구분하고, 지시문 리스트를 만듭니다.
-                 * 
+                 * j rk
                  * */
                 AddRule("Loop", (s) =>
                 {
@@ -282,6 +282,20 @@ namespace REMO_Engine_Developer
         {
             return RContains(Cursor.Pos);
         }
+        /// <summary>
+        /// The method has some error while casting Vector2 to Point.
+        /// </summary>
+        /// <param name="Origin"></param>
+        /// <param name="r"></param>
+        public void Zoom(Point Origin, float r)
+        {
+            Vector2 v = Method2D.PtV(Pos);
+            Vector2 v2 = Method2D.PtV(Pos + Bound.Size);// Get Right lower point of the Bound.
+            v = Vector2.Transform(v, Matrix2D.Zoom(Origin, r));
+            v2 = Vector2.Transform(v2, Matrix2D.Zoom(Origin, r));
+            Bound = Method2D.MakeRectangle(v.ToPoint(), v2.ToPoint());
+        }
+
     }
 
     public class Camera2D
@@ -537,6 +551,16 @@ namespace REMO_Engine_Developer
             return new Point((int)(a.X * k), (int)(a.Y * k));
         }
 
+        /// <summary>
+        /// Make a rectangle in which p1 is left-upper point, and p2 is right-lower point.
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
+        public static Rectangle MakeRectangle(Point p1, Point p2)
+        {
+            return new Rectangle(p1, p2 - p1);
+        }
         
     }
 
