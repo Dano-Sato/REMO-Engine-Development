@@ -144,7 +144,7 @@ namespace REMO_Engine_Developer
             public ALReader()
             {
                 /* TL을 읽는 두가지 룰을 만듭니다. Tag를 통해 Loop Setting을 구분하고, 지시문 리스트를 만듭니다.
-                 * j rk
+                 * incompleted - <FR>5<Loop>S1-S2-S3-S4 (in this manner)
                  * */
                 AddRule("Loop", (s) =>
                 {

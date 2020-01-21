@@ -4,11 +4,11 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/satodano/source/repos/REMO_Engine_Developer/REMO_Engine_Developer/Content/GACHAT.Field.png</File>
-    <File>C:/Users/satodano/source/repos/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.Cursor.png</File>
-    <File>C:/Users/satodano/source/repos/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.DefaultFont.spritefont</File>
-    <File>C:/Users/satodano/source/repos/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.Light.png</File>
-    <File>C:/Users/satodano/source/repos/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.WhiteSpace.png</File>
+    <File>W:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/GACHAT.Field.png</File>
+    <File>W:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.Cursor.png</File>
+    <File>W:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.DefaultFont.spritefont</File>
+    <File>W:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.Light.png</File>
+    <File>W:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.WhiteSpace.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
