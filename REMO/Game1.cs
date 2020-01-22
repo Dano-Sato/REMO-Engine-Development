@@ -34,26 +34,37 @@ namespace REMO_Engine_Developer
         public static LocalizedContentManager content;
         public static class Painter
         {
+            private static Matrix CurrentMatrix;
             public static SpriteBatch spriteBatch;
             //private static bool isBegined = false;
             public static void Init() => spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
-            private static void BeginCanvas() =>
+            private static void BeginCanvas()
+            {
+                CurrentMatrix=Matrix.Identity;
                 spriteBatch.Begin(SpriteSortMode.Immediate,
-                  BlendState.AlphaBlend,
-                  null,
-                  null,
-                  null,
-                  null,
-                  null);
+  BlendState.AlphaBlend,
+  null,
+  null,
+  null,
+  null,
+  null);
+            }
             private static void BeginCanvas(Camera2D CanvasCam) => BeginCanvas(CanvasCam.Transform);
-            private static void BeginCanvas(Matrix m) =>
+            private static void BeginCanvas(Matrix m)
+            {
+                CurrentMatrix = m;
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
-                    null,
-                    null,
-                    null,
-                    null,
-                    m);
-            private static void CloseCanvas() => spriteBatch.End();
+    null,
+    null,
+    null,
+    null,
+    m);
+            }
+            private static void CloseCanvas()
+            {
+                CurrentMatrix = Matrix.Identity;
+                spriteBatch.End();
+            }
 
             public static void Draw(Gfx2D gfx) => Draw(gfx, Color.White);
             public static void Draw(Gfx2D gfx, Color c) => spriteBatch.Draw(gfx.Texture, new Rectangle(gfx.Pos.X + (gfx.ROrigin.X * gfx.Bound.Width) / gfx.Texture.Width, gfx.Pos.Y + (gfx.ROrigin.Y * gfx.Bound.Height) / gfx.Texture.Height, gfx.Bound.Width, gfx.Bound.Height), null, c, gfx.Rotate, Method2D.PtV(gfx.ROrigin), SpriteEffects.None, 0);
@@ -63,7 +74,19 @@ namespace REMO_Engine_Developer
                     Draw(gfx, cs[i]);
             }
             public static void Draw(GfxStr gfx) => spriteBatch.DrawString(gfx.Texture, gfx.Text, new Vector2(gfx.Pos.X + gfx.Edge, gfx.Pos.Y + gfx.Edge), Color.Black);
-            public static void Draw(GfxStr gfx, Color c) => spriteBatch.DrawString(gfx.Texture, gfx.Text, new Vector2(gfx.Pos.X + gfx.Edge, gfx.Pos.Y + gfx.Edge), c);
+            public static void Draw(GfxStr gfx, Color c)
+            {
+                Matrix m = CurrentMatrix;
+                CloseCanvas();
+                Vector2 pos = Vector2.Transform(gfx.Pos.ToVector2(), m);
+                OpenCanvas(Matrix2D.Zoom(pos.ToPoint(),gfx.FontSize/30f),
+                    () =>
+                    {
+                        spriteBatch.DrawString(gfx.Texture, gfx.Text, pos+new Vector2(1,1)*gfx.Edge, c);
+                    });
+                BeginCanvas(m);
+            }
+
             public static void Draw(GfxStr gfx, params Color[] cs)
             {
                 for (int i = 0; i < cs.Length; i++)
@@ -86,7 +109,7 @@ namespace REMO_Engine_Developer
             }
 
             public static void OpenCanvas(Matrix m, Action a)
-            {
+            {   
                 BeginCanvas(m);
                 a();
                 CloseCanvas();
@@ -335,10 +358,11 @@ namespace REMO_Engine_Developer
                     apple.RegisterDrawAct(() =>
                     {
                         apple.Draw(Color.Red);
-                        StandAlone.DrawString("I'm Apple!", apple.Pos + new Point(0, -30), Color.White * Fader.Flicker(100), Color.Black);
+                        StandAlone.DrawString("I'm Apple!", apple.Pos + new Point(0, -30), Color.White * Fader.Flicker(100));
                     }
                     );
                     Score = 0;
+                    scn.Camera.TransformOrigin = StandAlone.FullScreen.Center;
                 });
             },
             () =>
@@ -348,11 +372,12 @@ namespace REMO_Engine_Developer
                     EatApple();
                 if (User.Pressing(Keys.Z))
                 {
-                    sqr.Zoom(sqr.Center, 1.1f);
+                    scn.Camera.Zoom += 0.1f;
+                    //sqr.Zoom(sqr.Center, 1.1f);
                 }
                 if (User.Pressing(Keys.X))
                 {
-                    sqr.Zoom(sqr.Center, 0.9f);
+                    scn.Camera.Zoom -= 0.1f;
                 }
 
 

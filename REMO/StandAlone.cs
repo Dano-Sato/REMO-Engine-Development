@@ -50,6 +50,8 @@ namespace REMO_Engine_Developer
             });*/ //페이더를 그리는 함수가 기본 내장되어있는 것은 좋지 않다고 여겨 수정중입니다. 드로우 순서는 본인이 알고 배치하는 것이 좋습니다.
         }
 
+
+        public static int DefaultFontSize = 30;
         /// <summary>
         /// 화면에 문자열을 그립니다.
         /// </summary>

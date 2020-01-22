@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>W:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.DefaultFont.spritefont</SourceFile>
-  <SourceTime>2019-12-19T05:08:35+09:00</SourceTime>
+  <SourceTime>2020-01-22T17:24:08.0999128+09:00</SourceTime>
   <DestFile>W:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/bin/DesktopGL/Content/REMO.DefaultFont.xnb</DestFile>
-  <DestTime>2020-01-21T07:39:40.6741709+09:00</DestTime>
+  <DestTime>2020-01-22T17:36:31.8705239+09:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2018-12-09T01:35:54+09:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

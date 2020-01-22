@@ -203,6 +203,7 @@ namespace REMO_Engine_Developer
         }
         public int Edge = 0;
         public SpriteFont Texture;
+        public int FontSize = StandAlone.DefaultFontSize;
 
         public GfxStr(string _text) : this(_text, Point.Zero) { }
         public GfxStr(string _text, Point pos) : this(_text, pos, 0) { }
