@@ -76,29 +76,5 @@ namespace REMO_Engine_Developer
 
     }
 
-    public static class REMOTimer
-    {
-        private static Dictionary<Action, int> timers = new Dictionary<Action, int>();
-        public static void StopWatch(int ResetTime, Action TargetAction)
-        {
-            if (!timers.ContainsKey(TargetAction))
-            {
-                timers.Add(TargetAction, ResetTime);
-            }
-            else
-            {
-                if (timers[TargetAction] > 0)
-                    timers[TargetAction]--;
-                else
-                {
-                    timers[TargetAction] = ResetTime;
-                    TargetAction();
-                }
-
-            }
-        }
-
-
-    }
 
 }
