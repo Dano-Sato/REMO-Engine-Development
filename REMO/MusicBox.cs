@@ -137,6 +137,18 @@ namespace REMO_Engine_Developer
                 SongPlayer.RemoveAt(0);
             }
         }
+        /// <summary>
+        /// Empty SoundEffects.
+        /// </summary>
+        public static void EmptySE()
+        {
+            while (SEList.Count > 0)
+            {
+                SongDisposer.Add(SEList[0], DisposeTimer);
+                SEList.RemoveAt(0);
+            }
+        }
+
 
         public static void StopSong()
         {
