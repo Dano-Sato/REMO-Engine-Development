@@ -51,7 +51,12 @@ namespace REMO_Engine_Developer
         }
 
 
-        public static int DefaultFontSize = 30;
+        /// <summary>
+        /// .Spritefont file's font size.
+        /// </summary>
+        public static float SpriteFontSize = 30;
+
+        public static int DefaultFontSize = 15;
         /// <summary>
         /// 화면에 문자열을 그립니다.
         /// </summary>

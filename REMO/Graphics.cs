@@ -18,8 +18,8 @@ namespace REMO_Engine_Developer
 {
     public abstract class Gfx : IMovable, IDrawable, IBoundable// 기본적인 Bound 연산 및 무브먼트 함수를 지원 + 드로우 함수 지정
     {
-        private Rectangle bound;
-        public Rectangle Bound
+        protected Rectangle bound;
+        public virtual Rectangle Bound
         {
             get { return bound; }
             set { bound = value; }
@@ -191,6 +191,12 @@ namespace REMO_Engine_Developer
 
     public class GfxStr : Gfx
     {
+        public override Rectangle Bound
+        {
+            set { bound = new Rectangle(value.Location, Method2D.Multiply(value.Size, FontSize / StandAlone.SpriteFontSize)); }
+            get { return bound; }
+        }
+
         private string text;
         public string Text
         {

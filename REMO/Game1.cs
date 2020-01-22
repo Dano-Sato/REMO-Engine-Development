@@ -79,7 +79,7 @@ namespace REMO_Engine_Developer
                 Matrix m = CurrentMatrix;
                 CloseCanvas();
                 Vector2 pos = Vector2.Transform(gfx.Pos.ToVector2(), m);
-                OpenCanvas(Matrix2D.Zoom(pos.ToPoint(),gfx.FontSize/30f),
+                OpenCanvas(Matrix2D.Zoom(pos.ToPoint(),gfx.FontSize/StandAlone.SpriteFontSize),
                     () =>
                     {
                         spriteBatch.DrawString(gfx.Texture, gfx.Text, pos+new Vector2(1,1)*gfx.Edge, c);
@@ -357,8 +357,9 @@ namespace REMO_Engine_Developer
                     EatApple();
                     apple.RegisterDrawAct(() =>
                     {
+         
                         apple.Draw(Color.Red);
-                        StandAlone.DrawString("I'm Apple!", apple.Pos + new Point(0, -30), Color.White * Fader.Flicker(100));
+                        StandAlone.DrawString("I'm Apple!", apple.Pos + new Point(0, -30), Color.White * Fader.Flicker(100),Color.Black);
                     }
                     );
                     Score = 0;
