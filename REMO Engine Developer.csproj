@@ -68,6 +68,7 @@
     <Compile Include="REMO\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="REMO\StandAlone.cs" />
+    <Compile Include="REMO\Timers.cs" />
     <Compile Include="REMO\UI.cs" />
   </ItemGroup>
   <ItemGroup>
