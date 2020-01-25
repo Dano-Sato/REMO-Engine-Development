@@ -260,7 +260,7 @@ namespace REMO_Engine_Developer
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build(TestScene.scn);
+            GAMEOPTION.Build(SungHo_REMO_TestGame.SungHoScene.scn);
         }
 
         protected void CustomUpdate()
