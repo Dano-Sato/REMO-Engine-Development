@@ -76,5 +76,49 @@ namespace REMO_Engine_Developer
 
     }
 
+    public static class TestBed
+    {
+
+        /// <summary>
+        /// The Point class that is recommended to use. It's compatible with existing classes(Point,Vector2)
+        /// </summary>
+        public class REMOPoint
+        {
+            private Vector2 p;
+
+            public REMOPoint(float x, float y)
+            {
+                p = new Vector2(x,y);
+            }
+            public static implicit operator Point(REMOPoint rmp)
+            {
+                return rmp.p.ToPoint();
+            }
+            public static implicit operator REMOPoint(Point p)
+            {
+                return new REMOPoint(p.X,p.Y);
+            }
+
+            public static implicit operator Vector2(REMOPoint rmp)
+            {
+                return rmp.p;
+            }
+            public static implicit operator REMOPoint(Vector2 v)
+            {
+                return new REMOPoint(v.X, v.Y);
+            }
+
+
+
+        }
+
+
+        public static Action ExampleAct = () =>
+          {
+              REMOPoint p = new Point(5, 5);
+              p += new Point(5, 5);
+              p += new Vector2(5, 5);
+          };
+    }
 
 }
