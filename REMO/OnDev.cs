@@ -76,7 +76,7 @@ namespace REMO_Engine_Developer
 
     }
 
-    public static class TestBed
+    public static class TestBedForREMOPoint
     {
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace REMO_Engine_Developer
                 return new REMOPoint(v.X, v.Y);
             }
 
-
+            //requires arithmetic operator.
 
         }
 
@@ -117,7 +117,9 @@ namespace REMO_Engine_Developer
           {
               REMOPoint p = new Point(5, 5);
               p += new Point(5, 5);
+              p -= new Point(5, 5);
               p += new Vector2(5, 5);
+              var g = new Gfx2D("WhiteSpace", new REMOPoint(5, 5), 1.0f);
           };
     }
 
