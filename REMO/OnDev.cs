@@ -108,7 +108,7 @@ namespace REMO_Engine_Developer
                 return new REMOPoint(v.X, v.Y);
             }
 
-            //requires arithmetic operator.
+            //requires arithmetic operator. 
 
         }
 
@@ -119,6 +119,7 @@ namespace REMO_Engine_Developer
               p += new Point(5, 5);
               p -= new Point(5, 5);
               p += new Vector2(5, 5);
+              p -= new Vector2(5, 5);
               var g = new Gfx2D("WhiteSpace", new REMOPoint(5, 5), 1.0f);
           };
     }
