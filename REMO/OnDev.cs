@@ -86,10 +86,25 @@ namespace REMO_Engine_Developer
         {
             private Vector2 p;
 
+            public float X
+            {
+                get { return p.X; }
+                set { p.X = value; }
+            }
+
+            public float Y
+            {
+                get { return p.Y; }
+                set { p.Y = value; }
+            }
+
             public REMOPoint(float x, float y)
             {
                 p = new Vector2(x,y);
             }
+
+            //Binding to Point
+
             public static implicit operator Point(REMOPoint rmp)
             {
                 return rmp.p.ToPoint();
@@ -98,6 +113,8 @@ namespace REMO_Engine_Developer
             {
                 return new REMOPoint(p.X,p.Y);
             }
+
+            //Binding to Vector2
 
             public static implicit operator Vector2(REMOPoint rmp)
             {
@@ -108,7 +125,25 @@ namespace REMO_Engine_Developer
                 return new REMOPoint(v.X, v.Y);
             }
 
-            //requires arithmetic operator. 
+
+            //overloading arithmetic operator. 
+
+            public static REMOPoint operator *(REMOPoint p1, float c)
+            {
+                REMOPoint ret = new REMOPoint(c*p1.X, c*p1.Y); //not sure what your "copy" method is
+                //do the multiplication on ret
+
+                return ret;
+            }
+            public static REMOPoint operator *(float c,REMOPoint p1)
+            {
+                REMOPoint ret = new REMOPoint(c * p1.X, c * p1.Y); //not sure what your "copy" method is
+                //do the multiplication on ret
+
+                return ret;
+            }
+
+
 
         }
 
@@ -120,7 +155,12 @@ namespace REMO_Engine_Developer
               p -= new Point(5, 5);
               p += new Vector2(5, 5);
               p -= new Vector2(5, 5);
+              p = new REMOPoint(5, 5) - new Point(3, 3);
+              p *= 5;
+              p = 5.2f * p;
+
               var g = new Gfx2D("WhiteSpace", new REMOPoint(5, 5), 1.0f);
+              g.Pos += new Point(5, 5);
           };
     }
 
