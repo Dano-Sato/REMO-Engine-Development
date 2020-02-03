@@ -64,7 +64,7 @@ namespace REMO_Engine_Developer
         public float Rotate;  // 회전각. radian을 따릅니다.
 
 
-        public void MoveTo(Point p)
+        public void MoveTo(REMOPoint p)
         {
             Pos = p;
         }
@@ -84,15 +84,10 @@ namespace REMO_Engine_Developer
             Pos = new REMOPoint(Bound.X + (int)(v.X), Bound.Y + (int)(v.Y));
         }
 
-        public void MoveTo(Point p, double speed) => MoveTo(p.X, p.Y, speed);
-
-        public void MoveByVector(Point v, double speed) // 벡터 v의 방향으로 speed의 속도로 등속운동한다.
+        public void MoveTo(REMOPoint p, double speed)
         {
-            double N = Method2D.Distance(new REMOPoint(0, 0), v);
-            int Dis_X = (int)(v.X * speed / N);
-            int Dis_Y = (int)(v.Y * speed / N);
-            Pos = new REMOPoint(Bound.X + Dis_X, Bound.Y + Dis_Y);
         }
+        public void MoveByVector(REMOPoint v, double speed) => Pos += v * ((float)speed / v.Abs);   
 
 
         protected Action DrawAction;

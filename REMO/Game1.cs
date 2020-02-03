@@ -67,7 +67,7 @@ namespace REMO_Engine_Developer
             }
 
             public static void Draw(Gfx2D gfx) => Draw(gfx, Color.White);
-            public static void Draw(Gfx2D gfx, Color c) => spriteBatch.Draw(gfx.Texture, new Rectangle(new REMOPoint(gfx.Pos.X + (gfx.ROrigin.X * gfx.Bound.Width) / gfx.Texture.Width, gfx.Pos.Y + (gfx.ROrigin.Y * gfx.Bound.Height) / gfx.Texture.Height), gfx.Bound.Size), null, c, gfx.Rotate, Method2D.PtV(gfx.ROrigin), SpriteEffects.None, 0);
+            public static void Draw(Gfx2D gfx, Color c) => spriteBatch.Draw(gfx.Texture, new Rectangle(new REMOPoint(gfx.Pos.X + (gfx.ROrigin.X * gfx.Bound.Width) / gfx.Texture.Width, gfx.Pos.Y + (gfx.ROrigin.Y * gfx.Bound.Height) / gfx.Texture.Height), gfx.Bound.Size), null, c, gfx.Rotate, gfx.ROrigin, SpriteEffects.None, 0);
             public static void Draw(Gfx2D gfx, params Color[] cs)
             {
                 for (int i = 0; i < cs.Length; i++)
@@ -343,7 +343,7 @@ namespace REMO_Engine_Developer
         {
             Score += 10;
             speed += 0.1f;
-            apple.Pos = new Point(StandAlone.Random(0, StandAlone.FullScreen.Width), StandAlone.Random(0, StandAlone.FullScreen.Height));
+            apple.Pos = new REMOPoint(StandAlone.Random(0, StandAlone.FullScreen.Width), StandAlone.Random(0, StandAlone.FullScreen.Height));
             
             //화면의 랜덤한 위치로 애플이 옮겨갑니다.
         }
@@ -359,7 +359,7 @@ namespace REMO_Engine_Developer
                     {
          
                         apple.Draw(Color.Red);
-                        StandAlone.DrawString("I'm Apple!", apple.Pos + new Point(0, -30), Color.White * Fader.Flicker(100),Color.Black);
+                        StandAlone.DrawString("I'm Apple!", apple.Pos + new REMOPoint(0, -30), Color.White * Fader.Flicker(100),Color.Black);
                     }
                     );
                     Score = 0;
@@ -388,8 +388,8 @@ namespace REMO_Engine_Developer
                 sqr.Draw(Color.White, Color.Purple * 0.5f * Fader.Flicker(100));
                 apple.Draw();
                 Cursor.Draw(Color.White);
-                StandAlone.DrawString("Press arrow keys to move square. and eat Apples.", new Point(344, 296), Color.White);
-                StandAlone.DrawString("Score : " + Score, new Point(300, 45), Color.White);
+                StandAlone.DrawString("Press arrow keys to move square. and eat Apples.", new REMOPoint(344, 296), Color.White);
+                StandAlone.DrawString("Score : " + Score, new REMOPoint(300, 45), Color.White);
             }
             );
 
