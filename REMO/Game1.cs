@@ -260,7 +260,7 @@ namespace REMO_Engine_Developer
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build(TestScene.scn);
+            GAMEOPTION.Build(ExampleGame1.scn);
         }
 
         protected void CustomUpdate()
@@ -390,7 +390,6 @@ namespace REMO_Engine_Developer
                 Cursor.Draw(Color.White);
                 StandAlone.DrawString("Press arrow keys to move square. and eat Apples.", new REMOPoint(344, 296), Color.White);
                 StandAlone.DrawString("Score : " + Score, new REMOPoint(300, 45), Color.White);
-                StandAlone.DrawString((sqr.Center).ToString()+" "+apple.Center.ToString(), new REMOPoint(0, 0), Color.White);
             }
             );
 

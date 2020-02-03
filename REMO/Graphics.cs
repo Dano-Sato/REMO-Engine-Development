@@ -67,13 +67,13 @@ namespace REMO_Engine_Developer
         public void MoveTo(REMOPoint p) => Pos = p;
         public void MoveByVector(REMOPoint v, double speed) => Pos += v * ((float)speed / v.Abs);
         public void MoveTo(int x, int y, double speed) => MoveTo(new REMOPoint(x, y), speed);
-         public void MoveTo(REMOPoint p, double speed)
+         public void MoveTo(REMOPoint Destination, double speed)
         {
-            float distance = (p - Pos).Abs;
+            float distance = (Destination - Pos).Abs;
             if (distance < speed)
-                Pos = p;
+                Pos = Destination;
             else
-                MoveByVector(p - Pos, speed);
+                MoveByVector(Destination - Pos, speed);
         }
 
 
@@ -107,9 +107,9 @@ namespace REMO_Engine_Developer
             Game1.Painter.Draw(new Gfx2D(AddonName, new Rectangle(Pos, newSize)), cs);
         }
 
-        public bool Contains(Point p)
+        public bool Contains(REMOPoint p)
         {
-            return Bound.Contains(p);
+            return Bound.Contains(p.ToPoint());
         }
         public bool ContainsCursor()
         {
@@ -505,39 +505,14 @@ namespace REMO_Engine_Developer
     }
 
 
-    public static class Method2D
-    {
-
-
-        //포인트 a,b를 r:1-r로 내분.
-        public static Point DivPoint(Point a, Point b, double r)
-        {
-            double x = a.X * r + b.X * (1 - r);
-            double y = a.Y * r + b.Y * (1 - r);
-            return new Point((int)x, (int)y);
-        }
-
-        /// <summary>
-        /// Make a rectangle in which p1 is left-upper point, and p2 is right-lower point.
-        /// </summary>
-        /// <param name="p1"></param>
-        /// <param name="p2"></param>
-        /// <returns></returns>
-        public static Rectangle MakeRectangle(Point p1, Point p2)
-        {
-            return new Rectangle(p1, p2 - p1);
-        }
-        
-    }
-
     public static class Matrix2D
     {
 
-        public static Matrix Translate(Point p)
+        public static Matrix Translate(REMOPoint p)
         {
             return Matrix.CreateTranslation(p.X, p.Y, 0);
         }
-        public static Matrix Zoom(Point Origin, float Zoom)//Origin을 중심으로 줌을 한다. 기본값은 1f
+        public static Matrix Zoom(REMOPoint Origin, float Zoom)//Origin을 중심으로 줌을 한다. 기본값은 1f
         {
             Matrix translateToOrigin = Matrix.CreateTranslation(-Origin.X, -Origin.Y, 0);
             Matrix zoomMatrix = Matrix.CreateScale(Zoom);
@@ -548,7 +523,7 @@ namespace REMO_Engine_Developer
             return compositeMatrix;
         }
 
-        public static Matrix Rotate(Point Origin, float rotate)//Origin을 중심으로 회전한다. 기본값은 0f. 단위는 radian.
+        public static Matrix Rotate(REMOPoint Origin, float rotate)//Origin을 중심으로 회전한다. 기본값은 0f. 단위는 radian.
         {
             Matrix translateToOrigin = Matrix.CreateTranslation(-Origin.X, -Origin.Y, 0);
             Matrix rotationMatrix = Matrix.CreateRotationZ(rotate);
@@ -559,7 +534,7 @@ namespace REMO_Engine_Developer
             return compositeMatrix;
         }
 
-        public static Matrix Mat2D(Point Origin, float rotate, float Zoom)//Origin을 중심으로 회전한 후 Zoom합니다.
+        public static Matrix Mat2D(REMOPoint Origin, float rotate, float Zoom)//Origin을 중심으로 회전한 후 Zoom합니다.
         {
             Matrix translateToOrigin = Matrix.CreateTranslation(-Origin.X, -Origin.Y, 0);
             Matrix zoomMatrix = Matrix.CreateScale(Zoom);
@@ -728,6 +703,10 @@ namespace REMO_Engine_Developer
         {
             return new REMOPoint(p.X, p.Y);
         }
+        public Point ToPoint()
+        {
+            return this;
+        }
 
         //Binding to Vector2
 
@@ -738,6 +717,10 @@ namespace REMO_Engine_Developer
         public static implicit operator REMOPoint(Vector2 v)
         {
             return new REMOPoint(v.X, v.Y);
+        }
+        public Vector2 ToVector2()
+        {
+            return this;
         }
 
 

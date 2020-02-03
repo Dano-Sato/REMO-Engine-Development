@@ -25,7 +25,7 @@ namespace REMO_Engine_Developer
         public static Vector2 v = new Vector2(0, 0);
         public static Vector2 g = new Vector2(0, 0.2f);
         public static double speed = 0;
-        public static void MoveSquare() => sqr.Pos += v.ToPoint();
+        public static void MoveSquare() => sqr.Pos += v;
 
 
         public static Scene scn = new Scene(
@@ -60,7 +60,7 @@ namespace REMO_Engine_Developer
         public static Vector2 v = new Vector2(0, 0);
         public static Vector2 g = new Vector2(0, 1);
         public static Gfx2D Ground = new Gfx2D(new Rectangle(0, 350, 1000, 350));
-        public static void MoveSqr() => sqr.Pos += v.ToPoint();
+        public static void MoveSqr() => sqr.Pos += v;
         public static List<Gfx> Enemies = new List<Gfx>();
         public static int Score = 0;
         public static int GameOverTimer = 0;
@@ -144,7 +144,7 @@ namespace SungHo_REMO_TestGame
         public static Gfx2D sqrbg = new Gfx2D(new Rectangle(0, 0, 1200, 700));
         public static Vector2 v = new Vector2(0, -1f);//물체속도
         public static Vector2 g = new Vector2(0, 1f);//중력 가속도
-        public static void MoveSquare() => sqr.Pos += v.ToPoint();
+        public static void MoveSquare() => sqr.Pos += v;
         public static List<Gfx> Enemies = new List<Gfx>();
         public static List<Gfx> HealEnemies = new List<Gfx>();
         public static List<Gfx> sinEnemies = new List<Gfx>();
