@@ -32,25 +32,21 @@ namespace REMO_Engine_Developer
             } } // 컬렉션의 영역은 각 컴포넌트를 모두 포함하는 최소의 사각형입니다. O(n)스케일.
 
 
-        public void MoveTo(Point p)
+        public void MoveTo(REMOPoint p)
         {
             Pos = p;
             Align();
         }
 
-        public void MoveTo(Point p, double speed)//기준점 p에 맞춰 컴포넌트들이 줄을 섭니다.
+        public void MoveTo(REMOPoint p, double speed)//기준점 p에 맞춰 컴포넌트들이 줄을 섭니다.
         {
             Pos = p;
             LazyAlign(speed);
         }
 
-        public void MoveByVector(Point p, double speed)
+        public void MoveByVector(REMOPoint v, double speed)
         {
-            double N = Method2D.Distance(new Point(0, 0), p);
-            int Dis_X = (int)(p.X * speed / N);
-            int Dis_Y = (int)(p.Y * speed / N);
-            Pos = new REMOPoint(Pos.X + Dis_X, Pos.Y + Dis_Y);
-
+            Pos += v * ((float)speed / v.Abs);
             Align();
         }
 

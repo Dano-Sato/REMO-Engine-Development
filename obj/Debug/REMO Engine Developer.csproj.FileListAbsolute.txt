@@ -71,3 +71,27 @@ C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\bin\Desk
 \\home.realmono.net\REMO\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine Developer.csproj.CopyComplete
 \\home.realmono.net\REMO\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine.exe
 \\home.realmono.net\REMO\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine.pdb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\x64\msvcr120.dll
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\x64\msvcr120_clr0400.dll
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\x64\SDL2.dll
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\x64\soft_oal.dll
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\x86\SDL2.dll
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\x86\soft_oal.dll
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\libopenal.1.dylib
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\libSDL2-2.0.0.dylib
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\x64\libopenal.so.1
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\x64\libSDL2-2.0.so.0
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\x86\libopenal.so.1
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\x86\libSDL2-2.0.so.0
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.DefaultFont.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.WhiteSpace.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.Light.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.Cursor.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll.config
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\REMO Engine.exe
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\REMO Engine.pdb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine Developer.csprojAssemblyReference.cache
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine Developer.csproj.CopyComplete
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine.exe
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine.pdb

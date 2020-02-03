@@ -260,7 +260,7 @@ namespace REMO_Engine_Developer
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build(SungHo_REMO_TestGame.SungHoScene.scn);
+            GAMEOPTION.Build(TestScene.scn);
         }
 
         protected void CustomUpdate()
@@ -369,7 +369,7 @@ namespace REMO_Engine_Developer
             () =>
             {
                 User.ArrowKeyPAct((p) => { sqr.MoveByVector(p, speed); });
-                if (Method2D.Distance(sqr.Center, apple.Center) < 30)
+                if ((sqr.Center-apple.Center).Abs < 30)
                     EatApple();
                 if (User.Pressing(Keys.Z))
                 {
@@ -390,6 +390,7 @@ namespace REMO_Engine_Developer
                 Cursor.Draw(Color.White);
                 StandAlone.DrawString("Press arrow keys to move square. and eat Apples.", new REMOPoint(344, 296), Color.White);
                 StandAlone.DrawString("Score : " + Score, new REMOPoint(300, 45), Color.White);
+                StandAlone.DrawString((sqr.Center).ToString()+" "+apple.Center.ToString(), new REMOPoint(0, 0), Color.White);
             }
             );
 

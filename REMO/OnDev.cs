@@ -189,7 +189,7 @@ namespace REMO_Engine_Developer
               p += new REMOPoint(5, 5);
               p -= new REMOPoint(5, 5);
 
-              var g = new Gfx2D("WhiteSpace", new REMOPoint(5, 5), 1.0f);
+              //var g = new Gfx2D("WhiteSpace", new REMOPoint(5, 5), 1.0f);
           };
     }
  

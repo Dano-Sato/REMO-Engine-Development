@@ -64,30 +64,17 @@ namespace REMO_Engine_Developer
         public float Rotate;  // 회전각. radian을 따릅니다.
 
 
-        public void MoveTo(REMOPoint p)
+        public void MoveTo(REMOPoint p) => Pos = p;
+        public void MoveByVector(REMOPoint v, double speed) => Pos += v * ((float)speed / v.Abs);
+        public void MoveTo(int x, int y, double speed) => MoveTo(new REMOPoint(x, y), speed);
+         public void MoveTo(REMOPoint p, double speed)
         {
-            Pos = p;
+            float distance = (p - Pos).Abs;
+            if (distance < speed)
+                Pos = p;
+            else
+                MoveByVector(p - Pos, speed);
         }
-
-        public void MoveTo(int x, int y, double speed) // (x,y)를 향해 등속운동.
-        {
-            double N = (new REMOPoint(x, y)-Pos).Abs;//두 물체 사이의 거리
-            if (N < speed)//거리가 스피드보다 가까우면 도착.
-            {
-                Pos = new REMOPoint(x, y);
-                return;
-            }
-
-            Vector2 v = new Vector2(x - Pos.X, y - Pos.Y);
-            v.Normalize();
-            v = new Vector2((float)speed * v.X, (float)speed * v.Y);
-            Pos = new REMOPoint(Bound.X + (int)(v.X), Bound.Y + (int)(v.Y));
-        }
-
-        public void MoveTo(REMOPoint p, double speed)
-        {
-        }
-        public void MoveByVector(REMOPoint v, double speed) => Pos += v * ((float)speed / v.Abs);   
 
 
         protected Action DrawAction;
@@ -188,7 +175,7 @@ namespace REMO_Engine_Developer
     {
         public override Rectangle Bound
         {
-            set { bound = new Rectangle(value.Location, Method2D.Multiply(value.Size, FontSize / StandAlone.SpriteFontSize)); }
+            set { bound = new Rectangle(value.Location, new REMOPoint(value.Size)*( FontSize / StandAlone.SpriteFontSize)); }
             get { return bound; }
         }
 
@@ -291,35 +278,30 @@ namespace REMO_Engine_Developer
         /// <param name="r"></param>
         public void Zoom(REMOPoint Origin, float r)
         {
-            Vector2 v = Pos;
-            Vector2 v2 = Pos + Bound.Size;// Get Right lower point of the Bound.
+            REMOPoint v = Pos;
+            REMOPoint v2 = Pos + Bound.Size;// Get Right lower point of the Bound.
             v = Vector2.Transform(v, Matrix2D.Zoom(Origin, r));
             v2 = Vector2.Transform(v2, Matrix2D.Zoom(Origin, r));
-            Bound = Method2D.MakeRectangle(v.ToPoint(), v2.ToPoint());
+            Bound = new Rectangle(v, v2 - v);
         }
 
     }
 
     public class Camera2D
     {
-        protected float zoom; // Camera Zoom
-        protected float rotation; // Camera Rotation
+        protected float zoom=1.0f; // Camera Zoom
+        protected float rotation=0.0f; // Camera Rotation
         public Matrix Transform //카메라에 의한 변환행렬을 불러옵니다.
         {
             get
             {
-                return Matrix2D.Translate(Point.Zero - Origin) * Matrix2D.Mat2D(TransformOrigin, rotation, Zoom);
+                return Matrix2D.Translate(REMOPoint.Zero - Origin) * Matrix2D.Mat2D(TransformOrigin, rotation, Zoom);
             }
         } // Matrix Transform
-        public REMOPoint Origin; // Camera Position
-        public REMOPoint TransformOrigin;//회전, 줌 변환의 중심입니다.
- 
-        public Camera2D()
-        {
-            zoom = 1.0f;
-            rotation = 0.0f;
-            Origin = REMOPoint.Zero;
-        }
+        public REMOPoint Origin=REMOPoint.Zero; // Camera Position
+        public REMOPoint TransformOrigin= REMOPoint.Zero;//회전, 줌 변환의 중심입니다.
+
+        public Camera2D() { }
         public float Zoom
         {
             get { return zoom; }
@@ -526,11 +508,6 @@ namespace REMO_Engine_Developer
     public static class Method2D
     {
 
-        public static double Distance(REMOPoint p1, REMOPoint p2)
-        {
-            Vector2 v = new Vector2(p1.X - p2.X, p1.Y - p2.Y);
-            return v.Length();
-        }
 
         //포인트 a,b를 r:1-r로 내분.
         public static Point DivPoint(Point a, Point b, double r)
@@ -538,10 +515,6 @@ namespace REMO_Engine_Developer
             double x = a.X * r + b.X * (1 - r);
             double y = a.Y * r + b.Y * (1 - r);
             return new Point((int)x, (int)y);
-        }
-        public static Point Multiply(Point a, double k)
-        {
-            return new Point((int)(a.X * k), (int)(a.Y * k));
         }
 
         /// <summary>
@@ -712,10 +685,20 @@ namespace REMO_Engine_Developer
     {
         public int X;
         public int Y;
+
+        public override string ToString()
+        {
+            return "(" + X + "," + Y + ")";
+        }
         public REMOPoint(float x, float y)
         {
             X = (int)x;
             Y = (int)y;
+        }
+        public REMOPoint(REMOPoint p)
+        {
+            X = p.X;
+            Y = p.Y;
         }
 
         public static REMOPoint Zero
@@ -737,7 +720,6 @@ namespace REMO_Engine_Developer
 
 
         //Binding to Point
-
         public static implicit operator Point(REMOPoint rmp)
         {
             return new Point(rmp.X,rmp.Y);
@@ -802,24 +784,24 @@ namespace REMO_Engine_Developer
         }
         public static REMOPoint operator -(REMOPoint p1, Point p2)
         {
-            REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+            REMOPoint ret = new REMOPoint(p1.X - p2.X, p1.Y - p2.Y);
             return ret;
         }
         public static REMOPoint operator -(Point p1, REMOPoint p2)
         {
-            REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+            REMOPoint ret = new REMOPoint(p1.X - p2.X, p1.Y - p2.Y);
             return ret;
         }
 
         public static REMOPoint operator -(Vector2 p1, REMOPoint p2)
         {
-            REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+            REMOPoint ret = new REMOPoint(p1.X - p2.X, p1.Y - p2.Y);
             return ret;
         }
 
         public static REMOPoint operator -(REMOPoint p1, REMOPoint p2)
         {
-            REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+            REMOPoint ret = new REMOPoint(p1.X - p2.X, p1.Y - p2.Y);
             return ret;
         }
 
