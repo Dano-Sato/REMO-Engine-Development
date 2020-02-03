@@ -100,7 +100,7 @@ namespace REMO_Engine_Developer
 
             public REMOPoint(float x, float y)
             {
-                p = new Vector2(x,y);
+                p = new Vector2(x, y);
             }
 
             //Binding to Point
@@ -111,7 +111,7 @@ namespace REMO_Engine_Developer
             }
             public static implicit operator REMOPoint(Point p)
             {
-                return new REMOPoint(p.X,p.Y);
+                return new REMOPoint(p.X, p.Y);
             }
 
             //Binding to Vector2
@@ -130,16 +130,12 @@ namespace REMO_Engine_Developer
 
             public static REMOPoint operator *(REMOPoint p1, float c)
             {
-                REMOPoint ret = new REMOPoint(c*p1.X, c*p1.Y); //not sure what your "copy" method is
-                //do the multiplication on ret
-
+                REMOPoint ret = new REMOPoint(c * p1.X, c * p1.Y); 
                 return ret;
             }
-            public static REMOPoint operator *(float c,REMOPoint p1)
+            public static REMOPoint operator *(float c, REMOPoint p1)
             {
-                REMOPoint ret = new REMOPoint(c * p1.X, c * p1.Y); //not sure what your "copy" method is
-                //do the multiplication on ret
-
+                REMOPoint ret = new REMOPoint(c * p1.X, c * p1.Y);
                 return ret;
             }
 
@@ -157,10 +153,9 @@ namespace REMO_Engine_Developer
               p -= new Vector2(5, 5);
               p = new REMOPoint(5, 5) - new Point(3, 3);
               p *= 5;
-              p = 5.2f * p;
+              p = 5.2f * p;              
 
               var g = new Gfx2D("WhiteSpace", new REMOPoint(5, 5), 1.0f);
-              g.Pos += new Point(5, 5);
           };
     }
 
