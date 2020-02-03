@@ -641,16 +641,12 @@ namespace REMO_Engine_Developer
             Lighter.Draw(c);
         }
         public static void Absolute(IBoundable g, Color c) => Absolute(g.Bound, c);
-
-
         public static void Vignette(Rectangle Bound, float opacity)
         {
             Lighter = new Gfx2D("Light", Bound);
             Lighter.Draw(Color.White * opacity);
         }
         public static void Vignette(IBoundable g, float opacity) => Vignette(g.Bound, opacity);
-
-
     }
 
     /// <summary>

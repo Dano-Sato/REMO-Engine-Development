@@ -343,8 +343,7 @@ namespace REMO_Engine_Developer
         {
             Score += 10;
             speed += 0.1f;
-            apple.Pos = new REMOPoint(StandAlone.Random(0, StandAlone.FullScreen.Width), StandAlone.Random(0, StandAlone.FullScreen.Height));
-            
+            apple.Pos = new REMOPoint(StandAlone.Random(0, StandAlone.FullScreen.Width), StandAlone.Random(0, StandAlone.FullScreen.Height));            
             //화면의 랜덤한 위치로 애플이 옮겨갑니다.
         }
 
@@ -356,8 +355,7 @@ namespace REMO_Engine_Developer
                 {
                     EatApple();
                     apple.RegisterDrawAct(() =>
-                    {
-         
+                    {         
                         apple.Draw(Color.Red);
                         StandAlone.DrawString("I'm Apple!", apple.Pos + new REMOPoint(0, -30), Color.White * Fader.Flicker(100),Color.Black);
                     }
@@ -380,8 +378,6 @@ namespace REMO_Engine_Developer
                 {
                     scn.Camera.Zoom -= 0.1f;
                 }
-
-
             },
             () =>
             {
