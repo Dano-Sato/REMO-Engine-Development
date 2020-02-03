@@ -139,6 +139,38 @@ namespace REMO_Engine_Developer
                 return ret;
             }
 
+            public static REMOPoint operator+(REMOPoint p1, Point p2)
+            {
+                REMOPoint ret = new REMOPoint(p1.X+p2.X,p1.Y+p2.Y);
+                return ret;
+            }
+            public static REMOPoint operator +(REMOPoint p1, Vector2 p2)
+            {
+                REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+                return ret;
+            }
+
+            public static REMOPoint operator +(REMOPoint p1, REMOPoint p2)
+            {
+                REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+                return ret;
+            }
+            public static REMOPoint operator -(REMOPoint p1, Point p2)
+            {
+                REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+                return ret;
+            }
+            public static REMOPoint operator -(REMOPoint p1, Vector2 p2)
+            {
+                REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+                return ret;
+            }
+
+            public static REMOPoint operator -(REMOPoint p1, REMOPoint p2)
+            {
+                REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+                return ret;
+            }
 
 
         }
@@ -153,10 +185,12 @@ namespace REMO_Engine_Developer
               p -= new Vector2(5, 5);
               p = new REMOPoint(5, 5) - new Point(3, 3);
               p *= 5;
-              p = 5.2f * p;              
+              p = 5.2f * p;
+              p += new REMOPoint(5, 5);
+              p -= new REMOPoint(5, 5);
 
               var g = new Gfx2D("WhiteSpace", new REMOPoint(5, 5), 1.0f);
           };
     }
-
+ 
 }

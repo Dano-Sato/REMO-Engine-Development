@@ -16,7 +16,7 @@ namespace REMO_Engine_Developer
     public class Aligned<T> : IMovable, IDrawable, IBoundable  where T : IMovable, IDrawable, IBoundable  // 일렬로 정렬된 객체들을 포함하는 콜렉션입니다.
     {
         public List<T> Components = new List<T>();
-        public Point Pos { get; set; }//집합을 정렬할 기준점입니다. 
+        public REMOPoint Pos { get; set; }//집합을 정렬할 기준점입니다. 
         public Point Interval;//각 컴포넌트간 간격을 설정하는 벡터입니다.
 
         public Rectangle Bound { get {
@@ -49,7 +49,7 @@ namespace REMO_Engine_Developer
             double N = Method2D.Distance(new Point(0, 0), p);
             int Dis_X = (int)(p.X * speed / N);
             int Dis_Y = (int)(p.Y * speed / N);
-            Pos = new Point(Pos.X + Dis_X, Pos.Y + Dis_Y);
+            Pos = new REMOPoint(Pos.X + Dis_X, Pos.Y + Dis_Y);
 
             Align();
         }

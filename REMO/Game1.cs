@@ -67,7 +67,7 @@ namespace REMO_Engine_Developer
             }
 
             public static void Draw(Gfx2D gfx) => Draw(gfx, Color.White);
-            public static void Draw(Gfx2D gfx, Color c) => spriteBatch.Draw(gfx.Texture, new Rectangle(gfx.Pos.X + (gfx.ROrigin.X * gfx.Bound.Width) / gfx.Texture.Width, gfx.Pos.Y + (gfx.ROrigin.Y * gfx.Bound.Height) / gfx.Texture.Height, gfx.Bound.Width, gfx.Bound.Height), null, c, gfx.Rotate, Method2D.PtV(gfx.ROrigin), SpriteEffects.None, 0);
+            public static void Draw(Gfx2D gfx, Color c) => spriteBatch.Draw(gfx.Texture, new Rectangle(new REMOPoint(gfx.Pos.X + (gfx.ROrigin.X * gfx.Bound.Width) / gfx.Texture.Width, gfx.Pos.Y + (gfx.ROrigin.Y * gfx.Bound.Height) / gfx.Texture.Height), gfx.Bound.Size), null, c, gfx.Rotate, Method2D.PtV(gfx.ROrigin), SpriteEffects.None, 0);
             public static void Draw(Gfx2D gfx, params Color[] cs)
             {
                 for (int i = 0; i < cs.Length; i++)
@@ -78,7 +78,7 @@ namespace REMO_Engine_Developer
             {
                 Matrix m = CurrentMatrix;
                 CloseCanvas();
-                Vector2 pos = Vector2.Transform(gfx.Pos.ToVector2(), m);
+                Vector2 pos = Vector2.Transform(gfx.Pos, m);
                 OpenCanvas(Matrix2D.Zoom(pos.ToPoint(),gfx.FontSize/StandAlone.SpriteFontSize),
                     () =>
                     {

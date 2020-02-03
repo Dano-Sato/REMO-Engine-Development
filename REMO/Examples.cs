@@ -122,7 +122,7 @@ namespace REMO_Engine_Developer
         }, () => {
             sqr.Pos += new Point(1, 0);
             //sqr.MoveByVector(new Point(1,0), 1.0);
-            sqr.Pos = new Point(sqr.Pos.X, (int)(-Fader.Flicker(100) * 100) + 300);
+            sqr.Pos = new REMOPoint(sqr.Pos.X, (int)(-Fader.Flicker(100) * 100) + 300);
             Fader.Add(new Gfx2D(sqr.Bound), 1000, Color.White);
         }, () => {
             sqr.Draw(Color.White);
@@ -242,7 +242,7 @@ namespace SungHo_REMO_TestGame
 
                 if (sqr.Pos.Y > sqr1.Pos.Y - sqr.Bound.Height)
                 {
-                    sqr.Pos = new Point(sqr.Pos.X, sqr1.Pos.Y - sqr.Bound.Height);
+                    sqr.Pos = new REMOPoint(sqr.Pos.X, sqr1.Pos.Y - sqr.Bound.Height);
                     jumpcount = 0;
                     wintojump -= 1.0 / 60;
                 }

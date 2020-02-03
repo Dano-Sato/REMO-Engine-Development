@@ -24,16 +24,16 @@ namespace REMO_Engine_Developer
             get { return bound; }
             set { bound = value; }
         }
-        public Point Pos //왼쪽 위를 포지션으로 지정한다.
+        public REMOPoint Pos //왼쪽 위를 포지션으로 지정한다.
         {
             get { return Bound.Location; }
             set { bound.Location = value; }
         }
 
-        public Point Center
+        public REMOPoint Center
         {
             get { return bound.Center; }
-            set { bound.Location = new Point(value.X - bound.Width / 2, value.Y - bound.Height / 2); }
+            set { bound.Location = new REMOPoint(value.X - bound.Width / 2, value.Y - bound.Height / 2); }
         }
 
         public int X
@@ -60,7 +60,7 @@ namespace REMO_Engine_Developer
 
 
 
-        public Point ROrigin; // 회전 중심점. 재할당을 하지 않을 경우 텍스처의 중심이 회전중심이 됩니다. 재할당을 할 때는 물체의 왼쪽 위 지점을 (0,0)이라고 생각해주십시오. 중요한 점은, 실제 텍스처 파일의 가로 세로값을 참조한다는 것입니다.
+        public REMOPoint ROrigin; // 회전 중심점. 재할당을 하지 않을 경우 텍스처의 중심이 회전중심이 됩니다. 재할당을 할 때는 물체의 왼쪽 위 지점을 (0,0)이라고 생각해주십시오. 중요한 점은, 실제 텍스처 파일의 가로 세로값을 참조한다는 것입니다.
         public float Rotate;  // 회전각. radian을 따릅니다.
 
 
@@ -71,27 +71,27 @@ namespace REMO_Engine_Developer
 
         public void MoveTo(int x, int y, double speed) // (x,y)를 향해 등속운동.
         {
-            double N = Method2D.Distance(new Point(x, y), Pos);//두 물체 사이의 거리
+            double N = (new REMOPoint(x, y)-Pos).Abs;//두 물체 사이의 거리
             if (N < speed)//거리가 스피드보다 가까우면 도착.
             {
-                Pos = new Point(x, y);
+                Pos = new REMOPoint(x, y);
                 return;
             }
 
             Vector2 v = new Vector2(x - Pos.X, y - Pos.Y);
             v.Normalize();
             v = new Vector2((float)speed * v.X, (float)speed * v.Y);
-            Pos = new Point(Bound.X + (int)(v.X), Bound.Y + (int)(v.Y));
+            Pos = new REMOPoint(Bound.X + (int)(v.X), Bound.Y + (int)(v.Y));
         }
 
         public void MoveTo(Point p, double speed) => MoveTo(p.X, p.Y, speed);
 
         public void MoveByVector(Point v, double speed) // 벡터 v의 방향으로 speed의 속도로 등속운동한다.
         {
-            double N = Method2D.Distance(new Point(0, 0), v);
+            double N = Method2D.Distance(new REMOPoint(0, 0), v);
             int Dis_X = (int)(v.X * speed / N);
             int Dis_Y = (int)(v.Y * speed / N);
-            Pos = new Point(Bound.X + Dis_X, Bound.Y + Dis_Y);
+            Pos = new REMOPoint(Bound.X + Dis_X, Bound.Y + Dis_Y);
         }
 
 
@@ -116,11 +116,11 @@ namespace REMO_Engine_Developer
             Game1.Painter.Draw(new Gfx2D(AddonName, Bound), cs);
         }
 
-        public void DrawAddon(string AddonName, Point Vector, Point newSize, params Color[] cs)//Graphic의 position을 기준으로 하는 새 사이즈를 가진 애드온을 그립니다.
+        public void DrawAddon(string AddonName, REMOPoint Vector, REMOPoint newSize, params Color[] cs)//Graphic의 position을 기준으로 하는 새 사이즈를 가진 애드온을 그립니다.
         {
             Game1.Painter.Draw(new Gfx2D(AddonName, new Rectangle(Pos + Vector, newSize)), cs);
         }
-        public void DrawAddon(string AddonName, Point newSize, params Color[] cs)//Graphic의 position에 새 사이즈를 가진 애드온을 그립니다.
+        public void DrawAddon(string AddonName, REMOPoint newSize, params Color[] cs)//Graphic의 position에 새 사이즈를 가진 애드온을 그립니다.
         {
             Game1.Painter.Draw(new Gfx2D(AddonName, new Rectangle(Pos, newSize)), cs);
         }
@@ -159,7 +159,7 @@ namespace REMO_Engine_Developer
             }
         }
         private ALReader aLReader = new ALReader();
-        private Point Slicer = new Point(1, 1);
+        private REMOPoint Slicer = new REMOPoint(1, 1);
         private string CurrentStatement;
         private int AnimationTimer = 0;
 
@@ -204,31 +204,31 @@ namespace REMO_Engine_Developer
             set
             {
                 text = value;
-                Bound = new Rectangle(Pos, Method2D.VtP(Texture.MeasureString(Text)));
+                Bound = new Rectangle(Pos, Texture.MeasureString(Text).ToPoint());
             }
         }
         public int Edge = 0;
         public SpriteFont Texture;
         public int FontSize = StandAlone.DefaultFontSize;
 
-        public GfxStr(string _text) : this(_text, Point.Zero) { }
-        public GfxStr(string _text, Point pos) : this(_text, pos, 0) { }
-        public GfxStr(string text, Point pos, int edge)
+        public GfxStr(string _text) : this(_text, REMOPoint.Zero) { }
+        public GfxStr(string _text, REMOPoint pos) : this(_text, pos, 0) { }
+        public GfxStr(string text, REMOPoint pos, int edge)
         {
             Texture = Game1.content.Load<SpriteFont>("DefaultFont");
             Text = text;
             Edge = edge;
-            Bound = new Rectangle(pos, Method2D.VtP(Texture.MeasureString(Text)) + new Point(2 * Edge, 2 * Edge));
+            Bound = new Rectangle(pos, Texture.MeasureString(Text) + new REMOPoint(2 * Edge, 2 * Edge));
         }
 
-        public GfxStr(string font, string text) : this(font, text, Point.Zero, 0) { }
-        public GfxStr(string font, string text, Point pos) : this(font, text, pos, 0) { }
-        public GfxStr(string font, string text, Point pos, int edge)
+        public GfxStr(string font, string text) : this(font, text, REMOPoint.Zero, 0) { }
+        public GfxStr(string font, string text, REMOPoint pos) : this(font, text, pos, 0) { }
+        public GfxStr(string font, string text, REMOPoint pos, int edge)
         {
             Texture = Game1.content.Load<SpriteFont>(font);
             Text = text;
             Edge = edge;
-            Bound = new Rectangle(pos, Method2D.VtP(Texture.MeasureString(Text)) + new Point(2 * Edge, 2 * Edge));
+            Bound = new Rectangle(pos, Texture.MeasureString(Text) + new REMOPoint(2 * Edge, 2 * Edge));
         }
 
         public override void Draw(params Color[] colors) => Game1.Painter.Draw(this, colors);
@@ -259,14 +259,14 @@ namespace REMO_Engine_Developer
         {
             Texture = Game1.content.Load<Texture2D>(SpriteName);
             Bound = boundRect;
-            ROrigin = new Point(Texture.Width / 2, Texture.Height / 2);
+            ROrigin = new REMOPoint(Texture.Width / 2, Texture.Height / 2);
         }
 
-        public Gfx2D(string SpriteName, Point p, double r)
+        public Gfx2D(string SpriteName, REMOPoint p, double r)
         {
             Texture = Game1.content.Load<Texture2D>(SpriteName);
-            Bound = new Rectangle(p, new Point((int)(Texture.Width * r), (int)(Texture.Height * r)));
-            ROrigin = new Point(Texture.Width / 2, Texture.Height / 2);
+            Bound = new Rectangle(p, new REMOPoint((int)(Texture.Width * r), (int)(Texture.Height * r)));
+            ROrigin = new REMOPoint(Texture.Width / 2, Texture.Height / 2);
         }
 
 
@@ -278,26 +278,26 @@ namespace REMO_Engine_Developer
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        public bool RContains(Point p)
+        public bool RContains(REMOPoint p)
         {
-            Vector2 v = Method2D.PtV(p);
-            Point RO = new Point(Pos.X + (ROrigin.X * Bound.Width) / Texture.Width, Pos.Y + (ROrigin.Y * Bound.Height) / Texture.Height); //실제 회전중심의 위치를 잡습니다.
+            Vector2 v = p;
+            REMOPoint RO = new REMOPoint(Pos.X + (ROrigin.X * Bound.Width) / Texture.Width, Pos.Y + (ROrigin.Y * Bound.Height) / Texture.Height); //실제 회전중심의 위치를 잡습니다.
             v = Vector2.Transform(v, Matrix2D.Rotate(RO, -Rotate));
-            return Bound.Contains(Method2D.VtP(v));
+            return Bound.Contains(v);
         }
         public bool RContainsCursor()
         {
             return RContains(Cursor.Pos);
         }
         /// <summary>
-        /// The method has some error while casting Vector2 to Point.
+        /// The method has some error while casting Vector2 to Point. Not Precise.
         /// </summary>
         /// <param name="Origin"></param>
         /// <param name="r"></param>
-        public void Zoom(Point Origin, float r)
+        public void Zoom(REMOPoint Origin, float r)
         {
-            Vector2 v = Method2D.PtV(Pos);
-            Vector2 v2 = Method2D.PtV(Pos + Bound.Size);// Get Right lower point of the Bound.
+            Vector2 v = Pos;
+            Vector2 v2 = Pos + Bound.Size;// Get Right lower point of the Bound.
             v = Vector2.Transform(v, Matrix2D.Zoom(Origin, r));
             v2 = Vector2.Transform(v2, Matrix2D.Zoom(Origin, r));
             Bound = Method2D.MakeRectangle(v.ToPoint(), v2.ToPoint());
@@ -316,14 +316,14 @@ namespace REMO_Engine_Developer
                 return Matrix2D.Translate(Point.Zero - Origin) * Matrix2D.Mat2D(TransformOrigin, rotation, Zoom);
             }
         } // Matrix Transform
-        public Point Origin; // Camera Position
-        public Point TransformOrigin;//회전, 줌 변환의 중심입니다.
+        public REMOPoint Origin; // Camera Position
+        public REMOPoint TransformOrigin;//회전, 줌 변환의 중심입니다.
  
         public Camera2D()
         {
             zoom = 1.0f;
             rotation = 0.0f;
-            Origin = Point.Zero;
+            Origin = REMOPoint.Zero;
         }
         public float Zoom
         {
@@ -530,17 +530,8 @@ namespace REMO_Engine_Developer
 
     public static class Method2D
     {
-        public static Point VtP(Vector2 v) // Vector2 to Point
-        {
-            return new Point((int)v.X, (int)v.Y);
-        }
 
-        public static Vector2 PtV(Point p) // Point to Vector2
-        {
-            return new Vector2(p.X, p.Y);
-        }
-
-        public static double Distance(Point p1, Point p2)
+        public static double Distance(REMOPoint p1, REMOPoint p2)
         {
             Vector2 v = new Vector2(p1.X - p2.X, p1.Y - p2.Y);
             return v.Length();
@@ -718,5 +709,129 @@ namespace REMO_Engine_Developer
 
 
     }
+
+    /// <summary>
+    /// The Extended Point class that is recommended to use. It's fully compatible with existing classes(Point,Vector2)
+    /// </summary>
+    public class REMOPoint
+    {
+        public int X;
+        public int Y;
+        public REMOPoint(float x, float y)
+        {
+            X = (int)x;
+            Y = (int)y;
+        }
+
+        public static REMOPoint Zero
+        {
+            get { return new REMOPoint(0, 0); }        
+        }
+
+        /// <summary>
+        /// Returns Absolute value.
+        /// </summary>
+        public float Abs
+        {
+            get 
+            {
+                Vector2 v = this;
+                return v.Length();
+            }
+        }
+
+
+        //Binding to Point
+
+        public static implicit operator Point(REMOPoint rmp)
+        {
+            return new Point(rmp.X,rmp.Y);
+        }
+        public static implicit operator REMOPoint(Point p)
+        {
+            return new REMOPoint(p.X, p.Y);
+        }
+
+        //Binding to Vector2
+
+        public static implicit operator Vector2(REMOPoint rmp)
+        {
+            return new Vector2(rmp.X,rmp.Y);
+        }
+        public static implicit operator REMOPoint(Vector2 v)
+        {
+            return new REMOPoint(v.X, v.Y);
+        }
+
+
+        //overloading arithmetic operator. 
+
+        public static REMOPoint operator *(REMOPoint p1, float c)
+        {
+            REMOPoint ret = new REMOPoint(c * p1.X, c * p1.Y);
+            return ret;
+        }
+        public static REMOPoint operator *(float c, REMOPoint p1)
+        {
+            REMOPoint ret = new REMOPoint(c * p1.X, c * p1.Y);
+            return ret;
+        }
+
+        public static REMOPoint operator +(REMOPoint p1, Point p2)
+        {
+            REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+            return ret;
+        }
+        public static REMOPoint operator +(Point p1, REMOPoint p2)
+        {
+            REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+            return ret;
+        }
+
+        public static REMOPoint operator +(REMOPoint p1, Vector2 p2)
+        {
+            REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+            return ret;
+        }
+        public static REMOPoint operator +(Vector2 p1, REMOPoint p2)
+        {
+            REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+            return ret;
+        }
+
+
+        public static REMOPoint operator +(REMOPoint p1, REMOPoint p2)
+        {
+            REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+            return ret;
+        }
+        public static REMOPoint operator -(REMOPoint p1, Point p2)
+        {
+            REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+            return ret;
+        }
+        public static REMOPoint operator -(Point p1, REMOPoint p2)
+        {
+            REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+            return ret;
+        }
+
+        public static REMOPoint operator -(Vector2 p1, REMOPoint p2)
+        {
+            REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+            return ret;
+        }
+
+        public static REMOPoint operator -(REMOPoint p1, REMOPoint p2)
+        {
+            REMOPoint ret = new REMOPoint(p1.X + p2.X, p1.Y + p2.Y);
+            return ret;
+        }
+
+
+    }
+
+
+
 
 }

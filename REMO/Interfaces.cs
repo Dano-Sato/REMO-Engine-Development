@@ -19,36 +19,31 @@ namespace REMO_Engine_Developer
 {
     public interface IMovable
     {
-        Point Pos { get; set; }
-        void MoveTo(Point p);//(x,y)로 옮긴다.
-        void MoveTo(Point p, double speed); // (x,y)를 향해 등속운동.
-        void MoveByVector(Point v, double speed); // 벡터 v의 방향으로 speed의 속도로 등속운동한다.
+        REMOPoint Pos { get; set; }
+        void MoveTo(REMOPoint p);//(x,y)로 옮긴다.
+        void MoveTo(REMOPoint p, double speed); // (x,y)를 향해 등속운동.
+        void MoveByVector(REMOPoint v, double speed); // 벡터 v의 방향으로 speed의 속도로 등속운동한다.
     }
 
 
     public abstract class Movable //물체의 위치와 위치를 이동시키는 함수를 포함하는 추상클래스입니다.
     {
-        public abstract Point Pos { get; set; }
-        public void MoveTo(int x, int y, double speed)// (x,y)를 향해 등속운동.
+        public abstract REMOPoint Pos { get; set; }
+        public void MoveTo(int x, int y, float speed)// (x,y)를 향해 등속운동.
         {
-            double N = Method2D.Distance(new Point(x, y), Pos);//두 물체 사이의 거리
+            double N = (new REMOPoint(x, y)-Pos).Abs;//Distance between to point.
             if (N < speed)//거리가 스피드보다 가까우면 도착.
             {
-                Pos = new Point(x, y);
+                Pos = new REMOPoint(x, y);
                 return;
             }
 
-            Vector2 v = new Vector2(x - Pos.X, y - Pos.Y);
-            v.Normalize();
-            v = new Vector2((float)speed * v.X, (float)speed * v.Y);
-            Pos = new Point(Pos.X + (int)(v.X), Pos.Y + (int)(v.Y));
+            Vector2 v = new REMOPoint(x,y)-Pos;
+            MoveByVector(v, speed);
         }
-        public void MoveByVector(Point v, double speed)// 벡터 v의 방향으로 speed의 속도로 등속운동한다.
-        {
-            double N = Method2D.Distance(new Point(0, 0), v);
-            int Dis_X = (int)(v.X * speed / N);
-            int Dis_Y = (int)(v.Y * speed / N);
-            Pos = new Point(Pos.X + Dis_X, Pos.Y + Dis_Y);
+        public void MoveByVector(REMOPoint v, float speed)// 벡터 v의 방향으로 speed의 속도로 등속운동한다.
+        {            
+            Pos += v * (speed / v.Abs);
         }
     }
 

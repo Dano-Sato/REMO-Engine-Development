@@ -257,13 +257,13 @@ namespace REMO_Engine_Developer
             Line = line;
             Interval = Line.Bound.Width - BarSize;
             ScrollAction = scrollAction;
-            Wheel = new Gfx2D(WheelSpriteName, new Rectangle(Line.Pos.X + Interval, Line.Pos.Y, BarSize, Line.Bound.Height));
+            Wheel = new Gfx2D(WheelSpriteName, new Rectangle(new REMOPoint(Line.Pos.X + Interval, Line.Pos.Y), new REMOPoint(BarSize, Line.Bound.Height)));
         }
         public void Enable()
         {
             if (Cursor.IsDragging(Wheel) || (User.JustLeftClicked() && Line.ContainsCursor()))
             {
-                Wheel.Center = new Point(Cursor.Pos.X, Wheel.Pos.Y);
+                Wheel.Center = new REMOPoint(Cursor.Pos.X, Wheel.Pos.Y);
             }
 
             //바가 범위를 벗어나지 않도록 조정.
@@ -271,8 +271,8 @@ namespace REMO_Engine_Developer
             if (Wheel.Pos.X < Line.Pos.X)
                 Wheel.Pos = Line.Pos;
             if (Wheel.Pos.X > Line.Pos.X + Interval)
-                Wheel.Pos = new Point(Line.Pos.X + Interval, Wheel.Pos.Y);
-            Wheel.Pos = new Point(Wheel.Pos.X, Line.Pos.Y);
+                Wheel.Pos = new REMOPoint(Line.Pos.X + Interval, Wheel.Pos.Y);
+            Wheel.Pos = new REMOPoint(Wheel.Pos.X, Line.Pos.Y);
 
 
             //계수조정.
