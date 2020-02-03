@@ -15,9 +15,9 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using REMO_Engine_Developer;
 
-namespace REMO_Engine_Developer
+namespace Examples
 {
-    public static class ExampleScene1 // 사각형이 튕기는 씬입니다.
+    public static class BounceSquare // 사각형이 튕기는 씬입니다.
     {
         public static Gfx2D sqr = new Gfx2D(new Rectangle(200, 200, 50, 50));
         public static Gfx2D sqr2 = new Gfx2D(new Rectangle(200, 400, 300, 20));
@@ -54,7 +54,7 @@ namespace REMO_Engine_Developer
 
     }
 
-    public static class ExampleGame1 // 점프하며 사각형들을 피하는 게임입니다.
+    public static class JumpSquareGame // 점프하며 사각형들을 피하는 게임입니다.
     {
         public static Gfx2D sqr = new Gfx2D(new Rectangle(50, 300, 50, 50));
         public static Vector2 v = new Vector2(0, 0);
@@ -113,7 +113,7 @@ namespace REMO_Engine_Developer
 
 
     }
-    public static class FlickerScene
+    public static class ShowFlickerScene
     {
         public static Gfx2D sqr = new Gfx2D(new Rectangle(0, 300, 5, 5));
         public static Gfx2D sqr2 = new Gfx2D(new Rectangle(500, 400, 100, 100));
@@ -135,7 +135,7 @@ namespace REMO_Engine_Developer
 }
 
 
-namespace SungHo_REMO_TestGame
+namespace Examples.SungHoTestGame1
 {
     public static class SungHoScene
     {

@@ -260,7 +260,7 @@ namespace REMO_Engine_Developer
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build(ExampleGame1.scn);
+            GAMEOPTION.Build(TestScene.scn);
         }
 
         protected void CustomUpdate()
@@ -372,7 +372,7 @@ namespace REMO_Engine_Developer
                 if (User.Pressing(Keys.Z))
                 {
                     scn.Camera.Zoom += 0.1f;
-                    //sqr.Zoom(sqr.Center, 1.1f);
+                    //sqr.Zoom(sqr.Center, 1.1f);g
                 }
                 if (User.Pressing(Keys.X))
                 {
