@@ -17,7 +17,7 @@ namespace REMOEngine
     {
         public List<T> Components = new List<T>();
         public REMOPoint Pos { get; set; }//집합을 정렬할 기준점입니다. 
-        public Point Interval;//각 컴포넌트간 간격을 설정하는 벡터입니다.
+        public REMOPoint Interval;//각 컴포넌트간 간격을 설정하는 벡터입니다.
 
         public Rectangle Bound { get {
                 if (Count > 0)
@@ -80,13 +80,13 @@ namespace REMOEngine
         {
 
         }
-        public Aligned(Point pos, Point interval)//상대벡터와 간격벡터를 설정합니다. 이후 Origin을 조정하여 특정 컴포넌트에 매달 수 있습니다.
+        public Aligned(REMOPoint pos, REMOPoint interval)//상대벡터와 간격벡터를 설정합니다. 이후 Origin을 조정하여 특정 컴포넌트에 매달 수 있습니다.
         {
             Pos = pos;
             Interval = interval;
         }
 
-        public Aligned(Point pos, Point interval, List<T> TList)
+        public Aligned(REMOPoint pos, REMOPoint interval, List<T> TList)
         {
             Pos = pos;
             Interval = interval;
@@ -101,7 +101,7 @@ namespace REMOEngine
 
         public virtual void Align() //컴포넌트들이 즉시 정렬됩니다.
         {
-            Point temp = Pos;
+            REMOPoint temp = Pos;
             for (int i = 0; i < Count; i++)
             {
                 this[i].MoveTo(temp);
@@ -111,7 +111,7 @@ namespace REMOEngine
 
         public virtual void LazyAlign(double AlignSpeed) // 컴포넌트들이 정해진 스피드에 맞춰 느긋하게 정렬됩니다.
         {
-            Point temp = Pos;
+            REMOPoint temp = Pos;
             for (int i = 0; i < Count; i++)
             {
                 this[i].MoveTo(temp, AlignSpeed);
@@ -133,11 +133,11 @@ namespace REMOEngine
             return default(T);
         }
 
-        public T OneContains(Point p)
+        public T OneContains(REMOPoint p)
         {
             return Pick((t) =>
             {
-                return t.Bound.Contains(p);
+                return t.Bound.Contains(p.ToPoint());
             });
         }
 
@@ -146,7 +146,7 @@ namespace REMOEngine
         {
             return Pick((t) =>
             {
-                return t.Bound.Contains(Cursor.Pos) && User.JustLeftClicked();
+                return t.Bound.Contains(Cursor.Pos.ToPoint()) && User.JustLeftClicked();
             });
         }
 
@@ -183,60 +183,60 @@ namespace REMOEngine
                     return Interval.Y;                       
             } set {
                 if (Mode == AlignMode.Horizen)
-                    Interval = new Point(value, 0);
+                    Interval = new REMOPoint(value, 0);
                 else
-                    Interval = new Point(0, value);
+                    Interval = new REMOPoint(0, value);
 
             }
         } //컴포넌트 간의 간격을 반환합니다.
 
-        public SimpleAligned(AlignMode mode, Point pos, int interval) : base()
+        public SimpleAligned(AlignMode mode, REMOPoint pos, int interval) : base()
         {
             Mode = mode;
             Pos = pos;
             if(Mode==AlignMode.Horizen)
-                Interval = new Point(interval,0);
+                Interval = new REMOPoint(interval,0);
             else
-                Interval = new Point(0, interval);
+                Interval = new REMOPoint(0, interval);
         }
 
         public override void Align()
         {
-            Point temp = Pos;
-            Point v;
+            REMOPoint temp = Pos;
+            REMOPoint v;
             if (Mode == AlignMode.Horizen)
-                v = new Point(0, 1);
+                v = new REMOPoint(0, 1);
             else
-                v = new Point(1, 0);
+                v = new REMOPoint(1, 0);
 
             for (int i=0;i<Count;i++)
             {
                 this[i].MoveTo(temp);
                 temp += Interval;
                 if (Mode == AlignMode.Horizen)
-                    temp += new Point(this[i].Bound.Width, 0);
+                    temp += new REMOPoint(this[i].Bound.Width, 0);
                 else
-                    temp += new Point(0, this[i].Bound.Height);
+                    temp += new REMOPoint(0, this[i].Bound.Height);
             }
         }
 
         public override void LazyAlign(double AlignSpeed)
         {
-            Point temp = Pos;
-            Point v;
+            REMOPoint temp = Pos;
+            REMOPoint v;
             if (Mode == AlignMode.Horizen)
-                v = new Point(0, 1);
+                v = new REMOPoint(0, 1);
             else
-                v = new Point(1, 0);
+                v = new REMOPoint(1, 0);
 
             for (int i = 0; i < Count; i++)
             {
                 this[i].MoveTo(temp, AlignSpeed);
                 temp += Interval;
                 if (Mode == AlignMode.Horizen)
-                    temp += new Point(this[i].Bound.Width, 0);
+                    temp += new REMOPoint(this[i].Bound.Width, 0);
                 else
-                    temp += new Point(0, this[i].Bound.Height);
+                    temp += new REMOPoint(0, this[i].Bound.Height);
             }
         }
     }

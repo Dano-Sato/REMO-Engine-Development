@@ -79,7 +79,7 @@ namespace REMOEngine
                 Matrix m = CurrentMatrix;
                 CloseCanvas();
                 Vector2 pos = Vector2.Transform(gfx.Pos, m);
-                OpenCanvas(Matrix2D.Zoom(pos.ToPoint(),gfx.FontSize/StandAlone.SpriteFontSize),
+                OpenCanvas(Matrix2D.Zoom(pos,gfx.FontSize/StandAlone.SpriteFontSize),
                     () =>
                     {
                         spriteBatch.DrawString(gfx.Texture, gfx.Text, pos+new Vector2(1,1)*gfx.Edge, c);

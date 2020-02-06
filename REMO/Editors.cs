@@ -331,10 +331,10 @@ namespace REMOEngine
             }
         }
 
-        public static Point ReadPoint(string s) // 30,30 등의 Point 인수를 읽습니다.
+        public static REMOPoint ReadPoint(string s) // 30,30 등의 REMOPoint 인수를 읽습니다.
         {
             string[] ps = s.Replace(" ", "").Split(',');
-            return new Point(Int32.Parse(ps[0]), Int32.Parse(ps[1]));
+            return new REMOPoint(Int32.Parse(ps[0]), Int32.Parse(ps[1]));
         }
 
         public static Rectangle ReadRect(string s)// 0,0,50,50 등의 Rectangle 인수를 읽습니다.
@@ -511,7 +511,7 @@ namespace REMOEngine
 
         public void Draw(Color c)
         {
-            StandAlone.DrawString(FuncCallCount + " Loop,Time = " + StandAlone.ElapsedMillisec + "ms (per 1frame)", new Point(0, 0), c);
+            StandAlone.DrawString(FuncCallCount + " Loop,Time = " + StandAlone.ElapsedMillisec + "ms (per 1frame)", REMOPoint.Zero, c);
         }
 
         public void Invoke()
@@ -585,7 +585,7 @@ namespace REMOEngine
                     break;
                 case BluePrintMode.ShowRectangle:
                     if (User.JustLeftClicked())
-                        Bound = new Rectangle(Cursor.Pos, Point.Zero);
+                        Bound = new Rectangle(Cursor.Pos, REMOPoint.Zero);
                     if (User.Pressing(MouseButtons.LeftMouseButton))
                     {
                         Bound = new Rectangle(Bound.Location, Cursor.Pos - Bound.Location);
@@ -623,17 +623,17 @@ namespace REMOEngine
 
             if (DebugMode != BluePrintMode.NULL) //NULL 모드가 아닐시 현재 로그를 불러옵니다.
             {
-                StandAlone.DrawString(CurrentLog, Cursor.Pos + new Point(30, 0), Color.White, Color.Black);
+                StandAlone.DrawString(CurrentLog, Cursor.Pos + new REMOPoint(30, 0), Color.White, Color.Black);
             }
             if (SavedTimer > 0)
-                StandAlone.DrawString("Saved", StandAlone.FullScreen.Center - new Point(30, 0), Color.White, Color.Black);
+                StandAlone.DrawString("Saved", StandAlone.FullScreen.Center - new REMOPoint(30, 0), Color.White, Color.Black);
 
             if (WriterIsOn)
             {
-                StandAlone.DrawString("> " + LogNameWriter.TypeLine, Cursor.Pos + new Point(30, 20), Color.SkyBlue, Color.Black);
+                StandAlone.DrawString("> " + LogNameWriter.TypeLine, Cursor.Pos + new REMOPoint(30, 20), Color.SkyBlue, Color.Black);
             }
 
-            StandAlone.DrawString("DEBUG", new Point(0, 0), Color.White, Color.Black);
+            StandAlone.DrawString("DEBUG", REMOPoint.Zero, Color.White, Color.Black);
         });
         private static bool WriterIsOn = false;
         private static TypeWriter LogNameWriter = new TypeWriter(); //로깅할 때 로그에 주석을 달 수 있습니다.
@@ -661,7 +661,7 @@ namespace REMOEngine
     public class Scripter
     {
         public SimpleAligned<SimpleAligned<GfxStr>> Script = new SimpleAligned<SimpleAligned<GfxStr>>(AlignMode.Vertical, Point.Zero, 0);
-        public Point Pos
+        public REMOPoint Pos
         {
             get
             {
@@ -681,7 +681,7 @@ namespace REMOEngine
 
         public int LineWidth = 400;
 
-        public Scripter(Point _Pos, int _LetterSpacing, int _LineSpacing, int _LineWidth)
+        public Scripter(REMOPoint _Pos, int _LetterSpacing, int _LineSpacing, int _LineWidth)
         {
             Pos = _Pos;
             LetterSpacing = _LetterSpacing;
@@ -694,7 +694,7 @@ namespace REMOEngine
             Script.Clear();
             string[] strs = s.Split(' ');
 
-            SimpleAligned<GfxStr> Strings = new SimpleAligned<GfxStr>(AlignMode.Horizen, Point.Zero, LetterSpacing);
+            SimpleAligned<GfxStr> Strings = new SimpleAligned<GfxStr>(AlignMode.Horizen, REMOPoint.Zero, LetterSpacing);
             int i = 0;
             for (; i < strs.Length; i++)
             {
@@ -705,7 +705,7 @@ namespace REMOEngine
                     Strings.RemoveAt(Strings.Count - 1);
                     i--;
                     Script.Add(Strings);//빌드된 스트링을 포함하고,
-                    Strings = new SimpleAligned<GfxStr>(AlignMode.Horizen, Point.Zero, LetterSpacing); //새로운 스트링을 씁니다.
+                    Strings = new SimpleAligned<GfxStr>(AlignMode.Horizen, REMOPoint.Zero, LetterSpacing); //새로운 스트링을 씁니다.
                 }
             }
             Script.Add(Strings);//마지막으로 포함 안된 스트링을 포함합니다.

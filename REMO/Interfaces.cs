@@ -85,7 +85,7 @@ namespace REMOEngine
         void RegisterClickAct(Action a);
         bool ContainsCursor();
         bool CursorClickedThis();
-        bool Contains(Point p);
+        bool Contains(REMOPoint p);
     }
 
 

@@ -98,11 +98,11 @@ namespace REMOEngine
         public static bool JustLeftClicked() => JustPressed(MouseButtons.LeftMouseButton);
         public static bool JustLeftClicked(IBoundable g)
         {
-            return JustLeftClicked() && g.Bound.Contains(Cursor.Pos);
+            return JustLeftClicked() && g.Bound.Contains(Cursor.Pos.ToPoint());
         }
         public static bool JustLeftClicked(Rectangle g)
         {
-            return JustLeftClicked() && g.Contains(Cursor.Pos);
+            return JustLeftClicked() && g.Contains(Cursor.Pos.ToPoint());
         }
 
 
@@ -120,19 +120,19 @@ namespace REMOEngine
         }
         public static Keys[] ArrowKeys = new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right, }; //방향키를 할당하는 배열입니다. 방향키 세팅을 바꾸고 싶으면 이 배열을 바꾸면 됩니다.
 
-        public static void ArrowKeyPAct(Action<Point> VectorAction)//본 함수를 Update()에 넣을 경우, User가 Arrow Key를 누르는 경우에 대해 해당되는 방향벡터 액션을 일으킵니다.
+        public static void ArrowKeyPAct(Action<REMOPoint> VectorAction)//본 함수를 Update()에 넣을 경우, User가 Arrow Key를 누르는 경우에 대해 해당되는 방향벡터 액션을 일으킵니다.
         {
-            KeyPAct(ArrowKeys[0], () => VectorAction(new Point(0, -1)));
-            KeyPAct(ArrowKeys[1], () => VectorAction(new Point(-1, 0)));
-            KeyPAct(ArrowKeys[2], () => VectorAction(new Point(0, 1)));
-            KeyPAct(ArrowKeys[3], () => VectorAction(new Point(1, 0)));
+            KeyPAct(ArrowKeys[0], () => VectorAction(new REMOPoint(0, -1)));
+            KeyPAct(ArrowKeys[1], () => VectorAction(new REMOPoint(-1, 0)));
+            KeyPAct(ArrowKeys[2], () => VectorAction(new REMOPoint(0, 1)));
+            KeyPAct(ArrowKeys[3], () => VectorAction(new REMOPoint(1, 0)));
         }
-        public static void ArrowKeyJAct(Action<Point> VectorAction)//본 함수를 Update()에 넣을 경우, User가 Arrow Key를 누르는 경우에 대해 해당되는 방향벡터 액션을 일으킵니다.
+        public static void ArrowKeyJAct(Action<REMOPoint> VectorAction)//본 함수를 Update()에 넣을 경우, User가 Arrow Key를 누르는 경우에 대해 해당되는 방향벡터 액션을 일으킵니다.
         {
-            KeyJAct(ArrowKeys[0], () => VectorAction(new Point(0, -1)));
-            KeyJAct(ArrowKeys[1], () => VectorAction(new Point(-1, 0)));
-            KeyJAct(ArrowKeys[2], () => VectorAction(new Point(0, 1)));
-            KeyJAct(ArrowKeys[3], () => VectorAction(new Point(1, 0)));
+            KeyJAct(ArrowKeys[0], () => VectorAction(new REMOPoint(0, -1)));
+            KeyJAct(ArrowKeys[1], () => VectorAction(new REMOPoint(-1, 0)));
+            KeyJAct(ArrowKeys[2], () => VectorAction(new REMOPoint(0, 1)));
+            KeyJAct(ArrowKeys[3], () => VectorAction(new REMOPoint(1, 0)));
         }
 
 
@@ -153,13 +153,13 @@ namespace REMOEngine
         public static Gfx2D Graphic = new Gfx2D("Cursor", new Rectangle(0, 0, 20, 20));
         public static Gfx DraggedTarget; // 현재 드래깅되고 있는 객체를 추적하는 Gfx 포인터입니다.
 
-        public static Point Size
+        public static REMOPoint Size
         {
             get { return Graphic.Bound.Size; }
             set { Graphic.Bound = new Rectangle(Pos, value); }
 
         }
-        public static Point Pos
+        public static REMOPoint Pos
         {
             get
             {
@@ -299,7 +299,7 @@ namespace REMOEngine
         public void Initialize(float initCoefficient)
         {
             Coefficient = initCoefficient;
-            Wheel.Pos = new Point((int)((1.0f - Coefficient) * Interval + Line.Pos.X), 0);
+            Wheel.Pos = new REMOPoint((int)((1.0f - Coefficient) * Interval + Line.Pos.X), 0);
         }
 
 

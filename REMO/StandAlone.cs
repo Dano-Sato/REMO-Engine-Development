@@ -63,7 +63,7 @@ namespace REMOEngine
         /// <param name="s"></param>
         /// <param name="p"></param>
         /// <param name="c"></param>
-        public static void DrawString(string s, Point p, Color c)
+        public static void DrawString(string s, REMOPoint p, Color c)
         {
             GfxStr t = new GfxStr(s, p);
             t.Draw(c);
@@ -75,7 +75,7 @@ namespace REMOEngine
         /// <param name="p"></param>
         /// <param name="c"></param>
         /// <param name="BackGroundColor"></param>
-        public static void DrawString(string s, Point p, Color c, Color BackGroundColor)
+        public static void DrawString(string s, REMOPoint p, Color c, Color BackGroundColor)
         {
             GfxStr t = new GfxStr(s, p, 3);
             Filter.Absolute(t, BackGroundColor);
