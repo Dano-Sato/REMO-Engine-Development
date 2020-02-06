@@ -293,6 +293,11 @@ namespace REMOEngine
             }
         }
 
+        public static string FormatTag(string s)
+        {
+            return s.Replace(" ", "").ToUpper();
+        }
+
         public void ReadLine(string CodeLine)//특정 스트링을 읽어 명령줄을 실행합니다.
         {
             string[] Statements = CodeLine.Split(Embracer[0]);
@@ -311,7 +316,7 @@ namespace REMOEngine
 
         public void AddRule(string Tag, Action<string> StringAction) // Tag가 달린 Statement에 대해 StringAction(Statement)를 실행합니다. 문법은 <Tag>Statement 
         {
-            Rules.Add(Tag.Replace(" ", ""), StringAction);
+            Rules.Add(FormatTag(Tag), StringAction);
         }
 
         public void Clear()
@@ -319,24 +324,32 @@ namespace REMOEngine
             Rules.Clear();
         }
 
+        /// <summary>
+        /// Read Statement written as form of 'Tag>Statement'
+        /// </summary>
+        /// <param name="Statement"></param>
         private void ReadStatement(string Statement)
         {
             string[] ParsedStatement = Statement.Split(Embracer[1]);
-            foreach (string Tag in Rules.Keys.ToList())
-            {
-                if (String.Compare(ParsedStatement[0].Replace(" ", ""), Tag, true) == 0)
-                {
-                    Rules[Tag](ParsedStatement[1]);
-                }
-            }
+            Rules[FormatTag(ParsedStatement[0])](ParsedStatement[1]);
         }
 
-        public static REMOPoint ReadPoint(string s) // 30,30 등의 REMOPoint 인수를 읽습니다.
+        /// <summary>
+        /// Turn string "30,30" into new REMOPoint(30,30)
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static REMOPoint ReadPoint(string s) 
         {
             string[] ps = s.Replace(" ", "").Split(',');
             return new REMOPoint(Int32.Parse(ps[0]), Int32.Parse(ps[1]));
         }
 
+        /// <summary>
+        /// Turn string "0,0,50,50" into new Rectangle(0,0,50,50)
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static Rectangle ReadRect(string s)// 0,0,50,50 등의 Rectangle 인수를 읽습니다.
         {
             string[] ps = s.Replace(" ", "").Split(',');

@@ -33,26 +33,23 @@ namespace Games
             //The apple teleports to the random point.
         }
 
-
         public static Scene scn = new Scene(
             () =>
             {
                 scn.InitOnce(() =>
                 {
-                    EatApple();
+                    apple.Pos = new REMOPoint(StandAlone.Random(0, StandAlone.FullScreen.Width), StandAlone.Random(0, StandAlone.FullScreen.Height));
                     apple.RegisterDrawAct(() =>
                     {
                         apple.Draw(Color.Red);
                         StandAlone.DrawString("I'm Apple!", apple.Pos + new REMOPoint(0, -30), Color.White * Fader.Flicker(100), Color.Black);
                     }
                     );
-                    Score = 0;
-                    scn.Camera.TransformOrigin = StandAlone.FullScreen.Center;
                 });
             },
             () =>
             {
-                User.ArrowKeyPAct((p) => { sqr.Center += p * speed; });
+                User.ArrowKeyPAct((p) => { sqr.Center += p * speed; }); //The User-square moves when the user is pressing the arrow keys.
                 if ((sqr.Center - apple.Center).Abs < 30)
                     EatApple();
             },
@@ -65,6 +62,19 @@ namespace Games
                 StandAlone.DrawString("Score : " + Score, new REMOPoint(300, 45), Color.White);
             }
             );
+    }
 
+    public static class TestConsole
+    {
+        public static Scene scn = new Scene(() =>
+        {
+
+        }, () =>
+        {
+
+        }, () =>
+        {
+            StandAlone.DrawString(TLReader.FormatTag("test test test"), new REMOPoint(300, 300), Color.White);
+        });
     }
 }
