@@ -8,10 +8,10 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
-using REMO_Engine_Developer;
+using REMOEngine;
 
 
-namespace REMO_Engine_Developer
+namespace REMOEngine
 {
     public class Aligned<T> : IMovable, IDrawable, IBoundable  where T : IMovable, IDrawable, IBoundable  // 일렬로 정렬된 객체들을 포함하는 콜렉션입니다.
     {

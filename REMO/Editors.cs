@@ -14,10 +14,10 @@ using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
-using REMO_Engine_Developer;
+using REMOEngine;
 
 
-namespace REMO_Engine_Developer
+namespace REMOEngine
 {
 
     public static class HashTextEditor

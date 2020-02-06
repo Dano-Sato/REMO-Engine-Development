@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace REMO_Engine_Developer
+namespace REMOEngine
 {
 
     public enum MusicBoxMode { Immediate, FadeOut }

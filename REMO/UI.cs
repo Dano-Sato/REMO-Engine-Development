@@ -15,7 +15,7 @@ using System.Threading;
 using System.Runtime.InteropServices;
 
 
-namespace REMO_Engine_Developer
+namespace REMOEngine
 {
 
 

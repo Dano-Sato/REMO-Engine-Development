@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace REMO_Engine_Developer
+namespace REMOEngine
 {
     /// <summary>
     /// The main class.

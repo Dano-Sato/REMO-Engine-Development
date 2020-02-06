@@ -14,7 +14,7 @@ using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
 
-namespace REMO_Engine_Developer
+namespace REMOEngine
 {
     //On Developing. 아직 개발중인 컴포넌트들은 이 클래스 내부에 포함됩니다.
     public static class OnDev

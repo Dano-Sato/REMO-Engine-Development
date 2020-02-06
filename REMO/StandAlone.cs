@@ -14,7 +14,7 @@ using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
 
-namespace REMO_Engine_Developer
+namespace REMOEngine
 {   //각종 StandAlone계열 클래스들을 담당. 게임 씬과 무관한 기본 기능들을 수행하는 컴포넌트들을 처리합니다.
     public static class StandAlone
     {

@@ -14,7 +14,7 @@ using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
 
-namespace REMO_Engine_Developer
+namespace REMOEngine
 {
     public abstract class Gfx : IMovable, IDrawable, IBoundable// 기본적인 Bound 연산 및 무브먼트 함수를 지원 + 드로우 함수 지정
     {

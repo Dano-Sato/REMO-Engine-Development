@@ -13,9 +13,9 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
-using REMO_Engine_Developer;
+using REMOEngine;
 
-namespace REMO_Engine_Developer
+namespace REMOEngine
 {
     public interface IMovable
     {
