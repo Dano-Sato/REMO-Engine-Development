@@ -260,7 +260,7 @@ namespace REMOEngine
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build(TestScene.scn);
+            GAMEOPTION.Build(Games.EatAppleGame.scn);
         }
 
         protected void CustomUpdate()
@@ -272,10 +272,6 @@ namespace REMOEngine
 
         }
     }
-
-
-
-
   
     #region GAMEOPTION CLASS
     public static class GAMEOPTION // 게임의 빌드 옵션을 지정하는 클래스입니다.
@@ -329,69 +325,6 @@ namespace REMOEngine
 
     }
     #endregion
-
-    
-    public static class TestScene // 씬 개념을 테스트해볼 수 있는 공간입니다.
-    {
-        public static Gfx2D sqr = new Gfx2D(new Rectangle(200, 200, 50, 50));
-        public static Gfx2D apple = new Gfx2D(new Rectangle(0, 0, 20, 20));
-        public static double speed = 5;
-        public static int Score = 0;
-        //Write your own Update&Draw Action in here        
-
-        public static void EatApple()
-        {
-            Score += 10;
-            speed += 0.1f;
-            apple.Pos = new REMOPoint(StandAlone.Random(0, StandAlone.FullScreen.Width), StandAlone.Random(0, StandAlone.FullScreen.Height));            
-            //화면의 랜덤한 위치로 애플이 옮겨갑니다.
-        }
-
-
-        public static Scene scn = new Scene(
-            () =>
-            {
-                scn.InitOnce(() =>
-                {
-                    EatApple();
-                    apple.RegisterDrawAct(() =>
-                    {         
-                        apple.Draw(Color.Red);
-                        StandAlone.DrawString("I'm Apple!", apple.Pos + new REMOPoint(0, -30), Color.White * Fader.Flicker(100),Color.Black);
-                    }
-                    );
-                    Score = 0;
-                    scn.Camera.TransformOrigin = StandAlone.FullScreen.Center;
-                });
-            },
-            () =>
-            {
-                User.ArrowKeyPAct((p) => { sqr.MoveByVector(p, speed); });
-                if ((sqr.Center-apple.Center).Abs < 30)
-                    EatApple();
-                if (User.Pressing(Keys.Z))
-                {
-                    scn.Camera.Zoom += 0.1f;
-                    //sqr.Zoom(sqr.Center, 1.1f);g
-                }
-                if (User.Pressing(Keys.X))
-                {
-                    scn.Camera.Zoom -= 0.1f;
-                }
-            },
-            () =>
-            {
-                sqr.Draw(Color.White, Color.Purple * 0.5f * Fader.Flicker(100));
-                apple.Draw();
-                Cursor.Draw(Color.White);
-                StandAlone.DrawString("Press arrow keys to move square. and eat Apples.", new REMOPoint(344, 296), Color.White);
-                StandAlone.DrawString("Score : " + Score, new REMOPoint(300, 45), Color.White);
-            }
-            );
-
-    }
-
-
 
 }
 
