@@ -260,7 +260,7 @@ namespace REMOEngine
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build(Games.TestConsole.scn);
+            GAMEOPTION.Build(Games.EatAppleGame.scn);
         }
 
         protected void CustomUpdate()

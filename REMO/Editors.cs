@@ -25,16 +25,27 @@ namespace REMOEngine
         private static string AccountPath = "TestMap.txt";
         private static string Salt = "RMNTESTGAME_MONODRAWING";
 
-        private static byte[] SHA256_toByte(string inputString)
+
+        /// <summary>
+        /// Internal function to build hash function. This should not be called elsewhere.
+        /// </summary>
+        /// <param name="inputString"></param>
+        /// <returns></returns>
+        private static byte[] internal_SHA256_toByte(string inputString)
         {
             HashAlgorithm algorithm = SHA256.Create();
             return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
         }
 
-        private static string SHA256_toString(string inputString)
+        /// <summary>
+        /// Internal function to build hash function. This should not be called elsewhere.
+        /// </summary>
+        /// <param name="inputString"></param>
+        /// <returns></returns>
+        private static string internal_SHA256_toString(string inputString)
         {
             StringBuilder sb = new StringBuilder();
-            foreach (byte b in SHA256_toByte(inputString))
+            foreach (byte b in internal_SHA256_toByte(inputString))
                 sb.Append(b.ToString("X2"));
             return sb.ToString();
         }
@@ -47,9 +58,14 @@ namespace REMOEngine
             return false;
         }
 
+        /// <summary>
+        /// Internal has function
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         private static string Hash(string s)
         {
-            return SHA256_toString(s);
+            return internal_SHA256_toString(s);
         }
 
         private static string[] GetNormalFileHash()
@@ -293,6 +309,12 @@ namespace REMOEngine
             }
         }
 
+        /// <summary>
+        /// Turn string to formatted Tag.
+        /// "test test test"->"TESTTESTTEST"
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static string FormatTag(string s)
         {
             return s.Replace(" ", "").ToUpper();
@@ -335,7 +357,7 @@ namespace REMOEngine
         }
 
         /// <summary>
-        /// Turn string "30,30" into new REMOPoint(30,30)
+        /// Turn string "a,b" into new REMOPoint(a,b)
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -346,11 +368,11 @@ namespace REMOEngine
         }
 
         /// <summary>
-        /// Turn string "0,0,50,50" into new Rectangle(0,0,50,50)
+        /// Turn string "a,b,c,d" into new Rectangle(a,b,c,d)
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static Rectangle ReadRect(string s)// 0,0,50,50 등의 Rectangle 인수를 읽습니다.
+        public static Rectangle ReadRect(string s)
         {
             string[] ps = s.Replace(" ", "").Split(',');
             return new Rectangle(Int32.Parse(ps[0]), Int32.Parse(ps[1]), Int32.Parse(ps[2]), Int32.Parse(ps[3]));
