@@ -52,7 +52,7 @@ namespace REMOEngine
 
         private static bool Validate()
         {
-            string[] GFH = GetNormalFileHash();
+            string[] GFH = GetFileHashPair();
             if (GFH[0] == GFH[1])
                 return true;
             return false;
@@ -68,7 +68,7 @@ namespace REMOEngine
             return internal_SHA256_toString(s);
         }
 
-        private static string[] GetNormalFileHash()
+        private static string[] GetFileHashPair()
         {
             List<string> sList = File.ReadAllLines(AccountPath).ToList();
             string seed = Salt;
@@ -96,25 +96,10 @@ namespace REMOEngine
 
         private static string GetFileHash()
         {
-            List<string> sList = File.ReadAllLines(AccountPath).ToList();
-            string seed = Salt;
-            if (sList.Count == 1)
-            {
-                sList[0] = Hash(sList[0] + seed);
-            }
-            else
-            {
-                while (sList.Count > 1)
-                {
-                    seed = Hash(seed);
-                    sList[0] = Hash(sList[0] + seed + sList[1]);// Merkle-Damgard
-                    sList.RemoveAt(1);
-                }
-
-            }
-            return sList[0];
+            return GetFileHashPair()[0];
         }
-
+        
+        
 
         public static void ReadLine(string Header, Action<int> ReadAct, Action ErrorAct)
         {
