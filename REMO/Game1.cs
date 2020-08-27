@@ -73,7 +73,7 @@ namespace REMOEngine
                 for (int i = 0; i < cs.Length; i++)
                     Draw(gfx, cs[i]);
             }
-            public static void Draw(GfxStr gfx) => spriteBatch.DrawString(gfx.Texture, gfx.Text, new Vector2(gfx.Pos.X + gfx.Edge, gfx.Pos.Y + gfx.Edge), Color.Black);
+            public static void Draw(GfxStr gfx) => Draw(gfx, Color.Black); 
             public static void Draw(GfxStr gfx, Color c)
             {
                 Matrix m = CurrentMatrix;
@@ -260,7 +260,7 @@ namespace REMOEngine
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build(Mahjong.MJGame.scn);
+            GAMEOPTION.Build(NewTest.scn);
         }
 
         protected void CustomUpdate()

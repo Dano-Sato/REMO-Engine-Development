@@ -193,5 +193,25 @@ namespace REMOEngine
               //var g = new Gfx2D("WhiteSpace", new REMOPoint(5, 5), 1.0f);
           };
     }
+
+
+    public static class NewTest
+    {
+        public static GfxStr str = new GfxStr("Test", new REMOPoint(300, 300));
+        public static Scene scn = new Scene(() => {},
+            () => {
+                if(User.Pressing(Keys.A))
+                {
+                    str.FontSize++;
+                }
+
+            },
+            () => {
+                Filter.Absolute(StandAlone.FullScreen, Color.White);
+                str.Draw(Color.Black);
+            });
+    
+    }
+
  
 }
