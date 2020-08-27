@@ -118,6 +118,10 @@ namespace REMOEngine
             if (Pressing(k))
                 a();
         }
+
+
+
+
         public static Keys[] ArrowKeys = new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right, }; //방향키를 할당하는 배열입니다. 방향키 세팅을 바꾸고 싶으면 이 배열을 바꾸면 됩니다.
 
         public static void ArrowKeyPAct(Action<REMOPoint> VectorAction)//본 함수를 Update()에 넣을 경우, User가 Arrow Key를 누르는 경우에 대해 해당되는 방향벡터 액션을 일으킵니다.

@@ -14,6 +14,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
+using Examples.SungHoTestGame1;
 
 namespace REMOEngine
 {
@@ -260,7 +261,7 @@ namespace REMOEngine
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build(NewTest.scn);
+            GAMEOPTION.Build(Games.SungHoScene.scn);
         }
 
         protected void CustomUpdate()

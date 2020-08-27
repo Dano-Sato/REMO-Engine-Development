@@ -58,12 +58,6 @@ namespace REMOEngine
             set { bound.Height = value; }
         }
 
-
-
-        public REMOPoint ROrigin; // 회전 중심점. 재할당을 하지 않을 경우 텍스처의 중심이 회전중심이 됩니다. 재할당을 할 때는 물체의 왼쪽 위 지점을 (0,0)이라고 생각해주십시오. 중요한 점은, 실제 텍스처 파일의 가로 세로값을 참조한다는 것입니다.
-        public float Rotate;  // 회전각. radian을 따릅니다.
-
-
         public void MoveTo(REMOPoint p) => Pos = p;
         public void MoveByVector(REMOPoint v, double speed) => Pos += v * ((float)speed / v.Abs);
         public void MoveTo(int x, int y, double speed) => MoveTo(new REMOPoint(x, y), speed);
@@ -227,6 +221,13 @@ namespace REMOEngine
                 Texture = Game1.content.Load<Texture2D>(value);
             }
         }
+
+
+
+        public REMOPoint ROrigin; // 회전 중심점. 재할당을 하지 않을 경우 텍스처의 중심이 회전중심이 됩니다. 재할당을 할 때는 물체의 왼쪽 위 지점을 (0,0)이라고 생각해주십시오. 중요한 점은, 실제 텍스처 파일의 가로 세로값을 참조한다는 것입니다.
+        public float Rotate;  // 회전각. radian을 따릅니다.
+
+
 
         /// <summary>
         /// 메소드를 사용할 수 없는 Null 객체를 생성합니다.

@@ -33,7 +33,7 @@ namespace REMOEngine
             }
         }
 
-
+         
 
         public static CustomTLReader t = new CustomTLReader();
 
@@ -197,21 +197,61 @@ namespace REMOEngine
 
     public static class NewTest
     {
-        public static GfxStr str = new GfxStr("Test", new REMOPoint(300, 300));
-        public static Scene scn = new Scene(() => {},
+        public static GfxStr str = new GfxStr("1. Change the Font size(Press Q,W)", new REMOPoint(100, 100));
+        public static Gfx2D sqr = new Gfx2D(new Rectangle(200, 200, 50, 50));
+        public static Scene scn = new Scene(() => {
+            StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
+        
+        },
             () => {
-                if(User.Pressing(Keys.A))
+                //Pressing Q,W changes size of the font.
+                if(User.Pressing(Keys.Q))
                 {
                     str.FontSize++;
+                    str.Text = "1. Change the Font size=" + str.FontSize+ "(Press Q,W)";
                 }
+                if (User.Pressing(Keys.W))
+                {
+                    str.FontSize--;
+                    str.Text = "1. Change the Font size=" + str.FontSize+ "(Press Q,W)";
+                }
+                //Pressing E rotates the square.
+                if(User.Pressing(Keys.E))
+                {
+                    sqr.Rotate += 0.02f;
+                }
+                if(User.Pressing(Keys.A))
+                {
+                    sqr.Zoom(sqr.Center, 1.1f);
+                }
+                if (User.Pressing(Keys.S))
+                {
+                    sqr.Zoom(sqr.Center, 0.9f);
+                }
+
+
 
             },
             () => {
                 Filter.Absolute(StandAlone.FullScreen, Color.White);
+
                 str.Draw(Color.Black);
+                if (str.ContainsCursor())
+                    str.Draw(Color.Red);
+
+                sqr.Draw(Color.Black);
+                //if (sqr.RContains(Cursor.Pos))
+                    //sqr.Draw(Color.Red);
+                StandAlone.DrawString("2. Rotate the Square(Press E)", new REMOPoint(100, 300), Color.Black);
+
+
+                StandAlone.DrawString("Crazy Sparkling Square Game", 20, new REMOPoint(100, 300), Color.White);
+
+                Cursor.Draw(Color.Black);
             });
     
     }
+
 
  
 }
