@@ -253,7 +253,7 @@ namespace REMOEngine
             System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(DirName);
             foreach (System.IO.FileInfo File in di.GetFiles())
             {
-                if (File.Extension.ToLower().CompareTo(".out") == 0)
+                if (File.Extension.ToLower().CompareTo(".txt") == 0)
                 {
                     strings.Add(File.Name.Substring(0, File.Name.Length - 4));
                 }

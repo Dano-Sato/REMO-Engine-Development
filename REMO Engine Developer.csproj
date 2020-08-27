@@ -58,6 +58,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Games\ExampleGame.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="REMO\Collections.cs" />
     <Compile Include="REMO\Editors.cs" />
     <Compile Include="REMO\Examples.cs" />
@@ -67,7 +68,6 @@
     <Compile Include="REMO\MusicBox.cs" />
     <Compile Include="REMO\OnDev.cs" />
     <Compile Include="REMO\Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="REMO\StandAlone.cs" />
     <Compile Include="REMO\Timers.cs" />
     <Compile Include="REMO\UI.cs" />
