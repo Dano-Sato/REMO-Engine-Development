@@ -96,3 +96,6 @@ C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\bin\Desk
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine.exe
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine.pdb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine Developer.csproj.CoreCompileInputs.cache
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO_Engine_Developer.Korean_KS100X.resources
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine Developer.csproj.GenerateResource.cache
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.KoreanFont.xnb

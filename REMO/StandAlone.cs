@@ -129,7 +129,20 @@ namespace REMOEngine
             g.Draw(c);
         }
 
-     
+
+        /*
+        /// <summary>
+        /// Draw in part of game screen.
+        /// </summary>
+        /// <param name="Screen"></param>
+        /// <param name="Act"></param>
+        public static void DrawInScreen(Viewport Screen, Action Act)
+        {
+            Viewport Temp = Game1.graphics.GraphicsDevice.Viewport;
+            Game1.graphics.GraphicsDevice.Viewport = Screen;
+            Act();
+            Game1.graphics.GraphicsDevice.Viewport = Temp;
+        }*/
 
 
         private static Random random = new Random();

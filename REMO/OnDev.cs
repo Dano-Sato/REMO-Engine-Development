@@ -198,6 +198,8 @@ namespace REMOEngine
     public static class NewTest
     {
         public static GfxStr str = new GfxStr("1. Change the Font size(Press Q,W)", new REMOPoint(100, 100));
+        public static GfxStr str2 = new GfxStr("KoreanFont","한글지원 완료", new REMOPoint(400, 400));
+
         public static Gfx2D sqr = new Gfx2D(new Rectangle(200, 200, 50, 50));
         public static Scene scn = new Scene(() => {
             StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
@@ -207,12 +209,12 @@ namespace REMOEngine
                 //Pressing Q,W changes size of the font.
                 if(User.Pressing(Keys.Q))
                 {
-                    str.FontSize++;
+                    str2.FontSize++;
                     str.Text = "1. Change the Font size=" + str.FontSize+ "(Press Q,W)";
                 }
                 if (User.Pressing(Keys.W))
                 {
-                    str.FontSize--;
+                    str2.FontSize--;
                     str.Text = "1. Change the Font size=" + str.FontSize+ "(Press Q,W)";
                 }
                 //Pressing E rotates the square.
@@ -239,13 +241,15 @@ namespace REMOEngine
                 if (str.ContainsCursor())
                     str.Draw(Color.Red);
 
+
                 sqr.Draw(Color.Black);
-                //if (sqr.RContains(Cursor.Pos))
-                    //sqr.Draw(Color.Red);
+                if (sqr.RContains(Cursor.Pos))
+                    sqr.Draw(Color.Red);
+
+                str2.Draw(Color.Black);
                 StandAlone.DrawString("2. Rotate the Square(Press E)", new REMOPoint(100, 300), Color.Black);
 
 
-                StandAlone.DrawString("Crazy Sparkling Square Game", 20, new REMOPoint(100, 300), Color.White);
 
                 Cursor.Draw(Color.Black);
             });

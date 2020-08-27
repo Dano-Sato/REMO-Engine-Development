@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>S:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.KoreanFont.spritefont</SourceFile>
+  <SourceTime>2020-08-28T01:21:38.4194852+09:00</SourceTime>
+  <DestFile>S:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/bin/DesktopGL/Content/REMO.KoreanFont.xnb</DestFile>
+  <DestTime>2020-08-28T01:26:23.3107342+09:00</DestTime>
+  <Importer>FontDescriptionImporter</Importer>
+  <ImporterTime>2018-12-09T01:35:54+09:00</ImporterTime>
+  <Processor>LocalizedFontProcessor</Processor>
+  <ProcessorTime>2018-12-09T01:35:54+09:00</ProcessorTime>
+  <Parameters>
+    <Key>PremultiplyAlpha</Key>
+    <Value>True</Value>
+  </Parameters>
+  <Parameters>
+    <Key>TextureFormat</Key>
+    <Value>Compressed</Value>
+  </Parameters>
+  <Dependencies>
+    <string>S:\Documents\REMO_Engine_Developer\REMO_Engine_Developer\Content\Korean_KS100X.resx</string>
+  </Dependencies>
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

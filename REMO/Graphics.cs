@@ -438,13 +438,7 @@ namespace REMOEngine
             Load(scs);
         }
 
-        public static void DrawInScreen(Viewport Screen, Action Act)
-        {
-            Viewport Temp = Game1.graphics.GraphicsDevice.Viewport;
-            Game1.graphics.GraphicsDevice.Viewport = Screen;
-            Act();
-            Game1.graphics.GraphicsDevice.Viewport = Temp;
-        }
+      
 
 
     }
