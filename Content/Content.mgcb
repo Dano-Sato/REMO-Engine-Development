@@ -33,11 +33,10 @@
 /build:REMO.DefaultFont.spritefont
 
 #begin REMO.KoreanFont.spritefont
-/importer:FontDescriptionImporter
-/processor:LocalizedFontProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:REMO.KoreanFont.spritefont
+/copy:REMO.KoreanFont.spritefont
+
+#begin REMO.KoreanFont.xnb
+/copy:REMO.KoreanFont.xnb
 
 #begin REMO.Light.png
 /importer:TextureImporter

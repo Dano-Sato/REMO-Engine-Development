@@ -698,11 +698,18 @@ namespace REMOEngine
             get { return Script.interval; }
             set { Script.interval = value; }
         }
+        public string FontName;
 
         public int LineWidth = 400;
 
-        public Scripter(REMOPoint _Pos, int _LetterSpacing, int _LineSpacing, int _LineWidth)
+        public Scripter(REMOPoint _Pos, int _LetterSpacing, int _LineSpacing, int _LineWidth) : this("DefaultFont", _Pos, _LetterSpacing, _LineSpacing, _LineWidth)
         {
+
+        }
+
+        public Scripter(string fontName,REMOPoint _Pos, int _LetterSpacing, int _LineSpacing, int _LineWidth)
+        {
+            FontName = fontName;
             Pos = _Pos;
             LetterSpacing = _LetterSpacing;
             LineSpacing = _LineSpacing;
@@ -718,7 +725,7 @@ namespace REMOEngine
             int i = 0;
             for (; i < strs.Length; i++)
             {
-                Strings.Add(new GfxStr(strs[i]));
+                Strings.Add(new GfxStr(FontName, strs[i]));
                 Strings.Align();
                 if (Strings.Bound.Width > LineWidth&&Strings.Count>1)
                 {

@@ -198,11 +198,17 @@ namespace REMOEngine
     public static class NewTest
     {
         public static GfxStr str = new GfxStr("1. Change the Font size(Press Q,W)", new REMOPoint(100, 100));
-        public static GfxStr str2 = new GfxStr("KoreanFont", "자아. 도련님, 내가 따르는 술을 받아줘~", new REMOPoint(400, 400));
+        public static GfxStr str2 = new GfxStr("KoreanFont", "자아. 도련님, 내가 따르는 술을 받아줘~!!", new REMOPoint(400, 400));
 
         public static Gfx2D sqr = new Gfx2D(new Rectangle(200, 200, 50, 50));
+
+
+        public static Scripter TestScripter = new Scripter("KoreanFont", new REMOPoint(600, 600), 10, 20, 500);
+
+
         public static Scene scn = new Scene(() => {
             StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
+            TestScripter.BuildScript("기모운지앙 기모찌 찍기모찌 섹스");
         
         },
             () => {
@@ -235,7 +241,7 @@ namespace REMOEngine
 
             },
             () => {
-                Filter.Absolute(StandAlone.FullScreen, Color.White);
+                Filter.Absolute(StandAlone.FullScreen, Color.Black);
 
                 str.Draw(Color.Black);
                 if (str.ContainsCursor())
@@ -249,7 +255,7 @@ namespace REMOEngine
                 str2.Draw(Color.Black);
                 StandAlone.DrawString("2. Rotate the Square(Press E)", new REMOPoint(100, 300), Color.Black);
 
-
+                TestScripter.Script.Draw();
 
                 Cursor.Draw(Color.Black);
             });
