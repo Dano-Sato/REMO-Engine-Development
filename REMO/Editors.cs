@@ -678,6 +678,7 @@ namespace REMOEngine
 
 
 
+    /*
     public class Scripter
     {
         public SimpleAligned<SimpleAligned<GfxStr>> Script = new SimpleAligned<SimpleAligned<GfxStr>>(AlignMode.Vertical, Point.Zero, 0);
@@ -744,5 +745,6 @@ namespace REMOEngine
 
 
     }
+    */
 
 }

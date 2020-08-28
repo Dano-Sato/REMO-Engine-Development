@@ -54,27 +54,6 @@ namespace REMOEngine
     }
 
 
-    public static class TestScene4_Disposed
-    {
-        public static Scripter s = new Scripter(new Point(100, 100), 10, 0, 20);
-
-        public static Scene scn = new Scene(() => {
-            s.BuildScript("Yesterday, love is such an easy game to play, now I need a place to hide away. ");
-
-
-        }, () => {
-
-
-
-        }, () => {
-            s.Script.Draw();
-            Cursor.Draw(Color.White);
-        });
-
-
-
-
-    }
 
     public static class TestBedForREMOPoint
     {
@@ -198,18 +177,15 @@ namespace REMOEngine
     public static class NewTest
     {
         public static GfxStr str = new GfxStr("1. Change the Font size(Press Q,W)", new REMOPoint(100, 100));
-        public static GfxStr str2 = new GfxStr("KoreanFont", "자아. 도련님, 내가 따르는 술을 받아줘~!!", new REMOPoint(400, 400));
+        public static GfxStr str2 = new GfxStr(20, "KoreanFont", "3. 한글폰트 지원완료", new REMOPoint(100, 350));
 
         public static Gfx2D sqr = new Gfx2D(new Rectangle(200, 200, 50, 50));
 
 
-        public static Scripter TestScripter = new Scripter("KoreanFont", new REMOPoint(600, 600), 10, 20, 500);
 
 
         public static Scene scn = new Scene(() => {
             StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
-            TestScripter.BuildScript("기모운지앙 기모찌 찍기모찌 섹스");
-        
         },
             () => {
                 //Pressing Q,W changes size of the font.
@@ -241,7 +217,7 @@ namespace REMOEngine
 
             },
             () => {
-                Filter.Absolute(StandAlone.FullScreen, Color.Black);
+                Filter.Absolute(StandAlone.FullScreen, Color.White);
 
                 str.Draw(Color.Black);
                 if (str.ContainsCursor())
@@ -255,7 +231,6 @@ namespace REMOEngine
                 str2.Draw(Color.Black);
                 StandAlone.DrawString("2. Rotate the Square(Press E)", new REMOPoint(100, 300), Color.Black);
 
-                TestScripter.Script.Draw();
 
                 Cursor.Draw(Color.Black);
             });
@@ -263,5 +238,56 @@ namespace REMOEngine
     }
 
 
- 
+    public static class ScripterTest
+    {
+        public static TLReader ScriptPainter = new TLReader();
+        public static int line = 0;
+        public static string TestScript = "<n>결계 무녀<s>...일월은 나의 형, 하늘은 나의 벗...%" +
+            "<n>결계 무녀<s>...욕사지귀는 당아하고 불욕사지귀는 피아하라.%" +
+            "<s>무녀의 말이 끝나자마자 요괴들은 검은 글자의 주박에 묶여 쓰러졌다.%" +
+            "<n>결계 무녀<s>이런 녀석들한테 쓰러질 줄은 몰랐는데 말이야. 식신을 붙여두길 잘했네.%" +
+            "<n>결계 무녀<s>동생아. 처리하렴.%" +
+            "<n>검 무녀<s>응.%" +
+            "<s>시리도록 하얀 검 끝이 달빛으로 빛나며, 요괴들이 차례차례 잘려나갔다.%" +
+            "<s>무녀가 이쪽으로 걸어왔다.%" +
+            "<n>결계 무녀<s>어때 너희들. 이번에는 신세를 졌지? 일단 요괴 퇴치는 내가 시킨 일이니까, 책임은 지도록 할게...%" +
+            "<n>결계 무녀<s>요괴가 돼서 인간의 신세를 지고 싶지 않으면, 더 강해지도록 해.%" +
+            "<s>당신은 눈 앞이 점점 흐려지는 것을 느낀다.%" +
+            "<n>결계 무녀<s>일어났어? 몸은 좀 괜찮아?%" +
+            "<s>다행히 다친 부분은 없는 듯 하다.%" +
+            "<n>결계 무녀<s>네 부하들은 먼저 여관으로 돌아갔어. 주인이 돼서 회복이 늦구나, 너.%" +
+            "<n>결계 무녀<s>부끄러우면 네 동료들과 함께 더 강해지도록 해. 자, 이건 선물이야.%" +
+            "<s>폭발의 부적*3을 받았다.%" +
+            "<n>결계 무녀<s>위급할 땐 이걸 요괴에게 던지고 주문을 외우면 돼. 적당한 위력은 나올 거야.%" +
+            "<n>결계 무녀<s>그럼 요괴 퇴치, 힘내.%";
+
+        public static string[] Scripts;
+
+        public static Scene scn = new Scene(() =>
+        {
+
+            StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
+
+
+            //Rule for Name
+            ScriptPainter.AddRule("n", (s)=> { StandAlone.DrawString(20, "KoreanFont", s, new REMOPoint(300, 300), Color.White); });
+            //Rule for Script
+            ScriptPainter.AddRule("s", (s) => { StandAlone.DrawString(20, "KoreanFont", s, new REMOPoint(300, 500), Color.White); });
+
+            Scripts = TestScript.Split('%');
+        }, () =>
+        {
+            if (User.JustPressed(Keys.Z))
+                line++;
+            
+            
+        }, () =>
+        {
+            Filter.Absolute(StandAlone.FullScreen, Color.Black);
+            ScriptPainter.ReadLine(Scripts[line]);
+        });
+
+    }
+
+
 }

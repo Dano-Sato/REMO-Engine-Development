@@ -68,12 +68,20 @@ namespace REMOEngine
             GfxStr t = new GfxStr(s, p);
             t.Draw(c);
         }
-        public static void DrawString(string s, int fontSize, REMOPoint p, Color c)
+        public static void DrawString(int fontSize, string s, REMOPoint p, Color c)
         {
             GfxStr t = new GfxStr(s, p);
             t.FontSize = fontSize;
             t.Draw(c);
         }
+
+        public static void DrawString(int fontSize, string fontName, string s, REMOPoint p, Color c)
+        {
+            GfxStr t = new GfxStr(fontName, s, p);
+            t.FontSize = fontSize;
+            t.Draw(c);
+        }
+
 
         /// <summary>
         /// 화면에 문자열을 그립니다. 백그라운드 색을 설정합니다.
@@ -84,7 +92,7 @@ namespace REMOEngine
         /// <param name="BackGroundColor"></param>
         public static void DrawString(string s, REMOPoint p, Color c, Color BackGroundColor)
         {
-            GfxStr t = new GfxStr(s, p, 3);
+            GfxStr t = new GfxStr(s, p);
             Filter.Absolute(t, BackGroundColor);
             t.Draw(c);
         }

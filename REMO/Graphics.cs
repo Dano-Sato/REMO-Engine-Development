@@ -183,30 +183,33 @@ namespace REMOEngine
                 Bound = new Rectangle(Pos, Texture.MeasureString(Text).ToPoint());
             }
         }
-        public int Edge = 0;
         public SpriteFont Texture;
         public int FontSize = StandAlone.DefaultFontSize;
 
         public GfxStr(string _text) : this(_text, REMOPoint.Zero) { }
-        public GfxStr(string _text, REMOPoint pos) : this(_text, pos, 0) { }
-        public GfxStr(string text, REMOPoint pos, int edge)
+        public GfxStr(string text, REMOPoint pos)
         {
             Texture = Game1.content.Load<SpriteFont>("DefaultFont");
             Text = text;
-            Edge = edge;
-            Bound = new Rectangle(pos, Texture.MeasureString(Text) + new REMOPoint(2 * Edge, 2 * Edge));
+            Bound = new Rectangle(pos, Texture.MeasureString(Text).ToPoint());
         }
 
-        public GfxStr(string font, string text) : this(font, text, REMOPoint.Zero, 0) { }
-        public GfxStr(string font, string text, REMOPoint pos) : this(font, text, pos, 0) { }
-        public GfxStr(string font, string text, REMOPoint pos, int edge)
+        public GfxStr(string font, string text) : this(font, text, REMOPoint.Zero) { }
+        public GfxStr(string font, string text, REMOPoint pos)
         {
             Texture = Game1.content.Load<SpriteFont>(font);
             Text = text;
-            Edge = edge;
-            Bound = new Rectangle(pos, Texture.MeasureString(Text) + new REMOPoint(2 * Edge, 2 * Edge));
+            Bound = new Rectangle(pos, Texture.MeasureString(Text).ToPoint());
         }
 
+        public GfxStr(int fontSize, string font, string text) : this(fontSize, font, text, REMOPoint.Zero) { }
+        public GfxStr(int fontSize, string font, string text, REMOPoint pos)
+        {
+            FontSize = fontSize;
+            Texture = Game1.content.Load<SpriteFont>(font);
+            Text = text;
+            Bound = new Rectangle(pos, Texture.MeasureString(Text).ToPoint());
+        }
         public override void Draw(params Color[] colors) => Game1.Painter.Draw(this, colors);
     }
 

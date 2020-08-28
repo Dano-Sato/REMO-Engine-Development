@@ -392,7 +392,7 @@ namespace Games
 
                 healstackBar.Draw(Color.LightGreen);
 
-                StandAlone.DrawString("Elapsed Time : " + (Score / 60).ToString() + "s", 30, new Point(600, 430), Color.White);
+                StandAlone.DrawString(30, "Elapsed Time : " + (Score / 60).ToString() + "s", new Point(600, 430), Color.White);
 
             });
     }

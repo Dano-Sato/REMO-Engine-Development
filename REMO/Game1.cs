@@ -82,7 +82,7 @@ namespace REMOEngine
                 OpenCanvas(Matrix2D.Zoom(pos,gfx.FontSize/StandAlone.SpriteFontSize),
                     () =>
                     {
-                        spriteBatch.DrawString(gfx.Texture, gfx.Text, pos+new Vector2(1,1)*gfx.Edge, c);
+                        spriteBatch.DrawString(gfx.Texture, gfx.Text, pos, c);
                     });
                 BeginCanvas(m);
             }
@@ -260,7 +260,7 @@ namespace REMOEngine
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build(NewTest.scn);
+            GAMEOPTION.Build(ScripterTest.scn);
         }
 
         protected void CustomUpdate()
