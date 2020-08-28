@@ -198,7 +198,7 @@ namespace REMOEngine
     public static class NewTest
     {
         public static GfxStr str = new GfxStr("1. Change the Font size(Press Q,W)", new REMOPoint(100, 100));
-        public static GfxStr str2 = new GfxStr("KoreanFont","한글지원 완료", new REMOPoint(400, 400));
+        public static GfxStr str2 = new GfxStr("KoreanFont", "자아. 도련님, 내가 따르는 술을 받아줘~", new REMOPoint(400, 400));
 
         public static Gfx2D sqr = new Gfx2D(new Rectangle(200, 200, 50, 50));
         public static Scene scn = new Scene(() => {
