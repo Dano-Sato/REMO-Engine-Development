@@ -60,6 +60,7 @@
     <Compile Include="Games\CrazySparklingSquareGame.cs" />
     <Compile Include="Games\ExampleGame.cs" />
     <Compile Include="Games\Mahjong.cs" />
+    <Compile Include="Games\YokaiRyokan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="REMO\Collections.cs" />
     <Compile Include="REMO\Editors.cs" />

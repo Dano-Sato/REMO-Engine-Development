@@ -314,6 +314,19 @@ namespace REMOEngine
             }
         }
 
+        public string ParseLine(string tag, string Line) // 특정 태그에 해당하는 라인을 추출합니다.
+        {
+            string[] Statements = Line.Split(Embracer[0]);
+            for (int i = 1; i < Statements.Length; i++)
+            {
+                string[] ParsedLine = Statements[i].Split(Embracer[1]);
+                string Tag = FormatTag(ParsedLine[0]);
+                if (FormatTag(tag) == Tag)
+                    return ParsedLine[1];
+            }
+            return "Error : exact tag doesn't exist.";
+        }
+
         public void ReadTxt(string DirName, string FileName) // 특정 텍스트파일 전체의 내용을 읽어 명령을 실행합니다.
         {
             string[] s = TxtEditor.ReadAllLines(DirName, FileName);
