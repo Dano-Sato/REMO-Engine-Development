@@ -20,7 +20,7 @@ namespace Yokai
 {
     public static class ScripterScene
     {
-        public static TLReader ScriptReader = new TLReader();
+        public static Scripter ScriptReader = new Scripter();
         public static int line = 0;
         public static string[] Scripts = TxtEditor.ReadAllLines("Scripts", "Tutorial");
         public static string currentString="";
@@ -115,6 +115,24 @@ namespace Yokai
             Cursor.Draw(Color.White);
 
         });
+    }
+
+    public static class Commands
+    {
 
     }
+
+
+    public class Ingredient
+    {
+        public int Code { get; set;}        
+        public string Name { get; set; }
+
+        public List<string> Buffs;
+
+
+
+       
+    }
+
 }

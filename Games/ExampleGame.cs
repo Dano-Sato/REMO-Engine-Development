@@ -74,7 +74,7 @@ namespace Games
 
         }, () =>
         {
-            StandAlone.DrawString(TLReader.FormatTag("test test test"), new REMOPoint(300, 300), Color.White);
+            StandAlone.DrawString(Scripter.FormatTag("test test test"), new REMOPoint(300, 300), Color.White);
         });
     }
 

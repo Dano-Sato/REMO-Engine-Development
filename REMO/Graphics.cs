@@ -113,7 +113,7 @@ namespace REMOEngine
 
         //Animation 처리.
 
-        private class ALReader : TLReader // ALReader는 커스텀 룰이 적용된 TLReader입니다. Animation Language Reader입니다. Animation에 필요한 Tag Language를 분석합니다.
+        private class ALReader : Scripter // ALReader는 커스텀 룰이 적용된 TLReader입니다. Animation Language Reader입니다. Animation에 필요한 Tag Language를 분석합니다.
         {
             public bool isLooped = false;
             public List<string> IndicationList = new List<string>();
@@ -125,12 +125,12 @@ namespace REMOEngine
                 AddRule("Loop", (s) =>
                 {
                     isLooped = true;
-                    IndicationList = TLReader.Parse(s, "->").ToList();
+                    IndicationList = Scripter.Parse(s, "->").ToList();
                 });
                 AddRule("ReadOnce", (s) =>
                 {
                     isLooped = false;
-                    IndicationList = TLReader.Parse(s, "->").ToList();
+                    IndicationList = Scripter.Parse(s, "->").ToList();
                 });
             }
         }

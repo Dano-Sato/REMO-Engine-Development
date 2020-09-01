@@ -24,7 +24,7 @@ namespace REMOEngine
     public static class TestScene2_Disposed
     {
 
-        public class CustomTLReader : TLReader
+        public class CustomTLReader : Scripter
         {
             public CustomTLReader() : base()
             {

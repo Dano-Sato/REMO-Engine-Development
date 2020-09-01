@@ -266,9 +266,9 @@ namespace REMOEngine
 
 
 
-    public class TLReader
+    public class Scripter
     {
-        // 매우 간단한 TL(Tag Language)을 읽어들이는 리더기입니다.
+        // 매우 간단한 스크립트 언어를 컴파일합니다.
         // 문법은 <Tag>Statement로 작동합니다. Tag는 Statement에 대한 Action을 대응하기 위한 키워드입니다. 액션은 직접 지정하여 사용할 수 있습니다.
         // 예시 1 : <Tag1>State1<Tag2>State2<Tag3>State3
         // 예시 2 : <CharaName> Gin <Talk> Why don't you leave the place?
@@ -281,12 +281,12 @@ namespace REMOEngine
 
         public string Embracer="<>";//태그언어의 태그를 구분하는 Embracer입니다. <>, {},(),[]등 다양한 Embracer를 채택하는 것이 가능합니다.
 
-        public TLReader()
+        public Scripter()
         {
         }
 
 
-        public TLReader(Dictionary<string, Action<string>> rules)
+        public Scripter(Dictionary<string, Action<string>> rules)
         {
             foreach (string rule in rules.Keys.ToList())
             {
@@ -326,6 +326,25 @@ namespace REMOEngine
             }
             return "Error : exact tag doesn't exist.";
         }
+        /// <summary>
+        /// 태그-라인 순서쌍을 입력받으면 그것으로 스크립트를 생성합니다.
+        /// 예시 : (Test,001), (Test2,ssi) -> <Test>001<Test2>ssi
+        /// </summary>
+        /// <param name="TagLinePairs"></param>
+        /// <returns></returns>
+        public static string BuildLine(Dictionary<string,string> TagLinePairs)
+        {
+            StringBuilder s = new StringBuilder();
+            foreach(string tag in TagLinePairs.Keys)
+            {
+                s.Append("<" + tag + ">");
+                s.Append(TagLinePairs[tag]);
+            }
+
+            return s.ToString();
+
+        }
+
 
         public void ReadTxt(string DirName, string FileName) // 특정 텍스트파일 전체의 내용을 읽어 명령을 실행합니다.
         {
