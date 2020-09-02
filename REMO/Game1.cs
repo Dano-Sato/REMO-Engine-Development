@@ -261,7 +261,7 @@ namespace REMOEngine
         protected void CustomInit()
         {
             StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
-            GAMEOPTION.Build(Yokai.ScripterScene.scn);
+            GAMEOPTION.Build(Yokai.Test_Scripter.scn);
         }
 
         protected void CustomUpdate()

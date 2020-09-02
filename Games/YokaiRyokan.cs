@@ -128,11 +128,52 @@ namespace Yokai
         public int Code { get; set;}        
         public string Name { get; set; }
 
+        public int Freshness { get; set; }
         public List<string> Buffs;
 
 
+        public Ingredient(int code, params string[] buffs)
+        {
+            Code = code;
+            Name = "Default";
+            Freshness = 100;
+            Buffs = buffs.ToList();
+        }
 
-       
+        public string ToScript()
+        {
+            Dictionary<string, string> Builder = new Dictionary<string, string>();
+            Builder.Add("Code", Code.ToString());
+            Builder.Add("Name", Name.ToString());
+            Builder.Add("Freshness", Freshness.ToString());
+            StringBuilder buffstring = new StringBuilder();
+            for(int i=0;i<Buffs.Count;i++)
+            {
+                buffstring.Append(Buffs[i]);
+                if (i != Buffs.Count - 1)
+                    buffstring.Append("%%");
+            }
+            Builder.Add("Buff", buffstring.ToString());
+            Builder.Add("End", String.Empty);
+         
+            return Scripter.BuildLine(Builder);
+        }       
     }
 
+    public static class Test_Scripter
+    {
+        public static Ingredient testIngredient = new Ingredient(1, "SClass","Fermented");
+        public static Scene scn = new Scene(() =>
+        {
+        }, () =>
+        {            
+
+        }, () =>
+        {
+            StandAlone.DrawString(testIngredient.ToScript(), new REMOPoint(200, 200), Color.White);
+
+
+        });
+
+    }
 }

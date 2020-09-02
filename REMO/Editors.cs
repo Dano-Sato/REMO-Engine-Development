@@ -340,7 +340,6 @@ namespace REMOEngine
                 s.Append("<" + tag + ">");
                 s.Append(TagLinePairs[tag]);
             }
-
             return s.ToString();
 
         }

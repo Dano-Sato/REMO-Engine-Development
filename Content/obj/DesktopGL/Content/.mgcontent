@@ -4,10 +4,10 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>R:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.Cursor.png</File>
-    <File>R:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.DefaultFont.spritefont</File>
-    <File>R:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.Light.png</File>
-    <File>R:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.WhiteSpace.png</File>
+    <File>T:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.Cursor.png</File>
+    <File>T:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.DefaultFont.spritefont</File>
+    <File>T:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.Light.png</File>
+    <File>T:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.WhiteSpace.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
