@@ -477,6 +477,20 @@ namespace FlickerGame
 
     public static class PauseScene
     {
+        public static SimpleMenu PauseMenus = new SimpleMenu(30, new REMOPoint(100, 100), new REMOPoint(0, 70),
+            new string[] { "Restart", "Go to main menu" },
+            () =>
+            {
+                if (Projectors.Projector.Loaded(FlickerGame.scn))
+                    Projectors.Projector.SwapTo(FlickerGame.scn);
+                if (Projectors.Projector.Loaded(TutorialScene.scn))
+                    Projectors.Projector.SwapTo(TutorialScene.scn);
+            },
+            ()=>
+            {
+                Projectors.Projector.SwapTo(MainScene.scn);
+            }
+            );
         public static GfxStr Menu1 = new GfxStr(30, "Restart", new REMOPoint(100, 100));
         public static GfxStr Menu2 = new GfxStr(30, "Go to main menu", new REMOPoint(100, 170));
 
@@ -492,28 +506,12 @@ namespace FlickerGame
                 Projectors.Projector.ResumeAll();
                 MusicBox.PlaySong("SummerNight");
             }
-            if(User.JustLeftClicked(Menu1))
-            {
-                if(Projectors.Projector.Loaded(FlickerGame.scn))
-                    Projectors.Projector.SwapTo(FlickerGame.scn);
-                if (Projectors.Projector.Loaded(TutorialScene.scn))
-                    Projectors.Projector.SwapTo(TutorialScene.scn);
-            }
-            if (User.JustLeftClicked(Menu2))
-            {
-                Projectors.Projector.SwapTo(MainScene.scn);
-            }
-
+            PauseMenus.Update();
         }, () =>
         {
             Filter.Absolute(StandAlone.FullScreen, Color.Black * 0.6f);
-            Menu1.Draw(Color.White);
-            if (Menu1.ContainsCursor())
-                Menu1.Draw(Color.Red);
-            Menu2.Draw(Color.White);
-            if (Menu2.ContainsCursor())
-                Menu2.Draw(Color.Red);
-
+            PauseMenus.Draw(Color.White);
+        
             Cursor.Draw(Color.White);
         });
     }
@@ -521,6 +519,26 @@ namespace FlickerGame
     public static class MainScene
     {
         public static Gfx2D BigSquare = new Gfx2D(new Rectangle(0, 0, 800, 800));
+
+        public static SimpleMenu MainMenus = new SimpleMenu(20, new REMOPoint(800, 200), new REMOPoint(0, 60),
+            new string[] { "New Game", "Tutorial", "Exit" },
+            () =>
+            {
+                Projectors.Projector.SwapTo(FlickerGame.scn);
+            },         
+            () =>
+            {
+                Projectors.Projector.SwapTo(TutorialScene.scn);
+            }
+            ,
+            () =>
+            {
+                Game1.GameExit = true;
+            }
+            
+            );
+
+
         public static GfxStr Menu1 = new GfxStr(20, "New Game", new REMOPoint(800, 200));
         public static GfxStr Menu2 = new GfxStr(20, "Exit", new REMOPoint(800, 320));
         public static GfxStr Menu3 = new GfxStr(20, "Tutorial", new REMOPoint(800, 260));
@@ -534,18 +552,7 @@ namespace FlickerGame
         }, () =>
         {
             BigSquare.Rotate += 0.01f;
-            if(User.JustLeftClicked(Menu1))
-            {
-                Projectors.Projector.SwapTo(FlickerGame.scn);
-            }
-            if(User.JustLeftClicked(Menu2))
-            {
-                Game1.GameExit = true;
-            }
-            if (User.JustLeftClicked(Menu3))
-            {
-                Projectors.Projector.SwapTo(TutorialScene.scn);
-            }
+            MainMenus.Update();
 
         }, () =>
         {
@@ -554,16 +561,7 @@ namespace FlickerGame
             BigSquare.Draw(Color.Black, Color.White*Fader.Flicker(300));
             StandAlone.DrawString(40, "Flicker", new REMOPoint(200, 100), Color.White);
             StandAlone.DrawString(40, "Flicker", new REMOPoint(200, 100), Color.Black*Fader.Flicker(300));
-            Menu1.Draw(Color.Black, Color.White*Fader.Flicker(300));
-            if(Menu1.ContainsCursor())
-                Menu1.Draw(Color.Red);
-            Menu2.Draw(Color.Black, Color.White * Fader.Flicker(300));
-            if (Menu2.ContainsCursor())
-                Menu2.Draw(Color.Red);
-            Menu3.Draw(Color.Black, Color.White * Fader.Flicker(300));
-            if (Menu3.ContainsCursor())
-                Menu3.Draw(Color.Red);
-
+            MainMenus.Draw(Color.Black, Color.White * Fader.Flicker(300));
 
             if (BigSquare.RContains(Cursor.Pos))
             {

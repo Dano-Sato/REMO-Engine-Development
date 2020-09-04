@@ -287,6 +287,12 @@ namespace REMOEngine
         public REMOPoint Pos { get { return ButtonGraphic.Pos; }
             set { ButtonGraphic.Pos = value; } }
 
+        public Rectangle Bound
+        {
+            get { return ButtonGraphic.Bound; }
+            set { ButtonGraphic.Bound = value; }
+        }
+
         public Button(Gfx g, Action a)
         {
             ButtonGraphic = g;
@@ -295,7 +301,7 @@ namespace REMOEngine
 
         public void Enable()
         {
-            if (ButtonGraphic.ContainsCursor() && User.JustLeftClicked())
+            if (User.JustLeftClicked(ButtonGraphic))
             {
                 ButtonClickAction();
             }
@@ -304,24 +310,53 @@ namespace REMOEngine
         public void Draw() => ButtonGraphic.Draw();
         public void Draw(Color c) => ButtonGraphic.Draw(c);
 
-        public void Draw(Color color, Color AccentColor)
-        {
-            if (ButtonGraphic.ContainsCursor())
-                ButtonGraphic.Draw(AccentColor);
-            else
-                ButtonGraphic.Draw(color);
-        }
         public void RegisterDrawAct(Action a) => ButtonGraphic.RegisterDrawAct(a);
 
         public void MoveTo(REMOPoint p) => ButtonGraphic.MoveTo(p);
         public void MoveTo(REMOPoint p, double speed) => ButtonGraphic.MoveTo(p, speed);
         public void MoveByVector(REMOPoint p, double v) => ButtonGraphic.MoveByVector(p, v);
+    }
 
-
-
-
-
-
+    public class SimpleMenu
+    {
+        public Aligned<Button> Menus;
+        public Color AccentColor = Color.Red;
+        public SimpleMenu(int fontsize, REMOPoint pos, REMOPoint interval, string[] MenuNames, params Action[] MenuActions)
+        {
+            Menus = new Aligned<Button>(pos, interval);
+            for(int i=0;i<MenuNames.Length; i++)
+            {
+                Button menu = new Button(new GfxStr(fontsize, MenuNames[i]), MenuActions[i]);
+                Menus.Add(menu);
+            }
+            Menus.Align();
+        }
+        
+        public void Update()
+        {
+            Menus.Align();
+            foreach(Button menu in Menus.Components)
+            {
+                menu.Enable();
+            }
+        }
+        public void Draw(params Color[] cs)
+        {
+            foreach(Button menu in Menus.Components)
+            {
+                if(!menu.Bound.Contains(Cursor.Pos.ToPoint()))
+                {
+                    foreach (Color c in cs)
+                    {
+                        menu.Draw(c);
+                    }
+                }
+                else
+                {
+                    menu.Draw(AccentColor);
+                }
+            }
+        }
     }
 
 }

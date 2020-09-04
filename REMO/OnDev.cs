@@ -244,14 +244,6 @@ namespace REMOEngine
     
     }
 
-    public class SimpleStringMenu
-    {
-        Aligned<Gfx> Components = new Aligned<Gfx>();
-
-
-    
-    
-    }
 
 
 
