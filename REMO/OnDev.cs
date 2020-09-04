@@ -181,6 +181,13 @@ namespace REMOEngine
 
         public static Gfx2D sqr = new Gfx2D(new Rectangle(200, 200, 50, 50));
 
+        public static void TestAction(params Action[] actions)
+        {
+            foreach (Action a in actions)
+                a();
+        }
+
+       
 
 
 

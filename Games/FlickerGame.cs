@@ -991,6 +991,14 @@ namespace FlickerGame
 
 
 
+                //잔상 이동
+                foreach (Color c in Fader.FadeAnimations.Keys)
+                {
+                    foreach (Gfx g in Fader.FadeAnimations[c].Keys)
+                    {
+                        g.MoveByVector(new Point(-1, 0), 10);
+                    }
+                }
 
                 //Tutorial
 
@@ -1082,13 +1090,7 @@ namespace FlickerGame
                     Fader.Add(new Gfx2D(Player.Bound), 15, StarColor * 0.4f);
                 }
 
-                foreach (Color c in Fader.FadeAnimations.Keys)
-                {
-                    foreach (Gfx g in Fader.FadeAnimations[c].Keys)
-                    {
-                        g.MoveByVector(new Point(-1, 0), 10);
-                    }
-                }
+             
                 Fader.DrawAll();
                 if (Damagechecker > 0)
                 {
@@ -1111,6 +1113,9 @@ namespace FlickerGame
 
                 if(TutorialState<5||StandAlone.FrameTimer<1000)
                     Description.Draw(Color.White);
+
+                if (TutorialState == 1)
+                    StandAlone.DrawString(20, "Air Jump :" + Math.Max(0, jumpcount - 1), new REMOPoint(450, 180), Color.White);
                 
             });
 
