@@ -13,7 +13,8 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
-
+using REMOEngine;
+using System.Security.Cryptography.X509Certificates;
 
 namespace REMOEngine
 {
@@ -205,37 +206,7 @@ namespace REMOEngine
     }
 
 
-    public class Button // 그래픽스에 클릭액션이 달린 구조. Clickable 인터페이스를 만들고 폐기할 예정입니다.
-    {
-        public Gfx ButtonGraphic;
-        public Action ButtonClickAction;
-
-        public Button(Gfx g, Action a)
-        {
-            ButtonGraphic = g;
-            ButtonClickAction = a;
-        }
-
-        public void Enable()
-        {
-            if (ButtonGraphic.ContainsCursor() && User.JustLeftClicked())
-            {
-                ButtonClickAction();
-            }
-        }
-
-        public void Draw(Color c) => ButtonGraphic.Draw(c);
-
-        public void Draw(Color color, Color AccentColor)
-        {
-            if (ButtonGraphic.ContainsCursor())
-                ButtonGraphic.Draw(AccentColor);
-            else
-                ButtonGraphic.Draw(color);
-        }
-
-
-    }
+    
 
     public class VolumeBar
     {
@@ -305,15 +276,52 @@ namespace REMOEngine
             Coefficient = initCoefficient;
             Wheel.Pos = new REMOPoint((int)((1.0f - Coefficient) * Interval + Line.Pos.X), 0);
         }
+    }
+
+
+    public class Button : IMovable, IDrawable, IBoundable // 그래픽스에 클릭액션이 달린 구조. Clickable 인터페이스를 만들고 폐기할 예정입니다.
+    {
+        public Gfx ButtonGraphic;
+        public Action ButtonClickAction;
+
+        public REMOPoint Pos { get { return ButtonGraphic.Pos; }
+            set { ButtonGraphic.Pos = value; } }
+
+        public Button(Gfx g, Action a)
+        {
+            ButtonGraphic = g;
+            ButtonClickAction = a;
+        }
+
+        public void Enable()
+        {
+            if (ButtonGraphic.ContainsCursor() && User.JustLeftClicked())
+            {
+                ButtonClickAction();
+            }
+        }
+
+        public void Draw() => ButtonGraphic.Draw();
+        public void Draw(Color c) => ButtonGraphic.Draw(c);
+
+        public void Draw(Color color, Color AccentColor)
+        {
+            if (ButtonGraphic.ContainsCursor())
+                ButtonGraphic.Draw(AccentColor);
+            else
+                ButtonGraphic.Draw(color);
+        }
+        public void RegisterDrawAct(Action a) => ButtonGraphic.RegisterDrawAct(a);
+
+        public void MoveTo(REMOPoint p) => ButtonGraphic.MoveTo(p);
+        public void MoveTo(REMOPoint p, double speed) => ButtonGraphic.MoveTo(p, speed);
+        public void MoveByVector(REMOPoint p, double v) => ButtonGraphic.MoveByVector(p, v);
+
 
 
 
 
 
     }
-
-
-
-
 
 }

@@ -187,7 +187,6 @@ namespace REMOEngine
                 a();
         }
 
-       
 
 
 
@@ -219,6 +218,7 @@ namespace REMOEngine
                 {
                     sqr.Zoom(sqr.Center, 0.9f);
                 }
+                TestAction(() => { }, () => { }, () => { });
 
 
 
@@ -244,6 +244,14 @@ namespace REMOEngine
     
     }
 
+    public class SimpleStringMenu
+    {
+        Aligned<Gfx> Components = new Aligned<Gfx>();
+
+
+    
+    
+    }
 
 
 
