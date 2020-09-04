@@ -57,7 +57,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Games\CrazySparklingSquareGame.cs" />
+    <Compile Include="Games\FlickerGame.cs" />
     <Compile Include="Games\ExampleGame.cs" />
     <Compile Include="Games\Mahjong.cs" />
     <Compile Include="Games\YokaiRyokan.cs" />

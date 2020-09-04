@@ -193,6 +193,18 @@ namespace REMOEngine
             Text = text;
             Bound = new Rectangle(pos, Texture.MeasureString(Text).ToPoint());
         }
+        public GfxStr(int fontSize, string text) : this(fontSize, text, Point.Zero)
+        {
+        }
+
+        public GfxStr(int fontSize, string text, REMOPoint pos)
+        {
+            FontSize = fontSize;
+            Texture = Game1.content.Load<SpriteFont>("DefaultFont");
+            Text = text;
+            Bound = new Rectangle(pos, Texture.MeasureString(Text).ToPoint());
+        }
+
 
         public GfxStr(string font, string text) : this(font, text, REMOPoint.Zero) { }
         public GfxStr(string font, string text, REMOPoint pos)

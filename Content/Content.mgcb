@@ -13,6 +13,30 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin FLICK.Journey.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:FLICK.Journey.wav
+
+#begin FLICK.SE.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:FLICK.SE.wav
+
+#begin FLICK.SE2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:FLICK.SE2.wav
+
+#begin FLICK.SummerNight.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:FLICK.SummerNight.wav
+
 #begin REMO.Cursor.png
 /importer:TextureImporter
 /processor:TextureProcessor

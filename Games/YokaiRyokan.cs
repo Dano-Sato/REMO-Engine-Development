@@ -140,6 +140,14 @@ namespace Yokai
             Buffs = buffs.ToList();
         }
 
+        public Ingredient(Ingredient another)
+        {
+            Code = another.Code;
+            Name = another.Name;
+            Freshness = another.Freshness;
+            Buffs = another.Buffs;
+        }
+
         public string ToScript()
         {
             Dictionary<string, string> Builder = new Dictionary<string, string>();

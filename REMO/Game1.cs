@@ -14,6 +14,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
+using Games;
 
 namespace REMOEngine
 {
@@ -261,7 +262,7 @@ namespace REMOEngine
         protected void CustomInit()
         {
             StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
-            GAMEOPTION.Build(Yokai.Test_Scripter.scn);
+            GAMEOPTION.Build("FLICK",FlickerGame.MainScene.scn);
         }
 
         protected void CustomUpdate()
