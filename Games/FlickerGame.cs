@@ -1125,23 +1125,124 @@ namespace FlickerGame
         public List<Gfx2D> Enemies = new List<Gfx2D>();
         public Action MoveAction;
         public Action IntersectAction;
+        public int Atk;
 
         public void Update()
         {
+            //Intersect Action
             for (int i = 0; i < Enemies.Count; i++)
             {
-                /*
-                if (Rectangle.Intersect(Enemies[i].Bound, Player.Bound) != Rectangle.Empty && CurrentEnemy != Enemies[i])//적과 부딪치면 hp가 답니다. 충돌판정
+                MoveAction();
+                if (Rectangle.Intersect(Enemies[i].Bound, PlayerClass.Player.Bound) != Rectangle.Empty && PlayerClass.CurrentEnemy != Enemies[i])//적과 부딪치면 hp가 답니다. 충돌판정
                 {
-                    CurrentEnemy = Enemies[i];
-                    player_hp -= Atk + DamageCoefficient;
-                    Damagechecker = DamagecheckerMax;
-                    DamageColor = Color.Red;
-                }*/
+                    //Example
+                    /*
+                    PlayerClass.CurrentEnemy = Enemies[i];
+                    PlayerClass.player_hp -= Atk + DamageCoefficient;
+                    PlayerClass.Damagechecker = PlayerClass.DamagecheckerMax;
+                    PlayerClass.DamageColor = Color.Red;
+                    */
+                    IntersectAction();
+                }
             }
         }
+    }
+
+    public static class PlayerClass
+    {
+        public static Gfx2D Player = new Gfx2D(new Rectangle(200, 250, 40, 40));
+        public static Gfx2D Ground = new Gfx2D(new Rectangle(0, 390, 1400, 500));
+        public static readonly int PlayerHpMax = 3000;
+        public static int player_hp = PlayerHpMax;
+
+        public static Gfx CurrentEnemy;
+        public static int Damagechecker = 0;
+        public static int DamagecheckerMax = 30;
+        public static Color DamageColor = Color.Red;
+
+        public static Vector2 v = new Vector2(0, -1f);//물체속도
+        public static Vector2 g = new Vector2(0, 1f);//중력 가속도
+
+        public static int jumpcount = 0;
+        public static int LongjumpMax = 2;
+        public static int JumpMax = 5;
+
+        public static int Starchecker = 0;
+
+
+        public static void Update()
+        {
+
+
+            //Process Movement
+             
+            Player.Pos += v.ToPoint();
+            v += g;//The object affected by gravity.
+
+            if (User.JustPressed(Keys.Space) || User.JustPressed(Keys.Up))
+            {
+                if (jumpcount < LongjumpMax + 1)
+                {
+                    v = new Vector2(0, -14);
+                    jumpcount += 1;
+                }
+                else if (jumpcount > LongjumpMax && jumpcount < JumpMax)
+                {
+                    v = new Vector2(0, -10);
+                    jumpcount += 1;
+                }
+            }
+
+            if (User.Pressing(Keys.Down))
+            {
+                v = new Vector2(0, 20);
+            }
+
+
+            //Under the ground problem
+            if (Player.Pos.Y > Ground.Pos.Y - Player.Bound.Height)
+            {
+                Player.Pos = new Point(Player.Pos.X, Ground.Pos.Y - Player.Bound.Height);
+                jumpcount = 0;
+            }
+
+
+        }
+
+        public static void Draw()
+        {
+            Player.Draw(Color.White);
+
+
+            //Afterimage effect
+            Color FadeColor = Color.White * 0.4f;
+            if (Starchecker == 0)
+                Fader.Add(new Gfx2D(Player.Bound), (5 - jumpcount) * 5, FadeColor);
+
+            if (Starchecker > 0)
+            {
+                Color StarColor = StandAlone.RandomPick(InGameInterface.StarColors);
+                Player.Draw(StarColor);
+                Fader.Add(new Gfx2D(Player.Bound), 15, StarColor * 0.4f);
+            }
+
+            //Damage Effect
+            if (Damagechecker > 0)
+            {
+                Player.Draw(Color.White);
+                Player.Draw(DamageColor * (Damagechecker / (float)DamagecheckerMax));
+            }
+
+        }
+    }
+
+    public static class InGameInterface
+    {
+        public static List<Color> StarColors = new List<Color>(new Color[] { Color.DeepPink, Color.Yellow, Color.Blue, Color.DarkRed, Color.LightPink, Color.LightYellow, Color.BlueViolet, Color.Aqua, Color.DarkCyan, Color.Magenta });
+
 
     }
+
 
 
 }
