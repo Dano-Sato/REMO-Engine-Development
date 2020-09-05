@@ -491,9 +491,7 @@ namespace FlickerGame
                 Projectors.Projector.SwapTo(MainScene.scn);
             }
             );
-        public static GfxStr Menu1 = new GfxStr(30, "Restart", new REMOPoint(100, 100));
-        public static GfxStr Menu2 = new GfxStr(30, "Go to main menu", new REMOPoint(100, 170));
-
+        
         public static Scene scn = new Scene(() =>
         {
             MusicBox.StopSong();
@@ -537,12 +535,6 @@ namespace FlickerGame
             }
             
             );
-
-
-        public static GfxStr Menu1 = new GfxStr(20, "New Game", new REMOPoint(800, 200));
-        public static GfxStr Menu2 = new GfxStr(20, "Exit", new REMOPoint(800, 320));
-        public static GfxStr Menu3 = new GfxStr(20, "Tutorial", new REMOPoint(800, 260));
-
         public static Scene scn = new Scene(() =>
         {
             MusicBox.Mode = MusicBoxMode.FadeOut;
@@ -1116,6 +1108,24 @@ namespace FlickerGame
                     StandAlone.DrawString(20, "Air Jump :" + Math.Max(0, jumpcount - 1), new REMOPoint(450, 180), Color.White);
                 
             });
+    }
 
+    public static class ScoreBoard
+    {
+        public static List<Tuple<string, int>> ScoreSet = new List<Tuple<string, int>>();
+        public static Scripter ScoreReader = new Scripter();
+        private static string _name;
+        private static int _score;
+
+        public static void Init()
+        {
+            TxtEditor.MakeTextFile("Data", "Score");
+            ScoreReader.AddRule("Name", (s) => { _name = s; });
+            ScoreReader.AddRule("Score", (s) => 
+            { 
+                _score = Int32.Parse(s);
+                ScoreSet.Add(new Tuple<string, int>(_name, _score));           
+            });
+        }
     }
 }
