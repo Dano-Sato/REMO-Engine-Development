@@ -171,15 +171,17 @@ namespace Yokai
     public static class Test_Scripter
     {
         public static Ingredient testIngredient = new Ingredient(1, "SClass","Fermented");
+        public static Gfx2D testCG;
         public static Scene scn = new Scene(() =>
         {
+            testCG = new Gfx2D("testCG", new REMOPoint(800, 0), 0.8f);
         }, () =>
         {            
 
         }, () =>
         {
             StandAlone.DrawString(testIngredient.ToScript(), new REMOPoint(200, 200), Color.White);
-
+            testCG.Draw();
 
         });
 

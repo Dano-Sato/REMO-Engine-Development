@@ -33,7 +33,6 @@ namespace FlickerGame
         public static List<Gfx> upEnemies = new List<Gfx>();
         public static List<Gfx> bigEnemies = new List<Gfx>();
         public static int jumpcount = 0;
-        public static int GameOverTimer = 0;
         public static int starTimer = 300;
 
         public static int Score = 0;
@@ -89,7 +88,6 @@ namespace FlickerGame
             bigEnemies.Clear();
             jumpcount = 0;
             healstack = 0;
-            GameOverTimer = 0;
             Score = 0;
             starTimer = 300;
             player_hp = PlayerHpMax;
@@ -105,8 +103,6 @@ namespace FlickerGame
         },
             () =>
             {
-                if (GameOverTimer > 0)
-                    GameOverTimer--;
                 MoveSquare();//square moves by velocity vector.
                 v += g;//The object affected by gravity.
 
@@ -397,19 +393,19 @@ namespace FlickerGame
                 }
 
                 for (int i = 0; i < Enemies.Count; i++)
-                    Enemies[i].Draw(Color.White, Color.Red * GameOverTimer * 0.1f);
+                    Enemies[i].Draw(Color.White);
 
                 for (int i = 0; i < sinEnemies.Count; i++)
-                    sinEnemies[i].Draw(Color.White, Color.Red * GameOverTimer * 0.1f);
+                    sinEnemies[i].Draw(Color.White);
 
                 for (int i = 0; i < HealEnemies.Count; i++)
-                    HealEnemies[i].Draw(Color.Yellow, Color.Red * GameOverTimer * 0.1f);
+                    HealEnemies[i].Draw(Color.Yellow);
                  
                 for (int i = 0; i < floorEnemies.Count; i++)
-                    floorEnemies[i].Draw(Color.White, Color.Red * GameOverTimer * 0.1f);
+                    floorEnemies[i].Draw(Color.White);
 
                 for (int i = 0; i < bigEnemies.Count; i++)
-                    bigEnemies[i].Draw(Color.White, Color.Red * GameOverTimer * 0.1f);
+                    bigEnemies[i].Draw(Color.White);
 
 
 
@@ -583,7 +579,6 @@ namespace FlickerGame
         public static List<Gfx> upEnemies = new List<Gfx>();
         public static List<Gfx> bigEnemies = new List<Gfx>();
         public static int jumpcount = 0;
-        public static int GameOverTimer = 0;
         public static int starTimer = 300;
 
         public static int Score = 0;
@@ -673,7 +668,6 @@ namespace FlickerGame
             bigEnemies.Clear();
             jumpcount = 0;
             healstack = 0;
-            GameOverTimer = 0;
             Score = 0;
             starTimer = 300;
             player_hp = PlayerHpMax;
@@ -691,8 +685,6 @@ namespace FlickerGame
         },
             () =>
             {
-                if (GameOverTimer > 0)
-                    GameOverTimer--;
                 MoveSquare();//square moves by velocity vector.
                 v += g;//The object affected by gravity.
 
@@ -789,7 +781,6 @@ namespace FlickerGame
                         HealEnemies.RemoveAt(i);
                         i--;
                     }
-
                 }
 
                 for (int i = 0; i < Enemies.Count; i++)
@@ -1011,7 +1002,6 @@ namespace FlickerGame
                     bigEnemies.Clear();
                     jumpcount = 0;
                     healstack = 0;
-                    GameOverTimer = 0;
                     Score = 0;
                     starTimer = 300;
                     player_hp = PlayerHpMax;
@@ -1048,19 +1038,19 @@ namespace FlickerGame
                 }
 
                 for (int i = 0; i < Enemies.Count; i++)
-                    Enemies[i].Draw(Color.White, Color.Red * GameOverTimer * 0.1f);
+                    Enemies[i].Draw(Color.White);
 
                 for (int i = 0; i < sinEnemies.Count; i++)
-                    sinEnemies[i].Draw(Color.White, Color.Red * GameOverTimer * 0.1f);
+                    sinEnemies[i].Draw(Color.White);
 
                 for (int i = 0; i < HealEnemies.Count; i++)
-                    HealEnemies[i].Draw(Color.Yellow, Color.Red * GameOverTimer * 0.1f);
+                    HealEnemies[i].Draw(Color.Yellow);
 
                 for (int i = 0; i < floorEnemies.Count; i++)
-                    floorEnemies[i].Draw(Color.White, Color.Red * GameOverTimer * 0.1f);
+                    floorEnemies[i].Draw(Color.White);
 
                 for (int i = 0; i < bigEnemies.Count; i++)
-                    bigEnemies[i].Draw(Color.White, Color.Red * GameOverTimer * 0.1f);
+                    bigEnemies[i].Draw(Color.White);
 
 
 
@@ -1128,4 +1118,30 @@ namespace FlickerGame
             });
         }
     }
+
+
+    public class EnemySet
+    {
+        public List<Gfx2D> Enemies = new List<Gfx2D>();
+        public Action MoveAction;
+        public Action IntersectAction;
+
+        public void Update()
+        {
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                /*
+                if (Rectangle.Intersect(Enemies[i].Bound, Player.Bound) != Rectangle.Empty && CurrentEnemy != Enemies[i])//적과 부딪치면 hp가 답니다. 충돌판정
+                {
+                    CurrentEnemy = Enemies[i];
+                    player_hp -= Atk + DamageCoefficient;
+                    Damagechecker = DamagecheckerMax;
+                    DamageColor = Color.Red;
+                }*/
+            }
+        }
+
+    }
+
+
 }
