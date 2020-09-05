@@ -45,8 +45,6 @@ namespace FlickerGame
         public static int Atk = 400;
         public static int Heal = 300;
 
-        public static Dictionary<Gfx, int> Enemyatk = new Dictionary<Gfx, int>();//EnemyHPs.Add(Enemies[i],5);
-
         public static int CoolTime = 0;
         public static int HpCoolTime = 0;
         public static int sinCoolTime = 0;
@@ -591,7 +589,6 @@ namespace FlickerGame
         public static int Atk = 400;
         public static int Heal = 300;
 
-        public static Dictionary<Gfx, int> Enemyatk = new Dictionary<Gfx, int>();//EnemyHPs.Add(Enemies[i],5);
 
         public static int CoolTime = 0;
         public static int HpCoolTime = 0;
@@ -1123,29 +1120,68 @@ namespace FlickerGame
     public class EnemySet
     {
         public List<Gfx2D> Enemies = new List<Gfx2D>();
-        public Action MoveAction;
-        public Action IntersectAction;
-        public int Atk;
+        public Action<int> MoveAction;
+        public Action<int> IntersectAction;
+        public Action GenAction;
+        public static readonly int Atk=400;
+        public int GenTimer = 0;
+
+        public EnemySet(Action<int> moveAction, Action<int> intersectAction, Action genAction)
+        {
+            MoveAction = moveAction;
+            IntersectAction = intersectAction;
+            GenAction = genAction;
+        }
 
         public void Update()
         {
+            if (GenTimer > 0)
+                GenTimer--;
+            else
+            {
+                GenAction();
+            }
+
             //Intersect Action
             for (int i = 0; i < Enemies.Count; i++)
             {
-                MoveAction();
+                MoveAction(i);
                 if (Rectangle.Intersect(Enemies[i].Bound, PlayerClass.Player.Bound) != Rectangle.Empty && PlayerClass.CurrentEnemy != Enemies[i])//적과 부딪치면 hp가 답니다. 충돌판정
                 {
-                    //Example
-                    /*
-                    PlayerClass.CurrentEnemy = Enemies[i];
-                    PlayerClass.player_hp -= Atk + DamageCoefficient;
-                    PlayerClass.Damagechecker = PlayerClass.DamagecheckerMax;
-                    PlayerClass.DamageColor = Color.Red;
-                    */
-                    IntersectAction();
+                    IntersectAction(i);
+                }
+                if (Enemies[i].Pos.X < -500)
+                {
+                    Enemies.RemoveAt(i);
+                    i--;
                 }
             }
         }
+
+        public void Draw(params Color[] c)
+        {
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                Enemies[i].Draw(c);
+            }
+        }
+    }
+
+    public static class EnemyClass
+    {
+        public static EnemySet Enemies = new EnemySet((i) => {
+            Enemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 조금씩 점점 빨라집니다.
+        }, (i) => {
+            PlayerClass.CurrentEnemy = Enemies.Enemies[i];
+            PlayerClass.player_hp -= EnemySet.Atk + StandAlone.FrameTimer / 500;
+            PlayerClass.DamageTimer = PlayerClass.DamageTimerMax;
+            PlayerClass.DamageColor = Color.Red;
+        }, () => {
+            Enemies.GenTimer = StandAlone.Random(13, 25);
+            Enemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(0, 300), 30, 30))); // 적들을 생성합니다.
+        });
+        
+
     }
 
     public static class PlayerClass
@@ -1156,20 +1192,20 @@ namespace FlickerGame
         public static int player_hp = PlayerHpMax;
 
         public static Gfx CurrentEnemy;
-        public static int Damagechecker = 0;
-        public static int DamagecheckerMax = 30;
+        public static int DamageTimer = 0; // 타격을 받았을 때 빨개지는 시간을 측정하는 타이머입니다.
+        public static int DamageTimerMax = 30;
         public static Color DamageColor = Color.Red;
 
         public static Vector2 v = new Vector2(0, -1f);//물체속도
         public static Vector2 g = new Vector2(0, 1f);//중력 가속도
 
-        public static int jumpcount = 0;
-        public static int LongjumpMax = 2;
-        public static int JumpMax = 5;
+        public static int JumpCount = 0;
+        public static int LongjumpMax = 2; //처음 2회의 점프는 높게 뜁니다.
+        public static int JumpMax = 5;// 총 5회 점프 가능
 
-        public static int Starchecker = 0;
+        public static int StarTimer = 0;
 
-
+    
         public static void Update()
         {
 
@@ -1181,15 +1217,15 @@ namespace FlickerGame
 
             if (User.JustPressed(Keys.Space) || User.JustPressed(Keys.Up))
             {
-                if (jumpcount < LongjumpMax + 1)
+                if (JumpCount < LongjumpMax + 1)
                 {
                     v = new Vector2(0, -14);
-                    jumpcount += 1;
+                    JumpCount += 1;
                 }
-                else if (jumpcount > LongjumpMax && jumpcount < JumpMax)
+                else if (JumpCount > LongjumpMax && JumpCount < JumpMax)
                 {
                     v = new Vector2(0, -10);
-                    jumpcount += 1;
+                    JumpCount += 1;
                 }
             }
 
@@ -1203,8 +1239,11 @@ namespace FlickerGame
             if (Player.Pos.Y > Ground.Pos.Y - Player.Bound.Height)
             {
                 Player.Pos = new Point(Player.Pos.X, Ground.Pos.Y - Player.Bound.Height);
-                jumpcount = 0;
+                JumpCount = 0;
             }
+
+            if (DamageTimer > 0)
+                DamageTimer--;
 
 
         }
@@ -1216,10 +1255,10 @@ namespace FlickerGame
 
             //Afterimage effect
             Color FadeColor = Color.White * 0.4f;
-            if (Starchecker == 0)
-                Fader.Add(new Gfx2D(Player.Bound), (5 - jumpcount) * 5, FadeColor);
+            if (StarTimer == 0)
+                Fader.Add(new Gfx2D(Player.Bound), (5 - JumpCount) * 5, FadeColor);
 
-            if (Starchecker > 0)
+            if (StarTimer > 0)
             {
                 Color StarColor = StandAlone.RandomPick(InGameInterface.StarColors);
                 Player.Draw(StarColor);
@@ -1227,10 +1266,10 @@ namespace FlickerGame
             }
 
             //Damage Effect
-            if (Damagechecker > 0)
+            if (DamageTimer > 0)
             {
                 Player.Draw(Color.White);
-                Player.Draw(DamageColor * (Damagechecker / (float)DamagecheckerMax));
+                Player.Draw(DamageColor * (DamageTimer / (float)DamageTimerMax));
             }
 
         }
@@ -1243,6 +1282,34 @@ namespace FlickerGame
 
     }
 
+
+    public static class TestClass
+    {
+        public static Scene scn = new Scene(() =>
+        {
+            StandAlone.FrameTimer = 0;
+            StandAlone.FullScreen = new Rectangle(0, 0, 1000, 500);
+        }, () =>
+        {
+            PlayerClass.Update();
+            EnemyClass.Enemies.Update();
+            //잔상 이동
+            foreach (Color c in Fader.FadeAnimations.Keys)
+            {
+                foreach (Gfx g in Fader.FadeAnimations[c].Keys)
+                {
+                    g.MoveByVector(new Point(-1, 0), 10);
+                }
+            }
+
+        }, () =>
+        {
+            EnemyClass.Enemies.Draw(Color.White);
+            PlayerClass.Draw();
+            Fader.DrawAll();
+        });
+
+    }
 
 
 }
