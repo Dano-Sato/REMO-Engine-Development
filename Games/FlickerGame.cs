@@ -1033,21 +1033,25 @@ namespace FlickerGame
                     Filter.Absolute(StandAlone.FullScreen, Color.White * 0.2f);
                     Filter.Absolute(StandAlone.FullScreen, StandAlone.RandomPick(StarColors) * 0.2f);
                 }
+                int interval = 3000;
+                int groundNumber = (Score / interval) % StarColors.Count;
+                Color[] StageColor = new Color[] { StarColors[groundNumber], StarColors[(groundNumber + 1) % StarColors.Count] * ((float)(Score % interval) / (float)interval), Color.Black * 0.3f };
+
 
                 for (int i = 0; i < Enemies.Count; i++)
-                    Enemies[i].Draw(Color.White);
+                    Enemies[i].Draw(StageColor);
 
                 for (int i = 0; i < sinEnemies.Count; i++)
-                    sinEnemies[i].Draw(Color.White);
+                    sinEnemies[i].Draw(StageColor);
 
                 for (int i = 0; i < HealEnemies.Count; i++)
                     HealEnemies[i].Draw(Color.Yellow);
 
                 for (int i = 0; i < floorEnemies.Count; i++)
-                    floorEnemies[i].Draw(Color.White);
+                    floorEnemies[i].Draw(StageColor);
 
                 for (int i = 0; i < bigEnemies.Count; i++)
-                    bigEnemies[i].Draw(Color.White);
+                    bigEnemies[i].Draw(StageColor);
 
 
 
@@ -1074,8 +1078,6 @@ namespace FlickerGame
                     Player.Draw(Color.White);
                     Player.Draw(DamageColor * (Damagechecker / (float)DamagecheckerMax));
                 }
-                int interval = 3000;
-                int groundNumber = (Score / interval) % StarColors.Count;
                 Ground.Draw(StarColors[groundNumber], StarColors[(groundNumber + 1) % StarColors.Count] * ((float)(Score % interval) / (float)interval), Color.Black * 0.3f);
                 StarBarBG.Draw(Color.Black);
                 HpBar.Draw(Color.White);
@@ -1126,6 +1128,8 @@ namespace FlickerGame
         public static readonly int Atk=400;
         public int GenTimer = 0;
 
+        public bool RemoveEnemy = false;
+
         public EnemySet(Action<int> moveAction, Action<int> intersectAction, Action genAction)
         {
             MoveAction = moveAction;
@@ -1149,6 +1153,13 @@ namespace FlickerGame
                 if (Rectangle.Intersect(Enemies[i].Bound, PlayerClass.Player.Bound) != Rectangle.Empty && PlayerClass.CurrentEnemy != Enemies[i])//적과 부딪치면 hp가 답니다. 충돌판정
                 {
                     IntersectAction(i);
+                    if(RemoveEnemy)
+                    {
+                        Enemies.RemoveAt(i);
+                        i--;
+                        RemoveEnemy = false;
+                        continue;
+                    }
                 }
                 if (Enemies[i].Pos.X < -500)
                 {
@@ -1169,17 +1180,34 @@ namespace FlickerGame
 
     public static class EnemyClass
     {
+        public static int Heal = 300;
         public static EnemySet Enemies = new EnemySet((i) => {
             Enemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 조금씩 점점 빨라집니다.
+            Enemies.Enemies[i].Zoom(Enemies.Enemies[i].Center, 1.01f);
         }, (i) => {
             PlayerClass.CurrentEnemy = Enemies.Enemies[i];
-            PlayerClass.player_hp -= EnemySet.Atk + StandAlone.FrameTimer / 500;
+            PlayerClass.player_hp -= EnemySet.Atk + StandAlone.FrameTimer / 500;//적들은 점점 강해집니다.
             PlayerClass.DamageTimer = PlayerClass.DamageTimerMax;
             PlayerClass.DamageColor = Color.Red;
         }, () => {
-            Enemies.GenTimer = StandAlone.Random(13, 25);
+            Enemies.GenTimer = StandAlone.Random(25, 36);
             Enemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(0, 300), 30, 30))); // 적들을 생성합니다.
         });
+
+        public static EnemySet HealEnemies = new EnemySet((i) => {
+            HealEnemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 점점 빨라집니다.
+        }, (i) => {
+            PlayerClass.healstack += 1;
+            if (PlayerClass.healstack != PlayerClass.healstackMax)
+                MusicBox.PlaySE("SE2");
+            PlayerClass.player_hp += Heal;
+            HealEnemies.RemoveEnemy = true;
+        }, () => {
+            HealEnemies.GenTimer = StandAlone.Random(50, 100) + Math.Min(StandAlone.FrameTimer / 40, 120);
+            HealEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(100, 350), 20, 20))); // 적들을 생성합니다.
+
+        });
+
         
 
     }
@@ -1187,7 +1215,6 @@ namespace FlickerGame
     public static class PlayerClass
     {
         public static Gfx2D Player = new Gfx2D(new Rectangle(200, 250, 40, 40));
-        public static Gfx2D Ground = new Gfx2D(new Rectangle(0, 390, 1400, 500));
         public static readonly int PlayerHpMax = 3000;
         public static int player_hp = PlayerHpMax;
 
@@ -1203,8 +1230,18 @@ namespace FlickerGame
         public static int LongjumpMax = 2; //처음 2회의 점프는 높게 뜁니다.
         public static int JumpMax = 5;// 총 5회 점프 가능
 
-        public static int StarTimer = 0;
+        public static int StarTimer = 0; // 별상태 시간
+        public static int StarTimerMax = 300;
 
+        public static int healstack = 0;
+        public static readonly int healstackMax = 4;
+        public static bool isFlickering = false;
+
+
+        public static void Init()
+        {
+            player_hp = PlayerHpMax;
+        }
     
         public static void Update()
         {
@@ -1236,15 +1273,45 @@ namespace FlickerGame
 
 
             //Under the ground problem
-            if (Player.Pos.Y > Ground.Pos.Y - Player.Bound.Height)
+            if (Player.Pos.Y > InGameInterface.Ground.Pos.Y - Player.Bound.Height)
             {
-                Player.Pos = new Point(Player.Pos.X, Ground.Pos.Y - Player.Bound.Height);
+                Player.Pos = new Point(Player.Pos.X, InGameInterface.Ground.Pos.Y - Player.Bound.Height);
                 JumpCount = 0;
             }
 
             if (DamageTimer > 0)
                 DamageTimer--;
 
+
+            //invincible mode
+
+            if (healstack >= healstackMax && StarTimer > 0)
+            {
+                if (StarTimer == 299)
+                    MusicBox.PlaySE("SE");
+
+                player_hp += 2;
+                isFlickering = true;
+                StarTimer--;
+                JumpMax = 10;
+                LongjumpMax = 5;
+            }
+
+            //Go back to Usual mode
+            if (StarTimer <= 0)
+            {
+
+                LongjumpMax = 2;
+                JumpMax = 5;
+                isFlickering = false;
+                healstack = 0;
+                StarTimer = 300;
+            }
+
+            if (StarTimer == 300)
+            {
+                player_hp -= 1;
+            }
 
         }
 
@@ -1258,7 +1325,7 @@ namespace FlickerGame
             if (StarTimer == 0)
                 Fader.Add(new Gfx2D(Player.Bound), (5 - JumpCount) * 5, FadeColor);
 
-            if (StarTimer > 0)
+            if (isFlickering)
             {
                 Color StarColor = StandAlone.RandomPick(InGameInterface.StarColors);
                 Player.Draw(StarColor);
@@ -1278,7 +1345,43 @@ namespace FlickerGame
     public static class InGameInterface
     {
         public static List<Color> StarColors = new List<Color>(new Color[] { Color.DeepPink, Color.Yellow, Color.Blue, Color.DarkRed, Color.LightPink, Color.LightYellow, Color.BlueViolet, Color.Aqua, Color.DarkCyan, Color.Magenta });
+        public static Gfx2D Ground = new Gfx2D(new Rectangle(0, 390, 1400, 500));
+        public static Color[] StageColor;
+        public static int Score;
 
+        public static SimpleGauge HpGauge = new SimpleGauge(new Gfx2D(new Rectangle(0, 420, 300, 10)));
+        public static SimpleGauge StarGauge = new SimpleGauge(new Gfx2D(new Rectangle(0, 480, 270, 10)));
+
+
+        public static void Init()
+        {
+            Score = 0;
+            StandAlone.FrameTimer = 0;
+            StandAlone.FullScreen = new Rectangle(0, 0, 1000, 500);
+
+        }
+
+        public static void Update()
+        {
+            
+            Score++;
+
+            //Set Stage Color
+            int interval = 3000;
+            int groundNumber = (Score / interval) % StarColors.Count;
+            StageColor = new Color[] { StarColors[groundNumber], StarColors[(groundNumber + 1) % StarColors.Count] * ((float)(Score % interval) / (float)interval), Color.Black * 0.3f };
+
+            HpGauge.Update(PlayerClass.player_hp,PlayerClass.PlayerHpMax);
+            StarGauge.Update(PlayerClass.StarTimer, PlayerClass.StarTimerMax);
+        }
+
+        public static void Draw()
+        {
+            Ground.Draw(StageColor);
+            HpGauge.Draw(Color.White);
+            Filter.Absolute(StarGauge.MaxBound, Color.Black);
+            StarGauge.Draw(Color.LightYellow);
+        }
 
     }
 
@@ -1287,13 +1390,16 @@ namespace FlickerGame
     {
         public static Scene scn = new Scene(() =>
         {
-            StandAlone.FrameTimer = 0;
-            StandAlone.FullScreen = new Rectangle(0, 0, 1000, 500);
+            PlayerClass.Init();
+            InGameInterface.Init();
+            scn.bgm = "SummerNight";
         }, () =>
         {
+            InGameInterface.Update();
             PlayerClass.Update();
             EnemyClass.Enemies.Update();
-            //잔상 이동
+            EnemyClass.HealEnemies.Update();
+            //잔상은 뒤로 이동
             foreach (Color c in Fader.FadeAnimations.Keys)
             {
                 foreach (Gfx g in Fader.FadeAnimations[c].Keys)
@@ -1304,8 +1410,10 @@ namespace FlickerGame
 
         }, () =>
         {
-            EnemyClass.Enemies.Draw(Color.White);
+            EnemyClass.Enemies.Draw(InGameInterface.StageColor);
+            EnemyClass.HealEnemies.Draw(Color.Yellow);
             PlayerClass.Draw();
+            InGameInterface.Draw();
             Fader.DrawAll();
         });
 

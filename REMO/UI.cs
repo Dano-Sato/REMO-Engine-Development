@@ -359,4 +359,27 @@ namespace REMOEngine
         }
     }
 
+    public class SimpleGauge 
+    {
+        public Gfx2D Graphic;
+        public Rectangle MaxBound;
+
+        public SimpleGauge(Gfx2D gaugeGraphic)
+        {
+            Graphic = gaugeGraphic;
+            MaxBound = Graphic.Bound;
+
+        }
+        public void Update(float coefficient, float coeefficient_Max)
+        {
+            Graphic.Bound = new Rectangle(Graphic.Pos, new REMOPoint((coefficient * MaxBound.Width) / coeefficient_Max, MaxBound.Height));
+        }
+
+        public void Draw(Color c)
+        {
+            Graphic.Draw(c);
+        }
+
+    }
+
 }
