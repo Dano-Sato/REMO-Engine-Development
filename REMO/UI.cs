@@ -375,7 +375,7 @@ namespace REMOEngine
             Graphic.Bound = new Rectangle(Graphic.Pos, new REMOPoint((coefficient * MaxBound.Width) / coeefficient_Max, MaxBound.Height));
         }
 
-        public void Draw(Color c)
+        public void Draw(params Color[] c)
         {
             Graphic.Draw(c);
         }

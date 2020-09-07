@@ -1202,7 +1202,7 @@ namespace FlickerGame
                 PlayerClass.DamageColor = Color.Red;
             }
         }, () => {
-            Enemies.GenTimer = StandAlone.Random(20, 30);
+            Enemies.GenTimer = StandAlone.Random(30,40);
             Enemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(0, 300), StandAlone.Random(2, 10), StandAlone.Random(2, 10)))); // 적들을 생성합니다.
         });
 
@@ -1270,6 +1270,7 @@ namespace FlickerGame
         public static void Init()
         {
             player_hp = PlayerHpMax;
+            healstack = 0;
         }
     
         public static void Update()
@@ -1331,7 +1332,7 @@ namespace FlickerGame
             {
 
                 LongjumpMax = 2;
-                JumpMax = 5;
+                JumpMax = 4;
                 isFlickering = false;
                 healstack = 0;
                 StarTimer = 300;
@@ -1351,8 +1352,6 @@ namespace FlickerGame
 
             //Afterimage effect
             Color FadeColor = Color.White * 0.4f;
-            if (StarTimer == 0)
-                Fader.Add(new Gfx2D(Player.Bound), (5 - JumpCount) * 5, FadeColor);
 
             if (isFlickering)
             {
@@ -1360,6 +1359,9 @@ namespace FlickerGame
                 Player.Draw(StarColor);
                 Fader.Add(new Gfx2D(Player.Bound), 15, StarColor * 0.4f);
             }
+            else
+                Fader.Add(new Gfx2D(Player.Bound), (5 - JumpCount) * 5, FadeColor);
+
 
             //Damage Effect 
             if (DamageTimer > 0)
@@ -1380,6 +1382,7 @@ namespace FlickerGame
 
         public static SimpleGauge HpGauge = new SimpleGauge(new Gfx2D(new Rectangle(0, 420, 300, 10)));
         public static SimpleGauge StarGauge = new SimpleGauge(new Gfx2D(new Rectangle(0, 480, 270, 10)));
+        public static SimpleGauge HealStackGauge = new SimpleGauge(new Gfx2D(new Rectangle(0, 480, 270, 10)));
 
 
         public static void Init()
@@ -1402,14 +1405,24 @@ namespace FlickerGame
 
             HpGauge.Update(PlayerClass.player_hp,PlayerClass.PlayerHpMax);
             StarGauge.Update(PlayerClass.StarTimer, PlayerClass.StarTimerMax);
+            HealStackGauge.Update(PlayerClass.healstack, PlayerClass.healstackMax);
         }
 
         public static void Draw()
         {
+            if (PlayerClass.isFlickering)
+            {
+                Filter.Absolute(StandAlone.FullScreen, StandAlone.RandomPick(StarColors) * 0.2f);
+            }
             Ground.Draw(StageColor);
             HpGauge.Draw(Color.White);
+            if(PlayerClass.isFlickering)
+                HpGauge.Draw(StandAlone.RandomPick(StarColors));
             Filter.Absolute(StarGauge.MaxBound, Color.Black);
-            StarGauge.Draw(Color.LightYellow);
+            if (PlayerClass.isFlickering)
+                StarGauge.Draw(Color.LightYellow);
+            else
+                HealStackGauge.Draw(Color.LightGreen);
         }
 
     }
@@ -1421,6 +1434,11 @@ namespace FlickerGame
         {
             PlayerClass.Init();
             InGameInterface.Init();
+            EnemyClass.Enemies.Enemies.Clear();
+            EnemyClass.HealEnemies.Enemies.Clear();
+            EnemyClass.FloorEnemies.Enemies.Clear();
+
+
             scn.bgm = "ChanceOnFaith";
         }, () =>
         {
@@ -1437,7 +1455,7 @@ namespace FlickerGame
                     g.MoveByVector(new Point(-1, 0), 10);
                 }
             }
-            if (player_hp <= 0)
+            if (PlayerClass.player_hp <= 0)
             {
                 Projectors.Projector.PauseAll();
                 Projectors.Projector.Load(GameOverScene.scn);
@@ -1453,7 +1471,7 @@ namespace FlickerGame
             InGameInterface.Draw();
             Fader.DrawAll();
 
-            StandAlone.DrawString(PlayerClass.player_hp.ToString(), new REMOPoint(0, 0), Color.White);
+            StandAlone.DrawString(30, "Elapsed Time : " + (InGameInterface.Score / 60).ToString() + "s", new Point(600, 430), Color.White);
         });
 
     }
