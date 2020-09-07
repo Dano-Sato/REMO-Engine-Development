@@ -386,24 +386,27 @@ namespace FlickerGame
                 Filter.Absolute(StandAlone.FullScreen, Color.Black);
                 if (Starchecker > 0)
                 {
-                    Filter.Absolute(StandAlone.FullScreen, Color.White * 0.2f);
                     Filter.Absolute(StandAlone.FullScreen, StandAlone.RandomPick(StarColors) * 0.2f);
                 }
 
+                int interval = 3000;
+                int groundNumber = (Score / interval) % StarColors.Count;
+                Color[] StageColor = new Color[] { StarColors[groundNumber], StarColors[(groundNumber + 1) % StarColors.Count] * ((float)(Score % interval) / (float)interval), Color.Black * 0.3f };
+
                 for (int i = 0; i < Enemies.Count; i++)
-                    Enemies[i].Draw(Color.White);
+                    Enemies[i].Draw(StageColor);
 
                 for (int i = 0; i < sinEnemies.Count; i++)
-                    sinEnemies[i].Draw(Color.White);
+                    sinEnemies[i].Draw(StageColor);
 
                 for (int i = 0; i < HealEnemies.Count; i++)
                     HealEnemies[i].Draw(Color.Yellow);
                  
                 for (int i = 0; i < floorEnemies.Count; i++)
-                    floorEnemies[i].Draw(Color.White);
+                    floorEnemies[i].Draw(StageColor);
 
                 for (int i = 0; i < bigEnemies.Count; i++)
-                    bigEnemies[i].Draw(Color.White);
+                    bigEnemies[i].Draw(StageColor);
 
 
 
@@ -436,8 +439,6 @@ namespace FlickerGame
                     Player.Draw(Color.White);
                     Player.Draw(DamageColor * (Damagechecker / (float)DamagecheckerMax));
                 }
-                int interval = 3000;
-                int groundNumber = (Score / interval) % StarColors.Count;
                 Ground.Draw(StarColors[groundNumber],StarColors[(groundNumber+1)%StarColors.Count]*((float)(Score%interval)/(float)interval),Color.Black*0.3f);
                 StarBarBG.Draw(Color.Black);
                 HpBar.Draw(Color.White);
@@ -481,10 +482,11 @@ namespace FlickerGame
             new string[] { "Restart", "Go to main menu" },
             () =>
             {
-                if (Projectors.Projector.Loaded(FlickerGame.scn))
-                    Projectors.Projector.SwapTo(FlickerGame.scn);
-                if (Projectors.Projector.Loaded(TutorialScene.scn))
-                    Projectors.Projector.SwapTo(TutorialScene.scn);
+                foreach(Scene s in GameOverScene.SceneList)
+                {
+                    if (Projectors.Projector.Loaded(s))
+                        Projectors.Projector.SwapTo(s);
+                }
             },
             ()=>
             {
@@ -522,8 +524,8 @@ namespace FlickerGame
             new string[] { "New Game", "Tutorial", "Exit" },
             () =>
             {
-                Projectors.Projector.SwapTo(FlickerGame.scn);
-            },         
+                ShowMainMenu = false;
+            },
             () =>
             {
                 Projectors.Projector.SwapTo(TutorialScene.scn);
@@ -533,8 +535,28 @@ namespace FlickerGame
             {
                 Game1.GameExit = true;
             }
-            
+
             );
+
+        public static bool ShowMainMenu = true;
+
+        public static SimpleMenu SubMenus = new SimpleMenu(20, new REMOPoint(800, 200), new REMOPoint(0, 60),
+            new string[] { "Stage 1", "Stage 2", "Go Back" },
+            () =>
+            {
+                Projectors.Projector.SwapTo(FlickerGame.scn);
+            },
+            () =>
+            {
+                Projectors.Projector.SwapTo(TestClass.scn);
+            }
+            ,
+            () =>
+            {
+                ShowMainMenu = true;
+            }
+            );
+                
         public static Scene scn = new Scene(() =>
         {
             MusicBox.Mode = MusicBoxMode.FadeOut;
@@ -544,8 +566,10 @@ namespace FlickerGame
         }, () =>
         {
             BigSquare.Rotate += 0.01f;
-            MainMenus.Update();
-
+            if (ShowMainMenu)
+                MainMenus.Update();
+            else
+                SubMenus.Update();
         }, () =>
         {
             Filter.Absolute(StandAlone.FullScreen, Color.White);
@@ -553,8 +577,10 @@ namespace FlickerGame
             BigSquare.Draw(Color.Black, Color.White*Fader.Flicker(300));
             StandAlone.DrawString(40, "Flicker", new REMOPoint(200, 100), Color.White);
             StandAlone.DrawString(40, "Flicker", new REMOPoint(200, 100), Color.Black*Fader.Flicker(300));
-            MainMenus.Draw(Color.Black, Color.White * Fader.Flicker(300));
-
+            if(ShowMainMenu)
+                MainMenus.Draw(Color.Black, Color.White * Fader.Flicker(300));
+            else
+                SubMenus.Draw(Color.Black, Color.White * Fader.Flicker(300));
             if (BigSquare.RContains(Cursor.Pos))
             {
                 Cursor.Draw(Color.White);
@@ -649,7 +675,7 @@ namespace FlickerGame
             "Press Down-arrow to Drop in the air.",
             "Eat Yellow squares.",
             "you are in invincible(Flicker) state.",
-            "Avoid other White squares.",
+            "Avoid other squares.",
         };
 
         public static readonly int MakeHealEnemy = 3;
@@ -1036,7 +1062,6 @@ namespace FlickerGame
                 Filter.Absolute(StandAlone.FullScreen, Color.Black);
                 if (Starchecker > 0)
                 {
-                    Filter.Absolute(StandAlone.FullScreen, Color.White * 0.2f);
                     Filter.Absolute(StandAlone.FullScreen, StandAlone.RandomPick(StarColors) * 0.2f);
                 }
                 int interval = 3000;
@@ -1347,11 +1372,11 @@ namespace FlickerGame
 
         public static void Draw()
         {
-            Player.Draw(Color.White);
+            Player.Draw(Color.Orange);
 
 
             //Afterimage effect
-            Color FadeColor = Color.White * 0.4f;
+            Color FadeColor = Color.Orange * 0.4f;
 
             if (isFlickering)
             {
@@ -1390,6 +1415,7 @@ namespace FlickerGame
             Score = 0;
             StandAlone.FrameTimer = 0;
             StandAlone.FullScreen = new Rectangle(0, 0, 1000, 500);
+            StageColor = new Color[] { Color.Black };
 
         }
 
@@ -1415,7 +1441,7 @@ namespace FlickerGame
                 Filter.Absolute(StandAlone.FullScreen, StandAlone.RandomPick(StarColors) * 0.2f);
             }
             Ground.Draw(StageColor);
-            HpGauge.Draw(Color.White);
+            HpGauge.Draw(Color.Orange);
             if(PlayerClass.isFlickering)
                 HpGauge.Draw(StandAlone.RandomPick(StarColors));
             Filter.Absolute(StarGauge.MaxBound, Color.Black);
@@ -1460,6 +1486,13 @@ namespace FlickerGame
                 Projectors.Projector.PauseAll();
                 Projectors.Projector.Load(GameOverScene.scn);
             }
+
+            if (User.JustPressed(Keys.Escape))
+            {
+                Projectors.Projector.PauseAll();
+                Projectors.Projector.Load(PauseScene.scn);
+            }
+
 
 
         }, () =>

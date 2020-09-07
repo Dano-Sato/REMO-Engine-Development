@@ -262,7 +262,7 @@ namespace REMOEngine
         protected void CustomInit()
         {
             StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
-            GAMEOPTION.Build("FLICK", FlickerGame.TestClass.scn);
+            GAMEOPTION.Build("FLICK", FlickerGame.MainScene.scn);
         }
 
         protected void CustomUpdate()
