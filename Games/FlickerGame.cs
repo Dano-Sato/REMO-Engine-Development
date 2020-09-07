@@ -458,11 +458,17 @@ namespace FlickerGame
     public static class GameOverScene
     {
         public static GfxStr GameOverString = new GfxStr("Game Over. Press R to Restart", new Point(200, 200));
+        public static Scene[] SceneList = new Scene[] { FlickerGame.scn, TutorialScene.scn, TestClass.scn };
         public static Scene scn = new Scene(() => {
         }, () => {
             if (User.JustPressed(Keys.R))
             {
-                Projectors.Projector.SwapTo(FlickerGame.scn);
+                foreach(Scene s in SceneList)
+                {
+                    if (Projectors.Projector.Loaded(s))
+                        Projectors.Projector.SwapTo(s);
+                }
+
             }
         }, () => {
             GameOverString.Draw(Color.White);
@@ -1181,17 +1187,23 @@ namespace FlickerGame
     public static class EnemyClass
     {
         public static int Heal = 300;
+
+
+
         public static EnemySet Enemies = new EnemySet((i) => {
             Enemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 조금씩 점점 빨라집니다.
-            Enemies.Enemies[i].Zoom(Enemies.Enemies[i].Center, 1.01f);
+            Enemies.Enemies[i].Zoom(Enemies.Enemies[i].Center, 1.001f);
         }, (i) => {
-            PlayerClass.CurrentEnemy = Enemies.Enemies[i];
-            PlayerClass.player_hp -= EnemySet.Atk + StandAlone.FrameTimer / 500;//적들은 점점 강해집니다.
-            PlayerClass.DamageTimer = PlayerClass.DamageTimerMax;
-            PlayerClass.DamageColor = Color.Red;
+            if(!PlayerClass.isFlickering&&PlayerClass.DamageTimer==0)
+            {
+                PlayerClass.CurrentEnemy = Enemies.Enemies[i];
+                PlayerClass.player_hp -= EnemySet.Atk*3 + StandAlone.FrameTimer / 500;//적들은 점점 강해집니다.
+                PlayerClass.DamageTimer = PlayerClass.DamageTimerMax;
+                PlayerClass.DamageColor = Color.Red;
+            }
         }, () => {
-            Enemies.GenTimer = StandAlone.Random(25, 36);
-            Enemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(0, 300), 30, 30))); // 적들을 생성합니다.
+            Enemies.GenTimer = StandAlone.Random(20, 30);
+            Enemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(0, 300), StandAlone.Random(2, 10), StandAlone.Random(2, 10)))); // 적들을 생성합니다.
         });
 
         public static EnemySet HealEnemies = new EnemySet((i) => {
@@ -1206,6 +1218,23 @@ namespace FlickerGame
             HealEnemies.GenTimer = StandAlone.Random(50, 100) + Math.Min(StandAlone.FrameTimer / 40, 120);
             HealEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(100, 350), 20, 20))); // 적들을 생성합니다.
 
+        });
+
+        public static EnemySet FloorEnemies = new EnemySet((i) =>
+        {
+           FloorEnemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 점점 빨라집니다.
+           FloorEnemies.Enemies[i].Zoom(FloorEnemies.Enemies[i].Center, 1.001f);
+        }, (i) => {
+            if (!PlayerClass.isFlickering && PlayerClass.DamageTimer == 0)
+            {
+                PlayerClass.CurrentEnemy = Enemies.Enemies[i];
+                PlayerClass.player_hp -= EnemySet.Atk*3 + StandAlone.FrameTimer / 500;//적들은 점점 강해집니다.
+                PlayerClass.DamageTimer = PlayerClass.DamageTimerMax;
+                PlayerClass.DamageColor = Color.Red;
+            }
+        }, () => {
+            FloorEnemies.GenTimer = StandAlone.Random(50, 100);
+            FloorEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, 390, StandAlone.Random(5,10), StandAlone.Random(5, 10)))); // 적들을 생성합니다.
         });
 
         
@@ -1332,7 +1361,7 @@ namespace FlickerGame
                 Fader.Add(new Gfx2D(Player.Bound), 15, StarColor * 0.4f);
             }
 
-            //Damage Effect
+            //Damage Effect 
             if (DamageTimer > 0)
             {
                 Player.Draw(Color.White);
@@ -1392,13 +1421,14 @@ namespace FlickerGame
         {
             PlayerClass.Init();
             InGameInterface.Init();
-            scn.bgm = "SummerNight";
+            scn.bgm = "ChanceOnFaith";
         }, () =>
         {
             InGameInterface.Update();
             PlayerClass.Update();
             EnemyClass.Enemies.Update();
             EnemyClass.HealEnemies.Update();
+            EnemyClass.FloorEnemies.Update();
             //잔상은 뒤로 이동
             foreach (Color c in Fader.FadeAnimations.Keys)
             {
@@ -1407,14 +1437,23 @@ namespace FlickerGame
                     g.MoveByVector(new Point(-1, 0), 10);
                 }
             }
+            if (player_hp <= 0)
+            {
+                Projectors.Projector.PauseAll();
+                Projectors.Projector.Load(GameOverScene.scn);
+            }
+
 
         }, () =>
         {
             EnemyClass.Enemies.Draw(InGameInterface.StageColor);
+            EnemyClass.FloorEnemies.Draw(InGameInterface.StageColor);
             EnemyClass.HealEnemies.Draw(Color.Yellow);
             PlayerClass.Draw();
             InGameInterface.Draw();
             Fader.DrawAll();
+
+            StandAlone.DrawString(PlayerClass.player_hp.ToString(), new REMOPoint(0, 0), Color.White);
         });
 
     }

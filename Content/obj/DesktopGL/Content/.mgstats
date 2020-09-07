@@ -1,4 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.ChanceOnFaith.wav","Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/bin/DesktopGL/Content/FLICK.ChanceOnFaith.xnb","SoundEffectProcessor","SoundEffectContent",29306924,29306985,0.6960003
 "Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.Journey.wav","Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/bin/DesktopGL/Content/FLICK.Journey.xnb","SoundEffectProcessor","SoundEffectContent",30721580,30721641,0.8860144
 "Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.SE.wav","Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/bin/DesktopGL/Content/FLICK.SE.xnb","SoundEffectProcessor","SoundEffectContent",440298,440257,0.2281262
 "Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.SE2.wav","Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/bin/DesktopGL/Content/FLICK.SE2.xnb","SoundEffectProcessor","SoundEffectContent",447082,447041,0.2211289
