@@ -459,7 +459,7 @@ namespace FlickerGame
     public static class GameOverScene
     {
         public static GfxStr GameOverString = new GfxStr("Game Over. Press R to Restart", new Point(200, 200));
-        public static Scene[] SceneList = new Scene[] { FlickerGame.scn, TutorialScene.scn, TestClass.scn };
+        public static Scene[] SceneList = new Scene[] { FlickerGame.scn, TutorialScene.scn, Stage2.scn, Stage1.scn };
         public static Scene scn = new Scene(() => {
         }, () => {
             if (User.JustPressed(Keys.R))
@@ -548,7 +548,7 @@ namespace FlickerGame
             },
             () =>
             {
-                Projectors.Projector.SwapTo(TestClass.scn);
+                Projectors.Projector.SwapTo(Stage2.scn);
             }
             ,
             () =>
@@ -1209,7 +1209,7 @@ namespace FlickerGame
         }
     }
 
-    public static class EnemyClass
+    public static class Stage2_Enemies
     {
         public static int Heal = 300;
 
@@ -1296,6 +1296,8 @@ namespace FlickerGame
         {
             player_hp = PlayerHpMax;
             healstack = 0;
+            StarTimer = 300;
+            isFlickering = false;
         }
     
         public static void Update()
@@ -1370,13 +1372,13 @@ namespace FlickerGame
 
         }
 
-        public static void Draw()
+        public static void Draw(Color c)
         {
-            Player.Draw(Color.Orange);
+            Player.Draw(c);
 
 
             //Afterimage effect
-            Color FadeColor = Color.Orange * 0.4f;
+            Color FadeColor = c * 0.4f;
 
             if (isFlickering)
             {
@@ -1449,30 +1451,168 @@ namespace FlickerGame
                 StarGauge.Draw(Color.LightYellow);
             else
                 HealStackGauge.Draw(Color.LightGreen);
+            StandAlone.DrawString(30, "Elapsed Time : " + (InGameInterface.Score / 60).ToString() + "s", new Point(600, 430), Color.White);
         }
 
     }
 
 
-    public static class TestClass
+    public static class Stage2
     {
         public static Scene scn = new Scene(() =>
         {
             PlayerClass.Init();
             InGameInterface.Init();
-            EnemyClass.Enemies.Enemies.Clear();
-            EnemyClass.HealEnemies.Enemies.Clear();
-            EnemyClass.FloorEnemies.Enemies.Clear();
+            Stage2_Enemies.Enemies.Enemies.Clear();
+            Stage2_Enemies.HealEnemies.Enemies.Clear();
+            Stage2_Enemies.FloorEnemies.Enemies.Clear();
 
 
-            scn.bgm = "ChanceOnFaith";
+            scn.bgm = "Journey";
         }, () =>
+        {
+            Functions.GameUpdate();
+            Stage2_Enemies.Enemies.Update();
+            Stage2_Enemies.HealEnemies.Update();
+            Stage2_Enemies.FloorEnemies.Update();
+         
+
+
+        }, () =>
+        {
+            Stage2_Enemies.Enemies.Draw(InGameInterface.StageColor);
+            Stage2_Enemies.FloorEnemies.Draw(InGameInterface.StageColor);
+            Stage2_Enemies.HealEnemies.Draw(Color.Yellow);
+            Functions.GameDraw(Color.Orange);
+
+        });
+
+    }
+
+    public static class Stage1_Enemies
+    {
+        public static int Heal = 300;
+
+
+
+        public static EnemySet Enemies = new EnemySet((i) => {
+            Enemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 조금씩 점점 빨라집니다.
+        }, (i) => {
+            if (!PlayerClass.isFlickering && PlayerClass.DamageTimer == 0)
+            {
+                PlayerClass.CurrentEnemy = Enemies.Enemies[i];
+                PlayerClass.player_hp -= EnemySet.Atk + StandAlone.FrameTimer / 500;//적들은 점점 강해집니다.
+                PlayerClass.DamageTimer = PlayerClass.DamageTimerMax;
+                PlayerClass.DamageColor = Color.Red;
+            }
+        }, () => {
+            Enemies.GenTimer = StandAlone.Random(13, 25);
+            Enemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(0, 300), 30,30))); // 적들을 생성합니다.
+        });
+
+        public static EnemySet HealEnemies = new EnemySet((i) => {
+            HealEnemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 점점 빨라집니다.
+        }, (i) => {
+            PlayerClass.healstack += 1;
+            if (PlayerClass.healstack != PlayerClass.healstackMax)
+                MusicBox.PlaySE("SE2");
+            PlayerClass.player_hp += Heal;
+            HealEnemies.RemoveEnemy = true;
+        }, () => {
+            HealEnemies.GenTimer = StandAlone.Random(50, 100) + Math.Min(StandAlone.FrameTimer / 40, 120);
+            HealEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(100, 350), 20, 20))); // 적들을 생성합니다.
+
+        });
+
+        public static EnemySet FloorEnemies = new EnemySet((i) =>
+        {
+            FloorEnemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 점점 빨라집니다.
+        }, (i) => {
+            if (!PlayerClass.isFlickering && PlayerClass.DamageTimer == 0)
+            {
+                PlayerClass.CurrentEnemy = FloorEnemies.Enemies[i];
+                PlayerClass.player_hp -= EnemySet.Atk + StandAlone.FrameTimer / 500;//적들은 점점 강해집니다.
+                PlayerClass.DamageTimer = PlayerClass.DamageTimerMax;
+                PlayerClass.DamageColor = Color.Red;
+            }
+        }, () => {
+            FloorEnemies.GenTimer = StandAlone.Random(100, 250);
+            FloorEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(370, 375), 50, 20))); // 적들을 생성합니다.
+        });
+        public static EnemySet SinEnemies = new EnemySet((i) => {
+            SinEnemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 7 * (StandAlone.Random(-1, 2)));
+        }, (i) => {
+            PlayerClass.CurrentEnemy = SinEnemies.Enemies[i];
+            PlayerClass.player_hp -= EnemySet.Atk + StandAlone.FrameTimer / 500;//적들은 점점 강해집니다.
+            PlayerClass.DamageTimer = PlayerClass.DamageTimerMax;
+            PlayerClass.DamageColor = Color.Red;
+        }, () => {
+            SinEnemies.GenTimer = StandAlone.Random(60, 80);
+            SinEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(150, 350), 30, 30))); // 적들을 생성합니다.
+        });
+
+        public static EnemySet BigEnemies = new EnemySet((i) => {
+            BigEnemies.Enemies[i].MoveByVector(new Point(-10, 0), 5 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 조금씩 점점 빨라집니다.
+        }, (i) => {
+            PlayerClass.CurrentEnemy = BigEnemies.Enemies[i];
+            PlayerClass.player_hp -= EnemySet.Atk + StandAlone.FrameTimer / 500;//적들은 점점 강해집니다.
+            PlayerClass.DamageTimer = PlayerClass.DamageTimerMax;
+            PlayerClass.DamageColor = Color.Red;
+        }, () => {
+            BigEnemies.GenTimer = StandAlone.Random(600, 900);
+            BigEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(100, 150), 120, 120))); // 적들을 생성합니다.
+        });
+
+
+
+    }
+
+    public static class Stage1
+    {
+        public static Scene scn = new Scene(() =>
+        {
+            PlayerClass.Init();
+            InGameInterface.Init();
+            scn.bgm = "SummerNight";
+            Stage1_Enemies.Enemies.Enemies.Clear();
+            Stage1_Enemies.HealEnemies.Enemies.Clear();
+            Stage1_Enemies.FloorEnemies.Enemies.Clear();
+            Stage1_Enemies.SinEnemies.Enemies.Clear();
+
+        }, () =>
+        {
+            Functions.GameUpdate();
+            Stage1_Enemies.Enemies.Update();
+            Stage1_Enemies.HealEnemies.Update();
+            if (StandAlone.FrameTimer > 500)
+                Stage1_Enemies.FloorEnemies.Update();
+            if (StandAlone.FrameTimer > 2000)
+                Stage1_Enemies.SinEnemies.Update();
+            if (StandAlone.FrameTimer > 4000)
+                Stage1_Enemies.BigEnemies.Update();
+
+
+
+        }, () =>
+        {
+            Functions.GameDraw(Color.Orange);
+            Stage1_Enemies.Enemies.Draw(InGameInterface.StageColor);
+            Stage1_Enemies.HealEnemies.Draw(Color.Yellow);
+            Stage1_Enemies.FloorEnemies.Draw(InGameInterface.StageColor);
+            Stage1_Enemies.SinEnemies.Draw(InGameInterface.StageColor);
+            Stage1_Enemies.BigEnemies.Draw(InGameInterface.StageColor);
+
+        });
+
+    }
+
+    public static class Functions
+    {
+
+        public static void GameUpdate()
         {
             InGameInterface.Update();
             PlayerClass.Update();
-            EnemyClass.Enemies.Update();
-            EnemyClass.HealEnemies.Update();
-            EnemyClass.FloorEnemies.Update();
             //잔상은 뒤로 이동
             foreach (Color c in Fader.FadeAnimations.Keys)
             {
@@ -1494,20 +1634,20 @@ namespace FlickerGame
             }
 
 
+        }
 
-        }, () =>
+        public static void GameDraw(Color c)
         {
-            EnemyClass.Enemies.Draw(InGameInterface.StageColor);
-            EnemyClass.FloorEnemies.Draw(InGameInterface.StageColor);
-            EnemyClass.HealEnemies.Draw(Color.Yellow);
-            PlayerClass.Draw();
+            PlayerClass.Draw(c);
             InGameInterface.Draw();
             Fader.DrawAll();
 
-            StandAlone.DrawString(30, "Elapsed Time : " + (InGameInterface.Score / 60).ToString() + "s", new Point(600, 430), Color.White);
-        });
+        }
+
 
     }
-
-
 }
+
+
+
+
