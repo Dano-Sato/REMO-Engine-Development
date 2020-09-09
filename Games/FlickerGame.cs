@@ -131,6 +131,11 @@ namespace FlickerGame
             BigSquare.Center = new REMOPoint(200, 200);
             StandAlone.FullScreen = new Rectangle(0, 0, 1000, 500);
             scn.bgm = "Journey";
+            scn.InitOnce(() =>
+            {
+                ScoreBoard.Init();
+            });
+
         }, () =>
         {
             BigSquare.Rotate += 0.01f;
@@ -165,26 +170,7 @@ namespace FlickerGame
     
    
 
-    public static class ScoreBoard
-    {
-        public static List<Tuple<string, int>> ScoreSet = new List<Tuple<string, int>>();
-        public static Scripter ScoreReader = new Scripter();
-        private static string _name;
-        private static int _score;
-
-        public static void Init()
-        {
-            TxtEditor.MakeTextFile("Data", "Score");
-            ScoreReader.AddRule("Name", (s) => { _name = s; });
-            ScoreReader.AddRule("Score", (s) => 
-            { 
-                _score = Int32.Parse(s);
-                ScoreSet.Add(new Tuple<string, int>(_name, _score));           
-            });
-        }
-    }
-
-
+  
     public class EnemySet
     {
         public List<Gfx2D> Enemies = new List<Gfx2D>();
@@ -912,7 +898,83 @@ namespace FlickerGame
             Fader.DrawAll();
 
         }
+    }
+    public static class ScoreBoard
+    {
+        public static List<Tuple<string, int, int>> ScoreSet = new List<Tuple<string, int, int>>();
+        public static Scripter ScoreReader = new Scripter();
+        private static string _name;
+        private static int _stage;
+        private static int _score;
 
+        //<Name>Blabla<Stage>1<Score>300 <-> Tuple(Blabla, 1, 300)
+        public static void Init()
+        {
+            //스코어를 저장할 스크립트 파일 생성
+            TxtEditor.MakeTextFile("Data", "Score");
+            //스크립트를 읽어들이는 룰 지정
+            ScoreReader.AddRule("Name", (s) => { _name = s; });
+            ScoreReader.AddRule("Stage", (s) => { _stage = Int32.Parse(s); });
+            ScoreReader.AddRule("Score", (s) =>
+            {
+                _score = Int32.Parse(s);
+                AddScore(_name, _stage, _score);
+            });
+            //스크립트 파일을 읽어옵니다.
+            ScoreReader.ReadTxt("Data", "Score");
+        }
+        public static void AddScore(string Name, int Stage, int Score)
+        {
+            ScoreSet.Add(new Tuple<string, int, int>(Name, Stage, Score));
+        }
+        /// <summary>
+        /// 지금까지의 Score Set을 지정된 txt파일에 저장합니다.
+        /// </summary>
+        public static void SaveScore()
+        {
+            List<string> text = new List<string>();
+            foreach (Tuple<string, int, int> t in ScoreSet)
+            {
+                Dictionary<string, string> line = new Dictionary<string, string>();
+                line.Add("Name", t.Item1);
+                line.Add("Stage", t.Item2.ToString());
+                line.Add("Score", t.Item3.ToString());
+                text.Add(Scripter.BuildLine(line));
+            }
+            TxtEditor.WriteAllLines("Data", "Score", text.ToArray());
+
+        }
+    }
+
+
+    public static class Test_Scoreboard
+    {
+        public static TypeWriter Typer = new TypeWriter();
+        public static Gfx2D TyperLine = new Gfx2D(new Rectangle(100, 100, 300, 50));
+        public static Button SaveButton = new Button(new GfxStr(20, "Save", new REMOPoint(400, 400)), () => 
+        {
+            ScoreBoard.AddScore(Typer.TypeLine, 1, 111);            
+            ScoreBoard.SaveScore(); 
+        });
+        public static Scene scn = new Scene(() =>
+        {
+            ScoreBoard.Init();
+            ScoreBoard.AddScore("Test", 4, 200);
+            ScoreBoard.SaveScore();
+        }, () =>
+        {
+
+            if(Typer.TypeLine.Length<10)
+                Typer.Update();
+            SaveButton.Enable();
+        }, () =>
+        {
+            TyperLine.Draw(Color.Red);
+            StandAlone.DrawString(20, Typer.TypeLine, new REMOPoint(100, 100), Color.White);
+            SaveButton.Draw();
+            Cursor.Draw(Color.White);
+
+        });
 
     }
 }
