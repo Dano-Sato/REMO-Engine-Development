@@ -15,6 +15,8 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using REMOEngine;
 using System.Security.Cryptography.X509Certificates;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 
 namespace REMOEngine
 {
@@ -366,6 +368,10 @@ namespace REMOEngine
         }
     }
 
+
+    /// <summary>
+    /// 특정 인자를 시각화할 수 있는 매우 단순한 게이지입니다.
+    /// </summary>
     public class SimpleGauge 
     {
         public Gfx2D Graphic;
@@ -388,5 +394,46 @@ namespace REMOEngine
         }
 
     }
+
+    /// <summary>
+    /// 체크박스를 통해 부울 인자를 on/off할 수 있습니다.
+    /// </summary>
+    public class CheckBox
+    {
+        public bool isChecked=false;
+        public GfxStr Description;
+        public Gfx2D Box;
+
+        public CheckBox(int size, string description, REMOPoint pos )
+        {
+            Box = new Gfx2D("Box", new Rectangle(pos.X, pos.Y, size*2, size*2));
+            Description = new GfxStr(size, description,pos+new REMOPoint(size*2+size/2,size/4));
+        }
+
+        public void Update()
+        {
+            if (User.JustLeftClicked(Box)||User.JustLeftClicked(Description))
+                isChecked = !isChecked;
+        }
+
+        public void Draw(params Color[] c)
+        {
+            Description.Draw(c);
+            if (isChecked)
+                Box.Sprite = "CheckBox";
+            else
+                Box.Sprite = "Box";
+            Box.Draw(c);
+
+        }
+
+        public static implicit operator bool(CheckBox c)
+        {
+            return c.isChecked;
+        }
+
+
+    }
+
 
 }

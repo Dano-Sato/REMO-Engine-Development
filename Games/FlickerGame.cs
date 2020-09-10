@@ -141,12 +141,14 @@ namespace FlickerGame
         {
             MusicBox.Mode = MusicBoxMode.FadeOut;
             BigSquare.Center = new REMOPoint(200, 200);
-            StandAlone.FullScreen = new Rectangle(0, 0, 1000, 500);
+            Functions.SetScreen();
             scn.bgm = "Journey";
             scn.InitOnce(() =>
             {
                 ScoreBoard.Init();
+                SettingScene.BackgroundFlick.isChecked = true;
             });
+
 
         }, () =>
         {
@@ -314,7 +316,24 @@ namespace FlickerGame
             FloorEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, 390, StandAlone.Random(5,10), StandAlone.Random(5, 10)))); // 적들을 생성합니다.
         });
 
-        
+        public static EnemySet BigEnemies = new EnemySet((i) =>
+        {
+            BigEnemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 점점 빨라집니다.
+            BigEnemies.Enemies[i].Zoom(FloorEnemies.Enemies[i].Center, -1.002f);
+        }, (i) => {
+            if (!PlayerClass.isFlickering && PlayerClass.DamageTimer == 0)
+            {
+                PlayerClass.CurrentEnemy = Enemies.Enemies[i];
+                PlayerClass.player_hp -= EnemySet.Atk * 2 + StandAlone.FrameTimer / 500;//적들은 점점 강해집니다.
+                PlayerClass.DamageTimer = PlayerClass.DamageTimerMax;
+                PlayerClass.DamageColor = Color.Red;
+            }
+        }, () => {
+            BigEnemies.GenTimer = StandAlone.Random(50, 100);
+            BigEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, 390, StandAlone.Random(5, 10), StandAlone.Random(5, 10)))); // 적들을 생성합니다.
+        });
+
+
 
     }
 
@@ -468,7 +487,7 @@ namespace FlickerGame
         {
             Score = 0;
             StandAlone.FrameTimer = 0;
-            StandAlone.FullScreen = new Rectangle(0, 0, 1000, 500);
+            Functions.SetScreen();
             StageColor = new Color[] { Color.Black };
 
         }
@@ -490,7 +509,7 @@ namespace FlickerGame
 
         public static void Draw()
         {
-            if (PlayerClass.isFlickering)
+            if (PlayerClass.isFlickering&&SettingScene.BackgroundFlick)
             {
                 Filter.Absolute(StandAlone.FullScreen, StandAlone.RandomPick(StarColors) * 0.2f);
             }
@@ -518,9 +537,8 @@ namespace FlickerGame
             Stage2_Enemies.Enemies.Enemies.Clear();
             Stage1_Enemies.HealEnemies.Enemies.Clear();
             Stage2_Enemies.FloorEnemies.Enemies.Clear();
-
-
             scn.bgm = "Journey";
+
         }, () =>
         {
             Functions.GameUpdate();
@@ -633,6 +651,7 @@ namespace FlickerGame
             Stage1_Enemies.HealEnemies.Enemies.Clear();
             Stage1_Enemies.FloorEnemies.Enemies.Clear();
             Stage1_Enemies.SinEnemies.Enemies.Clear();
+
 
         }, () =>
         {
@@ -848,7 +867,7 @@ namespace FlickerGame
             Stage1_Enemies.HealEnemies.Update();
             if(StandAlone.FrameTimer>500)
                 ReverseEnemies.RUpdate();
-            if(StandAlone.FrameTimer>3600)
+            if (StandAlone.FrameTimer>3600)
                 BigEnemies.RUpdate();
 
         }, () =>
@@ -905,6 +924,12 @@ namespace FlickerGame
             }
 
         }
+
+
+        public static void SetScreen()
+        {
+                StandAlone.FullScreen = new Rectangle(0,0,1000, 500);
+        }
     }
     public static class ScoreBoard
     {
@@ -954,7 +979,7 @@ namespace FlickerGame
     }
 
 
-    public static class Test_Scoreboard
+    public static class TestBoard
     {
         public static TypeWriter Typer = new TypeWriter();
         public static Gfx2D TyperLine = new Gfx2D(new Rectangle(100, 100, 300, 50));
@@ -963,6 +988,7 @@ namespace FlickerGame
             ScoreBoard.AddScore(Typer.TypeLine, 1, 111);            
             ScoreBoard.SaveScore(); 
         });
+        public static CheckBox check1 = new CheckBox(20, "Test", new REMOPoint(300, 300));
         public static Scene scn = new Scene(() =>
         {
             ScoreBoard.Init();
@@ -974,12 +1000,14 @@ namespace FlickerGame
             if(Typer.TypeLine.Length<10)
                 Typer.Update();
             SaveButton.Enable();
+            check1.Update();
         }, () =>
         {
             TyperLine.Draw(Color.Red);
             StandAlone.DrawString(20, Typer.TypeLine, new REMOPoint(100, 100), Color.White);
             SaveButton.Draw();
             Cursor.Draw(Color.White);
+            check1.Draw(Color.White);
 
         });
 
@@ -990,6 +1018,7 @@ namespace FlickerGame
         public static GfxStr Credit = new GfxStr("KoreanFont", "Credit: Songs made by 구재영, 계한용, 김홍래. The game is made by REMO Engine, RealMono Inc.", new REMOPoint(50,450));
         public static VolumeBar SongVolumeBar = new VolumeBar(new Gfx2D(new Rectangle(50, 80, 300, 50)), "WhiteSpace", 20, (f) => { MusicBox.SongVolume = f; MusicBox.SEVolume = f; });
         public static Button GoBack = new Button(new GfxStr(20, "Go Back", new REMOPoint(50, 350)),()=> { Projectors.Projector.SwapTo(MainScene.scn); });
+        public static CheckBox BackgroundFlick = new CheckBox(20, "Enable Background Flickering", new REMOPoint(50, 250));
         public static Scene scn = new Scene(() =>
         {
             PlayerClass.Init();
@@ -998,10 +1027,12 @@ namespace FlickerGame
             scn.bgm = "SummerNight";
         }, () =>
         {
-            SongVolumeBar.Enable();
-            GoBack.Enable();
             Stage1_Enemies.HealEnemies.Update();
             Functions.GameUpdate();
+
+            SongVolumeBar.Enable();
+            GoBack.Enable();
+            BackgroundFlick.Update();
         }, () =>
         {
             PlayerClass.Draw(Color.Orange);
@@ -1017,6 +1048,7 @@ namespace FlickerGame
 
             Credit.Draw(Color.White);
             Cursor.Draw(Color.White);
+            BackgroundFlick.Draw(Color.White);
         });
 
     }
