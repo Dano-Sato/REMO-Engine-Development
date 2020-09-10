@@ -64,12 +64,19 @@ namespace FlickerGame
         }, () =>
         {
             StandAlone.FrameTimer--;
+            /*Excluded 
             if(User.JustPressed(Keys.Escape))
             {
                 Projectors.Projector.Unload(PauseScene.scn);
                 Projectors.Projector.ResumeAll();
-                MusicBox.PlaySong("SummerNight");
-            }
+                foreach(Scene s in GameOverScene.SceneList)
+                {
+                    if(Projectors.Projector.Loaded(s))
+                    {
+                        MusicBox.PlaySong(s.bgm);
+                    }
+                }
+            }*/
             PauseMenus.Update();
         }, () =>
         {
@@ -85,7 +92,7 @@ namespace FlickerGame
         public static Gfx2D BigSquare = new Gfx2D(new Rectangle(0, 0, 800, 800));
 
         public static SimpleMenu MainMenus = new SimpleMenu(20, new REMOPoint(800, 200), new REMOPoint(0, 60),
-            new string[] { "New Game", "Tutorial", "Exit" },
+            new string[] { "New Game", "Tutorial", "Settings", "Exit" },
             () =>
             {
                 ShowMainMenu = false;
@@ -93,6 +100,11 @@ namespace FlickerGame
             () =>
             {
                 Projectors.Projector.SwapTo(TutorialStage.scn);
+            }
+            ,
+            () =>
+            {
+                Projectors.Projector.SwapTo(SettingScene.scn);
             }
             ,
             () =>
@@ -275,7 +287,7 @@ namespace FlickerGame
             if(!PlayerClass.isFlickering&&PlayerClass.DamageTimer==0)
             {
                 PlayerClass.CurrentEnemy = Enemies.Enemies[i];
-                PlayerClass.player_hp -= EnemySet.Atk*3 + StandAlone.FrameTimer / 500;//적들은 점점 강해집니다.
+                PlayerClass.player_hp -= EnemySet.Atk*2 + StandAlone.FrameTimer / 500;//적들은 점점 강해집니다.
                 PlayerClass.DamageTimer = PlayerClass.DamageTimerMax;
                 PlayerClass.DamageColor = Color.Red;
             }
@@ -294,7 +306,7 @@ namespace FlickerGame
             HealEnemies.RemoveEnemy = true;
         }, () => {
             HealEnemies.GenTimer = StandAlone.Random(50, 100) + Math.Min(StandAlone.FrameTimer / 40, 120);
-            HealEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(100, 350), 20, 20))); // 적들을 생성합니다.
+            HealEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(100, 350), 20, 20))); // 적들을 생성합니다. 
 
         });
 
@@ -306,7 +318,7 @@ namespace FlickerGame
             if (!PlayerClass.isFlickering && PlayerClass.DamageTimer == 0)
             {
                 PlayerClass.CurrentEnemy = Enemies.Enemies[i];
-                PlayerClass.player_hp -= EnemySet.Atk*3 + StandAlone.FrameTimer / 500;//적들은 점점 강해집니다.
+                PlayerClass.player_hp -= EnemySet.Atk*2 + StandAlone.FrameTimer / 500;//적들은 점점 강해집니다.
                 PlayerClass.DamageTimer = PlayerClass.DamageTimerMax;
                 PlayerClass.DamageColor = Color.Red;
             }
@@ -833,7 +845,7 @@ namespace FlickerGame
         {
             PlayerClass.Init();
             InGameInterface.Init();
-            scn.bgm = "ChanceOnFaith";
+            scn.bgm = "StillGood";
             Enemies.Enemies.Clear();
             BigEnemies.Enemies.Clear();
             ReverseEnemies.Enemies.Clear();
@@ -896,6 +908,11 @@ namespace FlickerGame
             PlayerClass.Draw(c);
             InGameInterface.Draw();
             Fader.DrawAll();
+            int FadeInTime = 100;
+            if (StandAlone.FrameTimer < FadeInTime)
+            {
+                Filter.Absolute(StandAlone.FullScreen, Color.Black * (0.7f * (1-StandAlone.FrameTimer / (float)FadeInTime)));
+            }
 
         }
     }
@@ -974,6 +991,42 @@ namespace FlickerGame
             SaveButton.Draw();
             Cursor.Draw(Color.White);
 
+        });
+
+    }
+    
+    public static class SettingScene
+    {
+        public static GfxStr Credit = new GfxStr("KoreanFont", "Credit: Songs made by 구재영, 계한용, 김홍래. The game is made by REMO Engine, RealMono Inc.", new REMOPoint(50,450));
+        public static VolumeBar SongVolumeBar = new VolumeBar(new Gfx2D(new Rectangle(50, 80, 300, 50)), "WhiteSpace", 20, (f) => { MusicBox.SongVolume = f; MusicBox.SEVolume = f; });
+        public static Button GoBack = new Button(new GfxStr(20, "Go Back", new REMOPoint(50, 350)),()=> { Projectors.Projector.SwapTo(MainScene.scn); });
+        public static Scene scn = new Scene(() =>
+        {
+            PlayerClass.Init();
+            InGameInterface.Init();
+            Stage1_Enemies.HealEnemies.Enemies.Clear();
+            scn.bgm = "SummerNight";
+        }, () =>
+        {
+            SongVolumeBar.Enable();
+            GoBack.Enable();
+            Stage1_Enemies.HealEnemies.Update();
+            Functions.GameUpdate();
+        }, () =>
+        {
+            PlayerClass.Draw(Color.Orange);
+            Fader.DrawAll();
+            InGameInterface.Ground.Draw(InGameInterface.StageColor);
+            Stage1_Enemies.HealEnemies.Draw(Color.Yellow);
+
+            Filter.Absolute(StandAlone.FullScreen, Color.Black * (0.8f+Fader.Flicker(1000)*0.15f));
+
+            StandAlone.DrawString("Volume", new REMOPoint(50, 50), Color.White);
+            SongVolumeBar.Draw(Color.Gray, Color.White);
+            GoBack.DrawWithAccent(Color.White,Color.Red);
+
+            Credit.Draw(Color.White);
+            Cursor.Draw(Color.White);
         });
 
     }

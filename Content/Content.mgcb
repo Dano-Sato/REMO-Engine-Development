@@ -13,12 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin FLICK.ChanceOnFaith.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:FLICK.ChanceOnFaith.wav
-
 #begin FLICK.Journey.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -36,6 +30,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:FLICK.SE2.wav
+
+#begin FLICK.StillGood.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:FLICK.StillGood.wav
 
 #begin FLICK.SummerNight.wav
 /importer:WavImporter

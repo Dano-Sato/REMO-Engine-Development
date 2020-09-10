@@ -4,10 +4,10 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.ChanceOnFaith.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.Journey.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.SE.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.SE2.wav</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.StillGood.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.SummerNight.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.Cursor.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.DefaultFont.spritefont</File>

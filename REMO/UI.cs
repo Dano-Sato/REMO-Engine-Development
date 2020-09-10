@@ -310,6 +310,13 @@ namespace REMOEngine
         public void Draw() => ButtonGraphic.Draw();
         public void Draw(Color c) => ButtonGraphic.Draw(c);
 
+        public void DrawWithAccent(Color c, Color AccentColor)
+        {
+            ButtonGraphic.Draw(c);
+            if (ButtonGraphic.ContainsCursor())
+                ButtonGraphic.Draw(AccentColor);
+        }
+
         public void RegisterDrawAct(Action a) => ButtonGraphic.RegisterDrawAct(a);
 
         public void MoveTo(REMOPoint p) => ButtonGraphic.MoveTo(p);
