@@ -419,6 +419,7 @@ namespace REMOEngine
         private string typeLine = "";
         public string TypeLine
         {
+            set { typeLine = value; }
             get { return typeLine; }
         }
 

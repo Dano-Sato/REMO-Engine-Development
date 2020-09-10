@@ -80,7 +80,7 @@ namespace REMOEngine
                 Matrix m = CurrentMatrix;
                 CloseCanvas();
                 Vector2 pos = Vector2.Transform(gfx.Pos, m);
-                OpenCanvas(Matrix2D.Zoom(pos,gfx.FontSize/StandAlone.SpriteFontSize),
+                OpenCanvas(Matrix2D.Zoom(pos,StandAlone.FontZoom*gfx.FontSize/StandAlone.SpriteFontSize),
                     () =>
                     {
                         spriteBatch.DrawString(gfx.Texture, gfx.Text, pos, c);
@@ -261,13 +261,11 @@ namespace REMOEngine
 
         protected void CustomInit()
         {
-            StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
             GAMEOPTION.Build("FLICK", FlickerGame.MainScene.scn);
         }
 
         protected void CustomUpdate()
         {
-
         }
         protected void CustomDraw()
         {

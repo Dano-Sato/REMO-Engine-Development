@@ -1,6 +1,3 @@
-<Name>Test<Stage>4<Score>200
-<Name>Test<Stage>4<Score>200
-<Name>Test<Stage>4<Score>200
-<Name>Test<Stage>4<Score>200
-<Name>Test<Stage>4<Score>200
-<Name>Test<Stage>4<Score>200
+<Name>Sex<Stage>3<Score>1
+<Name>Sex<Stage>2<Score>5
+<Name>Sex<Stage>1<Score>5

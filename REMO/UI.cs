@@ -159,6 +159,7 @@ namespace REMOEngine
     {
         public static Gfx2D Graphic = new Gfx2D("Cursor", new Rectangle(0, 0, 20, 20));
         public static Gfx DraggedTarget; // 현재 드래깅되고 있는 객체를 추적하는 Gfx 포인터입니다.
+        public static float CursorCoefficient; // 커서 위치 보정을 위해 사용
 
         public static REMOPoint Size
         {
@@ -176,6 +177,7 @@ namespace REMOEngine
         public static void Update()
         {
             Graphic.Pos = Mouse.GetState().Position;
+            Graphic.Pos *= CursorCoefficient;
         }
 
         public static void Draw(Color c)

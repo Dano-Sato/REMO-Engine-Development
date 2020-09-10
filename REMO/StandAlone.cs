@@ -57,6 +57,8 @@ namespace REMOEngine
         public static float SpriteFontSize = 30;
 
         public static int DefaultFontSize = 15;
+
+        public static float FontZoom = 1f;
         /// <summary>
         /// 화면에 문자열을 그립니다.
         /// </summary>
