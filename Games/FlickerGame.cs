@@ -296,20 +296,7 @@ namespace FlickerGame
             Enemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(0, 300), StandAlone.Random(2, 10), StandAlone.Random(2, 10)))); // 적들을 생성합니다.
         });
 
-        public static EnemySet HealEnemies = new EnemySet((i) => {
-            HealEnemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 점점 빨라집니다.
-        }, (i) => {
-            PlayerClass.healstack += 1;
-            if (PlayerClass.healstack != PlayerClass.healstackMax)
-                MusicBox.PlaySE("SE2");
-            PlayerClass.player_hp += Heal;
-            HealEnemies.RemoveEnemy = true;
-        }, () => {
-            HealEnemies.GenTimer = StandAlone.Random(50, 100) + Math.Min(StandAlone.FrameTimer / 40, 120);
-            HealEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(100, 350), 20, 20))); // 적들을 생성합니다. 
-
-        });
-
+       
         public static EnemySet FloorEnemies = new EnemySet((i) =>
         {
            FloorEnemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 점점 빨라집니다.
@@ -529,7 +516,7 @@ namespace FlickerGame
             PlayerClass.Init();
             InGameInterface.Init();
             Stage2_Enemies.Enemies.Enemies.Clear();
-            Stage2_Enemies.HealEnemies.Enemies.Clear();
+            Stage1_Enemies.HealEnemies.Enemies.Clear();
             Stage2_Enemies.FloorEnemies.Enemies.Clear();
 
 
@@ -538,7 +525,7 @@ namespace FlickerGame
         {
             Functions.GameUpdate();
             Stage2_Enemies.Enemies.Update();
-            Stage2_Enemies.HealEnemies.Update();
+            Stage1_Enemies.HealEnemies.Update();
             Stage2_Enemies.FloorEnemies.Update();
          
 
@@ -547,7 +534,7 @@ namespace FlickerGame
         {
             Stage2_Enemies.Enemies.Draw(InGameInterface.StageColor);
             Stage2_Enemies.FloorEnemies.Draw(InGameInterface.StageColor);
-            Stage2_Enemies.HealEnemies.Draw(Color.Yellow);
+            Stage1_Enemies.HealEnemies.Draw(Color.Yellow);
             Functions.GameDraw(Color.Orange);
 
         });
@@ -577,6 +564,8 @@ namespace FlickerGame
 
         public static EnemySet HealEnemies = new EnemySet((i) => {
             HealEnemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 점점 빨라집니다.
+            HealEnemies.Enemies[i].Rotate += 0.1f;
+
         }, (i) => {
             PlayerClass.healstack += 1;
             if (PlayerClass.healstack != PlayerClass.healstackMax)
@@ -584,8 +573,9 @@ namespace FlickerGame
             PlayerClass.player_hp += Heal;
             HealEnemies.RemoveEnemy = true;
         }, () => {
-            HealEnemies.GenTimer = StandAlone.Random(50, 100) + Math.Min(StandAlone.FrameTimer / 40, 120);
-            HealEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(100, 350), 20, 20))); // 적들을 생성합니다.
+        HealEnemies.GenTimer = StandAlone.Random(50, 100) + Math.Min(StandAlone.FrameTimer / 40, 120);
+        Gfx2D g = new Gfx2D(new Rectangle(1000, StandAlone.Random(100, 350), 20, 20));
+        HealEnemies.Enemies.Add(g); // 적들을 생성합니다.
 
         });
 
