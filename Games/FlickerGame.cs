@@ -970,13 +970,31 @@ namespace FlickerGame
                if (Projectors.Projector.Loaded(Stage3.scn))
                    AddScore(Typer.TypeLine, 3, InGameInterface.Score / 60);
                SaveScore();
+               ValidityCheck();
+               TxtEditor.WriteAllLines("Data", "Hash",new string[] { TxtEditor.HashTxt("Data", "Score") });
            });
+
+        public static void ValidityCheck()
+        {
+            string[] hashes = TxtEditor.ReadAllLines("Data", "Hash");
+            string hash = "";
+            if (hashes.Length > 0)
+                hash = hashes[0];
+            if (!TxtEditor.ValidateTxt("Data", "Score", hash))
+            {//통과를 못할 경우 삭제 후 재지정
+                TxtEditor.DeleteFile("Data", "Score");
+                TxtEditor.MakeTextFile("Data", "Score");
+            }
+        }
+
 
         //<Name>Blabla<Stage>1<Score>300 <-> Tuple(Blabla, 1, 300)
         public static void Init()
         {
             //스코어를 저장할 스크립트 파일 생성
             TxtEditor.MakeTextFile("Data", "Score");
+            //해시를 저장할 스크립트파일 생성
+            TxtEditor.MakeTextFile("Data", "Hash");
             //스크립트를 읽어들이는 룰 지정
             ScoreReader.AddRule("Name", (s) => { _name = s; });
             ScoreReader.AddRule("Stage", (s) => { _stage = Int32.Parse(s); });
@@ -985,6 +1003,7 @@ namespace FlickerGame
                 _score = Int32.Parse(s);
                 AddScore(_name, _stage, _score);
             });
+            ValidityCheck();
             //스크립트 파일을 읽어옵니다.
             ScoreReader.ReadTxt("Data", "Score");
             if (ScoreSet.Count > 0)
@@ -1010,7 +1029,7 @@ namespace FlickerGame
                 line.Add("Score", t.Item3.ToString());
                 text.Add(Scripter.BuildLine(line));
             }
-            TxtEditor.WriteAllLines("Data", "Score", text.ToArray());
+            TxtEditor.WriteAllLines("Data", "Score", text.ToArray());            
         }
 
         public static void Update()

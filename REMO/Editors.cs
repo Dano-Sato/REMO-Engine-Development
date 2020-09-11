@@ -303,9 +303,13 @@ namespace REMOEngine
             return result;
         }
 
-        public static bool ValidateTxt(string DirName, string FileName, string CurrentHash)
+        public static bool ValidateTxt(string DirName, string FileName, string StoredHash)
         {
-
+            string hash = HashTxt(DirName, FileName);
+            if (StoredHash == hash)
+                return true;
+            else
+                return false;
         }
 
 
