@@ -262,6 +262,53 @@ namespace REMOEngine
         }
 
 
+
+        private static string salt="MadeByREMOEngine";
+        private static byte[] internal_SHA256_toByte(string inputString)
+        {
+            HashAlgorithm algorithm = SHA256.Create();
+            return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+        }
+
+        /// <summary>
+        /// Internal function to build hash function. This should not be called elsewhere.
+        /// </summary>
+        /// <param name="inputString"></param>
+        /// <returns></returns>
+        private static string internal_SHA256_toString(string inputString)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in internal_SHA256_toByte(inputString))
+                sb.Append(b.ToString("X2"));
+            return sb.ToString();
+        }
+
+        public static string HashString(string input)
+        {
+            return internal_SHA256_toString(input + salt);
+        }
+
+        public static string HashTxt(string DirName, string FileName)
+        {
+            string[] Lines = ReadAllLines(DirName, FileName);
+            if (Lines.Length == 0)
+                return HashString(salt);
+            if (Lines.Length == 1)
+                return HashString(Lines[0]);
+            string result=Lines[0];
+            for(int i=1;i<Lines.Length;i++)
+            {
+                result = HashString(result + Lines[i]);
+            }
+            return result;
+        }
+
+        public static bool ValidateTxt(string DirName, string FileName, string CurrentHash)
+        {
+
+        }
+
+
     }
 
 

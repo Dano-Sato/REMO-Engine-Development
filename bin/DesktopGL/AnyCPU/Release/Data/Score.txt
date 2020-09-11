@@ -1,3 +1,6 @@
-<Name>Sex<Stage>3<Score>1
-<Name>Sex<Stage>2<Score>5
-<Name>Sex<Stage>1<Score>5
+<Name>DanoSato<Stage>3<Score>105
+<Name>DanoSato<Stage>3<Score>110
+<Name>DanoSato<Stage>2<Score>199
+<Name>DanoSato<Stage>3<Score>142
+<Name>DanoSato<Stage>1<Score>269
+<Name>DanoSato<Stage>3<Score>206
