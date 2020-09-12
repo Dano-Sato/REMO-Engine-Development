@@ -275,7 +275,7 @@ namespace FlickerGame
                 PlayerClass.DamageColor = Color.Red;
             }
         }, () => {
-            Enemies.GenTimer = StandAlone.Random(30,40);
+            Enemies.GenTimer = StandAlone.Random(40,50);
             Enemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(0, 300), StandAlone.Random(2, 10), StandAlone.Random(2, 10)))); // 적들을 생성합니다.
         });
 
@@ -293,14 +293,14 @@ namespace FlickerGame
                 PlayerClass.DamageColor = Color.Red;
             }
         }, () => {
-            FloorEnemies.GenTimer = StandAlone.Random(50, 100);
+            FloorEnemies.GenTimer = StandAlone.Random(50, 110);
             FloorEnemies.Enemies.Add(new Gfx2D(new Rectangle(1000, 390, StandAlone.Random(5,10), StandAlone.Random(5, 10)))); // 적들을 생성합니다.
         });
 
         public static EnemySet BigEnemies = new EnemySet((i) =>
         {
-            BigEnemies.Enemies[i].MoveByVector(new Point(-10, 0), 10 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 점점 빨라집니다.
-            BigEnemies.Enemies[i].Zoom(BigEnemies.Enemies[i].Center, 0.99f);
+            BigEnemies.Enemies[i].MoveByVector(new Point(-10, 0), 9 + 0.03 * (StandAlone.FrameTimer / 100));//적들은 점점 빨라집니다.
+            BigEnemies.Enemies[i].Zoom(BigEnemies.Enemies[i].Center, 0.984f);
         }, (i) => {
             if (!PlayerClass.isFlickering && PlayerClass.DamageTimer == 0)
             {
@@ -314,10 +314,7 @@ namespace FlickerGame
             Gfx2D g;
             g = new Gfx2D(new Rectangle(1000, StandAlone.Random(230, 300), 1000, 1000));
             BigEnemies.Enemies.Add(g); // 적들을 생성합니다.
-            if(StandAlone.Random()>0.5)
-                g.Center = new REMOPoint(g.Center.X, StandAlone.Random(420, 450));
-            else
-                g.Center = new REMOPoint(g.Center.X, StandAlone.Random(0,70));
+            g.Center = new REMOPoint(g.Center.X, StandAlone.Random(0, 450));
         });
 
 
