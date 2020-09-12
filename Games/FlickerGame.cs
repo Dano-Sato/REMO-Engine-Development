@@ -1015,8 +1015,8 @@ namespace FlickerGame
                    AddScore(Typer.TypeLine, 2, InGameInterface.Score / 60);
                if (Projectors.Projector.Loaded(Stage3.scn))
                    AddScore(Typer.TypeLine, 3, InGameInterface.Score / 60);
-               SaveScore();
                ValidityCheck();
+               SaveScore();
                TxtEditor.WriteAllLines("Data", "Hash",new string[] { TxtEditor.HashTxt("Data", "Score") });
            });
 
