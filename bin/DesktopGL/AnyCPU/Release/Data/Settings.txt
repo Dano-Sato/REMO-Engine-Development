@@ -1,0 +1,1 @@
+<BackgroundFlick>False<SmallMode>False

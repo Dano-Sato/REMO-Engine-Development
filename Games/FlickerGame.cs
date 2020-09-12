@@ -127,7 +127,7 @@ namespace FlickerGame
             scn.InitOnce(() =>
             {
                 ScoreBoard.Init();
-                SettingScene.BackgroundFlick.isChecked = true;
+                Functions.InitSetting();
             });
 
 
@@ -952,6 +952,52 @@ namespace FlickerGame
                 Cursor.CursorCoefficient = 1f;
             }
         }
+
+        public static void InitSetting()
+        {
+            TxtEditor.MakeTextFile("Data", "Settings");
+            SettingScene.SettingScripter.AddRule("BackgroundFlick", (s) => {
+                if (s == "True")
+                {
+                    SettingScene.BackgroundFlick.isChecked = true;
+                }
+                else
+                {
+                    SettingScene.BackgroundFlick.isChecked = false;
+                }
+            });
+            SettingScene.SettingScripter.AddRule("SmallMode", (s) => {
+                if (s == "True")
+                {
+                    SettingScene.SmallMode.isChecked = true;
+                }
+                else
+                {
+                    SettingScene.SmallMode.isChecked = false;
+                }
+            });
+            if (TxtEditor.ReadAllLines("Data", "Settings").Length == 0)
+            {
+                Dictionary<string, string> lines = new Dictionary<string, string>();
+                lines.Add("BackgroundFlick", "True");
+                lines.Add("SmallMode", "False");
+                TxtEditor.WriteAllLines("Data", "Settings", new string[] { Scripter.BuildLine(lines) });
+            }
+            else
+            {
+                SettingScene.SettingScripter.ReadTxt("Data", "Settings");
+            }
+            Functions.SetScreen();
+
+        }
+
+        public static void BuildSettingScript()
+        {
+            Dictionary<string, string> lines = new Dictionary<string, string>();
+            lines.Add("BackgroundFlick", SettingScene.BackgroundFlick.isChecked.ToString());
+            lines.Add("SmallMode", SettingScene.SmallMode.isChecked.ToString());
+            TxtEditor.WriteAllLines("Data", "Settings", new string[] { Scripter.BuildLine(lines) });
+        }
     }
     public static class ScoreBoard
     {
@@ -1140,6 +1186,7 @@ namespace FlickerGame
     
     public static class SettingScene
     {
+        public static Scripter SettingScripter = new Scripter();
         public static GfxStr Credit = new GfxStr("KoreanFont", "Credit: Songs made by 구재영, 계한용, 김홍래. The game is made by REMO Engine, RealMono Inc.", new REMOPoint(50,450));
         public static VolumeBar SongVolumeBar = new VolumeBar(new Gfx2D(new Rectangle(50, 80, 300, 50)), "WhiteSpace", 20, (f) => { MusicBox.SongVolume = f; MusicBox.SEVolume = f; });
         public static Button GoBack = new Button(new GfxStr(20, "Go Back", new REMOPoint(100, 360)),()=> { Projectors.Projector.SwapTo(MainScene.scn); });
@@ -1159,9 +1206,15 @@ namespace FlickerGame
 
             SongVolumeBar.Enable();
             GoBack.Enable();
+            bool currentBackgroundFlick = BackgroundFlick;
+            bool currentSmallMode = SmallMode;
             BackgroundFlick.Update();
             SmallMode.Update();
             Functions.SetScreen();
+            if(currentBackgroundFlick!=BackgroundFlick||currentSmallMode!=SmallMode)
+            {
+                Functions.BuildSettingScript();
+            }
         }, () =>
         {
             PlayerClass.Draw(Color.Orange);
