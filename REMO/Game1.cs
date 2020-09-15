@@ -1,4 +1,6 @@
 ﻿
+
+
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,6 +17,7 @@ using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
 using Games;
+
 
 namespace REMOEngine
 {
@@ -262,6 +265,7 @@ namespace REMOEngine
         protected void CustomInit()
         {
             GAMEOPTION.Build("FLICK", FlickerGame.MainScene.scn);
+
         }
 
         protected void CustomUpdate()

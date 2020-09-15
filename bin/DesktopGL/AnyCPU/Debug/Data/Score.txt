@@ -1,7 +1,0 @@
-<Name>jkarmy<Stage>3<Score>211
-<Name>jkarmy<Stage>3<Score>211
-<Name>DanoSato<Stage>3<Score>195
-<Name>DanoSato<Stage>1<Score>213
-<Name>jkarmy<Stage>2<Score>34
-<Name>DanoSato<Stage>2<Score>353
-<Name>DanoSato<Stage>2<Score>142

@@ -171,6 +171,13 @@ namespace REMOEngine
             return DirName + "\\" + FileName + ".txt";
         }
 
+        public static void MakeTextFile(string FileName) //아웃풋 디렉토리에 특정 파일을 생성합니다.
+        {
+            if (!File.Exists(FileName+".txt"))
+            {
+                File.Create(FileName+".txt").Close();
+            }
+        }
 
 
         public static void MakeTextFile(string DirName, string FileName) //특정 디렉토리에 특정 파일을 생성합니다.
@@ -208,6 +215,11 @@ namespace REMOEngine
         {
             File.WriteAllLines(MakePath(DirName, FileName), contents);
         }
+        public static void WriteAllLines(string FileName, string[] contents)
+        {
+            File.WriteAllLines(FileName+".txt", contents);
+        }
+
 
         public static void AppendLines(string DirName, string FileName, string[] contents)
         {

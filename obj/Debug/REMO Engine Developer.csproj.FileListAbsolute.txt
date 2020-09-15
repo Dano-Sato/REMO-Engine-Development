@@ -108,3 +108,6 @@ C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\bin\Desk
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\FLICK.StillGood.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.Box.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.CheckBox.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\steam_api.dll
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Steamworks.NET.dll
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\libsteam_api.so

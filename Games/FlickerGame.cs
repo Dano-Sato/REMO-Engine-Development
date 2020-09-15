@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using REMOEngine;
 using System.Runtime.ExceptionServices;
+using Steamworks;
 
 namespace FlickerGame
 {
@@ -1099,14 +1100,42 @@ namespace FlickerGame
         Stage1_Scores, Stage2_Scores,Stage3_Scores
         };
         public static int CurrentStage = 2;
+        public static int currentPage = 0;
+        public static int CurrentPage
+        {
+            get { return currentPage; }
+            set { if (value >= 0 && value <= CurrentPageMax)
+                {
+                    currentPage = value;
+                }
+            }
+        }
+        public static int CurrentPageMax = 0;
+
+        public static void ChangeShowingStage(int StageNum)
+        {
+            CurrentStage = StageNum;
+            CurrentPage = 0;
+            CurrentPageMax = (StageScores[StageNum - 1].Count-1) / PageCapacity;
+        }
+        public static int PageCapacity = 10;
         public static Button GoBackButton = new Button( new GfxStr(20,"Go Back", new REMOPoint(500, 420)), () =>
          {
              Projectors.Projector.SwapTo(MainScene.scn);
          });
         public static SimpleMenu StageMenu = new SimpleMenu(20, new REMOPoint(100, 420), new REMOPoint(100, 0),
             new string[] { "Stage 1", "Stage 2", "Stage 3"}, 
-            () => {CurrentStage = 1;}, () => { CurrentStage = 2; }, () => { CurrentStage = 3; });
-           
+            () => { ChangeShowingStage(1); }, () => { ChangeShowingStage(2); }, () => { ChangeShowingStage(3); });
+
+        public static Button NextPageButton = new Button(new GfxStr(20,"Next", new REMOPoint(580, 230)), () =>
+        {
+            CurrentPage++;
+        });
+        public static Button PrevPageButton = new Button(new GfxStr(20, "Prev", new REMOPoint(500, 230)), () =>
+        {
+            CurrentPage--;
+        });
+
 
         public static Scene scn = new Scene(() =>
         {
@@ -1131,17 +1160,35 @@ namespace FlickerGame
         {
             GoBackButton.Enable();
             StageMenu.Update();
+            if(User.JustPressed(Keys.Right))
+            {
+                CurrentPage++;
+            }
+            if (User.JustPressed(Keys.Left))
+            {
+                CurrentPage--;
+            }
+            NextPageButton.Enable();
+            PrevPageButton.Enable();
         }, () =>
         {
             StandAlone.DrawString(20, "Stage "+(CurrentStage)+" Scores", new REMOPoint(400,30), Color.White);
             StandAlone.DrawString("name   score", new REMOPoint(100, 70), Color.White);
-            for (int i=0;i<StageScores[CurrentStage-1].Count; i++)
+            int s = CurrentPage * PageCapacity;
+            int f = s + 9;
+            for (int i=s;i<StageScores[CurrentStage-1].Count&&i<=f; i++)
             {
                 Tuple<string, int, int> t = StageScores[CurrentStage - 1][i];
-                StandAlone.DrawString(t.Item1 + "     " + t.Item3, new REMOPoint(100, 110+i*30), Color.White);
+                StandAlone.DrawString(t.Item1 + "     " + t.Item3, new REMOPoint(100, 110+(i-s)*30), Color.White);
             }
             GoBackButton.DrawWithAccent(Color.White,Color.Red);
             StageMenu.Draw(Color.White);
+            if(CurrentPageMax>=1)
+            {
+                NextPageButton.DrawWithAccent(Color.White, Color.Red);
+                PrevPageButton.DrawWithAccent(Color.White, Color.Red);
+                StandAlone.DrawString(20, "Page " + (CurrentPage + 1), PrevPageButton.Pos + new REMOPoint(0, 50), Color.White);
+            }
             Cursor.Draw(Color.White);
         });
     }
