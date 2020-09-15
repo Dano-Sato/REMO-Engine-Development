@@ -1004,7 +1004,7 @@ namespace FlickerGame
         private static int _stage;
         private static int _score;
         public static TypeWriter Typer = new TypeWriter();
-        public static Button SaveScoreButton = new Button(new GfxStr("Save Score", new REMOPoint(500, 300)), () =>
+        public static Button SaveScoreButton = new Button(new GfxStr(20, "Save Score", new REMOPoint(500, 300)), () =>
            {
                if (Projectors.Projector.Loaded(Stage1.scn) || (Projectors.Projector.Loaded(TutorialStage.scn) && TutorialStage.TutorialState >= 5))
                    AddScore(Typer.TypeLine, 1, InGameInterface.Score / 60);
@@ -1083,8 +1083,8 @@ namespace FlickerGame
         }
         public static void Draw()
         {
-            StandAlone.DrawString("Input your Name : " + Typer.TypeLine, new REMOPoint(500, 200), Color.White);
-            StandAlone.DrawString("Score :" + InGameInterface.Score/60, new REMOPoint(500,250),Color.White);
+            StandAlone.DrawString(20, "Input your Name : " + Typer.TypeLine, new REMOPoint(500, 200), Color.White);
+            StandAlone.DrawString(20, "Score :" + InGameInterface.Score/60, new REMOPoint(500,250),Color.White);
             SaveScoreButton.DrawWithAccent(Color.White, Color.Red);
         }
 
