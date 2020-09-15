@@ -44,10 +44,12 @@ namespace FlickerGame
                 Projectors.Projector.SwapTo(MainScene.scn);
             }
             );
+        public static bool isSaved = false;
         
         public static Scene scn = new Scene(() =>
         {
             MusicBox.StopSong();
+            isSaved = false;
         }, () =>
         {
             StandAlone.FrameTimer--;
@@ -1080,13 +1082,33 @@ namespace FlickerGame
         {
             if(Typer.TypeLine.Length<10)
                 Typer.Update();
-            SaveScoreButton.Enable();
+            if(!PauseScene.isSaved)
+            {
+                GfxStr s = (GfxStr)(SaveScoreButton.ButtonGraphic);
+                s.Text = "Save Score";
+                SaveScoreButton.ButtonGraphic = s;
+                SaveScoreButton.Enable();
+                if(User.JustLeftClicked(SaveScoreButton))
+                {
+                    PauseScene.isSaved = true;
+                }
+            }
+            else
+            {
+                GfxStr s = (GfxStr)(SaveScoreButton.ButtonGraphic);
+                s.Text = "Saved.";
+                SaveScoreButton.ButtonGraphic = s;
+
+            }
         }
         public static void Draw()
         {
             StandAlone.DrawString(20, "Input your Name : " + Typer.TypeLine, new REMOPoint(500, 200), Color.White);
             StandAlone.DrawString(20, "Score :" + InGameInterface.Score/60, new REMOPoint(500,250),Color.White);
-            SaveScoreButton.DrawWithAccent(Color.White, Color.Red);
+            if(!PauseScene.isSaved)
+                SaveScoreButton.DrawWithAccent(Color.White, Color.Red);
+            else
+                SaveScoreButton.Draw(Color.Gray);
         }
 
     }
