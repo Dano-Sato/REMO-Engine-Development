@@ -200,6 +200,8 @@ namespace FlickerGame
             for (int i = 0; i < Enemies.Count; i++)
             {
                 MoveAction(i);
+                if (PlayerClass.isFlickering)
+                    Enemies[i].MoveByVector(new REMOPoint(-1, 0), 2);
                 if (Rectangle.Intersect(Enemies[i].Bound, PlayerClass.Player.Bound) != Rectangle.Empty && PlayerClass.CurrentEnemy != Enemies[i])//적과 부딪치면 hp가 답니다. 충돌판정
                 {
                     IntersectAction(i);
@@ -232,6 +234,9 @@ namespace FlickerGame
             for (int i = 0; i < Enemies.Count; i++)
             {
                 MoveAction(i);
+                if (PlayerClass.isFlickering)
+                    Enemies[i].MoveByVector(new REMOPoint(-1, 0), 2);
+
                 if (Enemies[i].RContains(PlayerClass.Player.Center) && PlayerClass.CurrentEnemy != Enemies[i])//적과 부딪치면 hp가 답니다. 충돌판정
                 {
                     IntersectAction(i);
@@ -463,7 +468,7 @@ namespace FlickerGame
         public static List<Color> StarColors = new List<Color>(new Color[] { Color.DeepPink, Color.Yellow, Color.Blue, Color.DarkRed, Color.LightPink, Color.LightYellow, Color.BlueViolet, Color.Aqua, Color.DarkCyan, Color.Magenta });
         public static Gfx2D Ground = new Gfx2D(new Rectangle(0, 390, 1400, 500));
         public static Color[] StageColor;
-        public static int Score;
+        public static float Score;
 
         public static SimpleGauge HpGauge = new SimpleGauge(new Gfx2D(new Rectangle(0, 420, 300, 10)));
         public static SimpleGauge StarGauge = new SimpleGauge(new Gfx2D(new Rectangle(0, 480, 270, 10)));
@@ -483,10 +488,13 @@ namespace FlickerGame
         {
             
             Score++;
+            if (PlayerClass.isFlickering)
+                Score += 0.5f;
+            Score += (Score/60) * 0.001f;
 
             //Set Stage Color
             int interval = 3000;
-            int groundNumber = (Score / interval) % StarColors.Count;
+            int groundNumber = (int)(Score / interval) % StarColors.Count;
             StageColor = new Color[] { StarColors[groundNumber], StarColors[(groundNumber + 1) % StarColors.Count] * ((float)(Score % interval) / (float)interval), Color.Black * 0.3f };
 
             HpGauge.Update(PlayerClass.player_hp,PlayerClass.PlayerHpMax);
@@ -509,7 +517,7 @@ namespace FlickerGame
                 StarGauge.Draw(Color.LightYellow);
             else
                 HealStackGauge.Draw(Color.LightGreen);
-            StandAlone.DrawString(30, "Elapsed Time : " + (InGameInterface.Score / 60).ToString() + "s", new Point(600, 430), Color.White);
+            StandAlone.DrawString(30, "Distance : " + ((int)InGameInterface.Score / 60).ToString() + "m", new Point(600, 430), Color.White);
         }
 
     }
@@ -581,6 +589,8 @@ namespace FlickerGame
             if (PlayerClass.healstack != PlayerClass.healstackMax)
                 MusicBox.PlaySE("SE2");
             PlayerClass.player_hp += Heal;
+            if (PlayerClass.isFlickering)
+                PlayerClass.StarTimer += 30;
             HealEnemies.RemoveEnemy = true;
         }, () => {
         HealEnemies.GenTimer = StandAlone.Random(50, 100) + Math.Min(StandAlone.FrameTimer / 40, 120);
@@ -1012,11 +1022,11 @@ namespace FlickerGame
            {
                DateTime localTIme = DateTime.Now;
                if (Projectors.Projector.Loaded(Stage1.scn) || (Projectors.Projector.Loaded(TutorialStage.scn) && TutorialStage.TutorialState >= 5))
-                   AddScore(Typer.TypeLine, 1, InGameInterface.Score / 60, localTIme.ToString("MM/dd/yyyy HH:mm"));
+                   AddScore(Typer.TypeLine, 1, (int)InGameInterface.Score / 60, localTIme.ToString("MM/dd/yyyy HH:mm"));
                if(Projectors.Projector.Loaded(Stage2.scn))
-                   AddScore(Typer.TypeLine, 2, InGameInterface.Score / 60, localTIme.ToString("MM/dd/yyyy HH:mm"));
+                   AddScore(Typer.TypeLine, 2, (int)InGameInterface.Score / 60, localTIme.ToString("MM/dd/yyyy HH:mm"));
                if (Projectors.Projector.Loaded(Stage3.scn))
-                   AddScore(Typer.TypeLine, 3, InGameInterface.Score / 60, localTIme.ToString("MM/dd/yyyy HH:mm"));
+                   AddScore(Typer.TypeLine, 3, (int)InGameInterface.Score / 60, localTIme.ToString("MM/dd/yyyy HH:mm"));
                ValidityCheck();
                SaveScore();
                TxtEditor.WriteAllLines("Data", "Hash",new string[] { TxtEditor.HashTxt("Data", "Score") });
@@ -1113,7 +1123,7 @@ namespace FlickerGame
         public static void Draw()
         {
             StandAlone.DrawString(20, "Input your Name : " + Typer.TypeLine, new REMOPoint(500, 200), Color.White);
-            StandAlone.DrawString(20, "Score :" + InGameInterface.Score/60, new REMOPoint(500,250),Color.White);
+            StandAlone.DrawString(20, "Score :" + (int)InGameInterface.Score/60, new REMOPoint(500,250),Color.White);
             if(!PauseScene.isSaved)
                 SaveScoreButton.DrawWithAccent(Color.White, Color.Red);
             else

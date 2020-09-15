@@ -1,1 +1,4 @@
-<Name>NoName<Stage>3<Score>8
+<Name>DanoSato<Stage>3<Score>6<Time>09-16-2020 03:31
+<Name>DanoSato<Stage>3<Score>108<Time>09-16-2020 03:33
+<Name>DanoSato<Stage>2<Score>412<Time>09-16-2020 03:40
+<Name>DanoSato<Stage>3<Score>278<Time>09-16-2020 04:01
