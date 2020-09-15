@@ -1001,20 +1001,22 @@ namespace FlickerGame
     }
     public static class ScoreBoard
     {
-        public static List<Tuple<string, int, int>> ScoreSet = new List<Tuple<string, int, int>>();
+        public static List<Tuple<string, int, int, string>> ScoreSet = new List<Tuple<string, int, int, string>>();
         public static Scripter ScoreReader = new Scripter();
         private static string _name;
         private static int _stage;
         private static int _score;
+        private static string _time;
         public static TypeWriter Typer = new TypeWriter();
         public static Button SaveScoreButton = new Button(new GfxStr(20, "Save Score", new REMOPoint(500, 300)), () =>
            {
+               DateTime localTIme = DateTime.Now;
                if (Projectors.Projector.Loaded(Stage1.scn) || (Projectors.Projector.Loaded(TutorialStage.scn) && TutorialStage.TutorialState >= 5))
-                   AddScore(Typer.TypeLine, 1, InGameInterface.Score / 60);
+                   AddScore(Typer.TypeLine, 1, InGameInterface.Score / 60, localTIme.ToString("MM/dd/yyyy HH:mm"));
                if(Projectors.Projector.Loaded(Stage2.scn))
-                   AddScore(Typer.TypeLine, 2, InGameInterface.Score / 60);
+                   AddScore(Typer.TypeLine, 2, InGameInterface.Score / 60, localTIme.ToString("MM/dd/yyyy HH:mm"));
                if (Projectors.Projector.Loaded(Stage3.scn))
-                   AddScore(Typer.TypeLine, 3, InGameInterface.Score / 60);
+                   AddScore(Typer.TypeLine, 3, InGameInterface.Score / 60, localTIme.ToString("MM/dd/yyyy HH:mm"));
                ValidityCheck();
                SaveScore();
                TxtEditor.WriteAllLines("Data", "Hash",new string[] { TxtEditor.HashTxt("Data", "Score") });
@@ -1045,9 +1047,13 @@ namespace FlickerGame
             ScoreReader.AddRule("Name", (s) => { _name = s; });
             ScoreReader.AddRule("Stage", (s) => { _stage = Int32.Parse(s); });
             ScoreReader.AddRule("Score", (s) =>
+             {
+                 _score = Int32.Parse(s);
+             });
+            ScoreReader.AddRule("Time", (s) =>
             {
-                _score = Int32.Parse(s);
-                AddScore(_name, _stage, _score);
+                _time = s;
+                AddScore(_name, _stage, _score,_time);
             });
             ValidityCheck();
             //스크립트 파일을 읽어옵니다.
@@ -1057,9 +1063,9 @@ namespace FlickerGame
             else
                 Typer.TypeLine = "NoName";
         }
-        public static void AddScore(string Name, int Stage, int Score)
+        public static void AddScore(string Name, int Stage, int Score, string Time)
         {
-            ScoreSet.Add(new Tuple<string, int, int>(Name, Stage, Score));
+            ScoreSet.Add(new Tuple<string, int, int, string>(Name, Stage, Score, Time));
         }
         /// <summary>
         /// 지금까지의 Score Set을 지정된 txt파일에 저장합니다.
@@ -1067,12 +1073,13 @@ namespace FlickerGame
         public static void SaveScore()
         {
             List<string> text = new List<string>();
-            foreach (Tuple<string, int, int> t in ScoreSet)
+            foreach (Tuple<string, int, int, string> t in ScoreSet)
             {
                 Dictionary<string, string> line = new Dictionary<string, string>();
                 line.Add("Name", t.Item1);
                 line.Add("Stage", t.Item2.ToString());
                 line.Add("Score", t.Item3.ToString());
+                line.Add("Time", t.Item4.ToString());
                 text.Add(Scripter.BuildLine(line));
             }
             TxtEditor.WriteAllLines("Data", "Score", text.ToArray());            
@@ -1080,8 +1087,10 @@ namespace FlickerGame
 
         public static void Update()
         {
-            if(Typer.TypeLine.Length<10)
-                Typer.Update();
+            Typer.Update();
+            if (Typer.TypeLine.Length > 10)
+                Typer.TypeLine = Typer.TypeLine.Substring(0, 10);
+
             if(!PauseScene.isSaved)
             {
                 GfxStr s = (GfxStr)(SaveScoreButton.ButtonGraphic);
@@ -1115,10 +1124,10 @@ namespace FlickerGame
 
     public static class ScoreBoardScene
     {
-        public static List<Tuple<string, int, int>> Stage1_Scores = new List<Tuple<string, int, int>>();
-        public static List<Tuple<string, int, int>> Stage2_Scores = new List<Tuple<string, int, int>>();
-        public static List<Tuple<string, int, int>> Stage3_Scores = new List<Tuple<string, int, int>>();
-        public static List<Tuple<string, int, int>>[] StageScores = new List<Tuple<string, int, int>>[] {
+        public static List<Tuple<string, int, int, string>> Stage1_Scores = new List<Tuple<string, int, int, string>>();
+        public static List<Tuple<string, int, int, string>> Stage2_Scores = new List<Tuple<string, int, int, string>>();
+        public static List<Tuple<string, int, int, string>> Stage3_Scores = new List<Tuple<string, int, int, string>>();
+        public static List<Tuple<string, int, int, string>>[] StageScores = new List<Tuple<string, int, int, string>>[] {
         Stage1_Scores, Stage2_Scores,Stage3_Scores
         };
         public static int CurrentStage = 2;
@@ -1161,17 +1170,17 @@ namespace FlickerGame
 
         public static Scene scn = new Scene(() =>
         {
-            foreach (List<Tuple<string, int, int>> t in StageScores)
+            foreach (List<Tuple<string, int, int,string>> t in StageScores)
             {
                 t.Clear();
             }
 
 
-            foreach (Tuple<string,int,int> t in ScoreBoard.ScoreSet)
+            foreach (Tuple<string,int,int,string> t in ScoreBoard.ScoreSet)
             {
                 StageScores[t.Item2 - 1].Add(t);
             }
-            foreach (List<Tuple<string, int, int>> t in StageScores)
+            foreach (List<Tuple<string, int, int,string>> t in StageScores)
             {
                 t.Sort((x, y) => y.Item3.CompareTo(x.Item3));
             }
@@ -1195,13 +1204,17 @@ namespace FlickerGame
         }, () =>
         {
             StandAlone.DrawString(20, "Stage "+(CurrentStage)+" Scores", new REMOPoint(400,30), Color.White);
-            StandAlone.DrawString("name   score", new REMOPoint(100, 70), Color.White);
+            StandAlone.DrawString("name               score          time", new REMOPoint(100, 70), Color.White);
             int s = CurrentPage * PageCapacity;
             int f = s + 9;
             for (int i=s;i<StageScores[CurrentStage-1].Count&&i<=f; i++)
             {
-                Tuple<string, int, int> t = StageScores[CurrentStage - 1][i];
-                StandAlone.DrawString(t.Item1 + "     " + t.Item3, new REMOPoint(100, 110+(i-s)*30), Color.White);
+                Tuple<string, int, int,string> t = StageScores[CurrentStage - 1][i];
+                StandAlone.DrawString(t.Item1, new REMOPoint(100, 110 + (i - s) * 30), Color.White);
+                StandAlone.DrawString(t.Item3.ToString(), new REMOPoint(250, 110 + (i - s) * 30), Color.White);
+                StandAlone.DrawString(t.Item4, new REMOPoint(350, 110 + (i - s) * 30), Color.White);
+
+
             }
             GoBackButton.DrawWithAccent(Color.White,Color.Red);
             StageMenu.Draw(Color.White);
@@ -1222,20 +1235,19 @@ namespace FlickerGame
         public static Gfx2D TyperLine = new Gfx2D(new Rectangle(100, 100, 300, 50));
         public static Button SaveButton = new Button(new GfxStr(20, "Save", new REMOPoint(400, 400)), () => 
         {
-            ScoreBoard.AddScore(Typer.TypeLine, 1, 111);            
             ScoreBoard.SaveScore(); 
         });
         public static CheckBox check1 = new CheckBox(20, "Test", new REMOPoint(300, 300));
         public static Scene scn = new Scene(() =>
         {
             ScoreBoard.Init();
-            ScoreBoard.AddScore("Test", 4, 200);
             ScoreBoard.SaveScore();
         }, () =>
         {
 
-            if(Typer.TypeLine.Length<10)
-                Typer.Update();
+             Typer.Update();
+            if (Typer.TypeLine.Length > 10)
+                Typer.TypeLine = Typer.TypeLine.Substring(0, 1);
             SaveButton.Enable();
             check1.Update();
         }, () =>

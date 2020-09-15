@@ -1,7 +1,4 @@
-<Name>NoName<Stage>1<Score>0
-<Name>NoName<Stage>1<Score>0
-<Name>NoName<Stage>1<Score>0
-<Name>NoName<Stage>1<Score>0
-<Name>NoName<Stage>2<Score>0
-<Name>NoName<Stage>2<Score>1
-<Name>NoName<Stage>1<Score>4
+<Name>NoName<Stage>3<Score>0<Time>09-16-2020 03:13
+<Name>NoNameasda<Stage>3<Score>1<Time>09-16-2020 03:14
+<Name>NoNameasda<Stage>3<Score>0<Time>09-16-2020 03:14
+<Name>DanoSato<Stage>3<Score>0<Time>09-16-2020 03:21

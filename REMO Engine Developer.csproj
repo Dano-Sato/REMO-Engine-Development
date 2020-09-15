@@ -9,7 +9,7 @@
     <ProjectGuid>{E0FB214A-E438-49E5-B76B-EC748EA77A84}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>REMO_Engine_Developer</RootNamespace>
+    <RootNamespace>REMOEngine</RootNamespace>
     <AssemblyName>REMO Engine</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
@@ -51,8 +51,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>REMO_icon.ico</ApplicationIcon>
+    <ApplicationIcon>KakaoTalk_Image_2020-09-15-19-22-17-2.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
@@ -235,6 +240,7 @@
     <Content Include="Content\REMO.Cursor.png" />
     <Content Include="Content\REMO.Light.png" />
     <Content Include="Content\REMO.WhiteSpace.png" />
+    <Content Include="KakaoTalk_Image_2020-09-15-19-22-17-2.ico" />
     <Content Include="REMO_icon.ico" />
     <Content Include="Steamworks.NET.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

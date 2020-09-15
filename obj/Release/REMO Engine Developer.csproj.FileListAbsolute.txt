@@ -55,7 +55,6 @@ C:\Users\satodano\source\repos\REMO_Engine_Developer\REMO_Engine_Developer\obj\R
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\REMO.KoreanFont.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\FLICK.SE2.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\FLICK.Journey.xnb
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Release\REMO_Engine_Developer.Korean_KS100X.resources
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Release\REMO Engine Developer.csproj.GenerateResource.cache
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Release\REMO Engine Developer.csproj.CoreCompileInputs.cache
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\REMO.Box.xnb
@@ -63,3 +62,4 @@ C:\Users\satodano\source\repos\REMO_Engine_Developer\REMO_Engine_Developer\obj\R
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Steamworks.NET.dll
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\steam_api.dll
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\libsteam_api.so
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Release\REMOEngine.Korean_KS100X.resources

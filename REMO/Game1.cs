@@ -273,7 +273,6 @@ namespace REMOEngine
         }
         protected void CustomDraw()
         {
-
         }
     }
   
