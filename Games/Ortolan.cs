@@ -22,12 +22,41 @@ namespace Ortolan
 {
     public static class Testboard
     {
+
+        public static Gfx2D slime = new Gfx2D("ORTO.Slime1", new REMOPoint(400, 400), 0.5f);
         public static Scene scn = new Scene(() =>
         {
             StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
         }, () =>
         {
-            if (StandAlone.FrameTimer % 30 <15 )
+            ButterFly.Update();
+            if (StandAlone.FrameTimer % 60 == 30)
+                slime.Sprite = "Slime1";
+            else if (StandAlone.FrameTimer % 60 == 0)
+                slime.Sprite = "Slime2";
+
+         
+
+        }, () =>
+        {
+            StandAlone.DrawFullScreen("Title");
+            slime.Draw();
+            Fader.DrawAll();
+
+        });
+    }
+
+    public class Centipede
+    {
+        
+    }
+    
+    public static class ButterFly
+    {
+        public static int KillCool = 30;
+        public static void Update()
+        {
+            if (StandAlone.FrameTimer % 30 < 15)
             {
                 Gfx2D g = new Gfx2D("CURSOR1", Cursor.Pos, 1.0);
                 g.Center = Cursor.Pos;
@@ -39,11 +68,6 @@ namespace Ortolan
                 g.Center = Cursor.Pos;
                 Fader.Add(g, 30, Color.White * 0.2f);
             }
-
-        }, () =>
-        {
-            Fader.DrawAll();
-
-        });
+        }
     }
 }

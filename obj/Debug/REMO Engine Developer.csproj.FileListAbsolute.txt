@@ -108,3 +108,11 @@ C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\bin\Desk
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMOEngine.Korean_KS100X.resources
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\ORTO.CURSOR2.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\ORTO.CURSOR1.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\ORTO.Title.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\FLICK.SummerNight.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\FLICK.SE.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\FLICK.StillGood.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\FLICK.SE2.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\FLICK.Journey.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\ORTO.Slime2.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\ORTO.Slime1.xnb

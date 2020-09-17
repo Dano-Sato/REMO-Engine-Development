@@ -4,8 +4,16 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.Journey.wav</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.SE.wav</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.SE2.wav</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.StillGood.wav</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.SummerNight.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/ORTO.CURSOR1.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/ORTO.CURSOR2.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/ORTO.Slime1.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/ORTO.Slime2.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/ORTO.Title.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.Box.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.CheckBox.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.Cursor.png</File>
@@ -15,6 +23,14 @@
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/YOKA.testCG.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
