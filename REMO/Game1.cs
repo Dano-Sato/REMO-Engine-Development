@@ -264,7 +264,7 @@ namespace REMOEngine
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build("FLICK", FlickerGame.MainScene.scn);
+            GAMEOPTION.Build("ORTO", Ortolan.Testboard.scn);
 
         }
 

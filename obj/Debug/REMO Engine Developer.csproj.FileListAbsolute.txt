@@ -99,15 +99,12 @@ C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\bin\Desk
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine Developer.csproj.GenerateResource.cache
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.KoreanFont.spritefont
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.KoreanFont.xnb
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\FLICK.SummerNight.xnb
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\FLICK.Journey.xnb
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\FLICK.SE.xnb
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\FLICK.SE2.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\YOKA.testCG.xnb
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\FLICK.StillGood.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.Box.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.CheckBox.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\steam_api.dll
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Steamworks.NET.dll
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\libsteam_api.so
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMOEngine.Korean_KS100X.resources
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\ORTO.CURSOR2.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\ORTO.CURSOR1.xnb
