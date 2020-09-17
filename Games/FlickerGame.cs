@@ -576,7 +576,7 @@ namespace FlickerGame
             }
         }, () => {
             Enemies.GenTimer = StandAlone.Random(13, 25);
-            Enemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(0, 300), 30,30))); // 적들을 생성합니다.
+            Enemies.Enemies.Add(new Gfx2D(new Rectangle(1000, StandAlone.Random(0, 300), 30,30)  )); // 적들을 생성합니다.
         });
 
         public static EnemySet HealEnemies = new EnemySet((i) => {
@@ -594,6 +594,8 @@ namespace FlickerGame
             HealEnemies.RemoveEnemy = true;
         }, () => {
         HealEnemies.GenTimer = StandAlone.Random(50, 100) + Math.Min(StandAlone.FrameTimer / 40, 120);
+            if (PlayerClass.isFlickering)
+                HealEnemies.GenTimer -= 10;
         Gfx2D g = new Gfx2D(new Rectangle(1000, StandAlone.Random(100, 350), 20, 20));
         HealEnemies.Enemies.Add(g); // 적들을 생성합니다.
 
