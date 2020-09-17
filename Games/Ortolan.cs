@@ -24,9 +24,14 @@ namespace Ortolan
     {
 
         public static Gfx2D slime = new Gfx2D("ORTO.Slime1", new REMOPoint(400, 400), 0.5f);
+        public static Centipede testCent = new Centipede(new Gfx2D(new Rectangle(0, 0, 50, 50)));
         public static Scene scn = new Scene(() =>
         {
             StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
+            for(int i=0;i<5;i++)
+            {
+                testCent.Bodies.Add(new Gfx2D(new Rectangle(0, 40+i*50, 50, 50)));
+            }
         }, () =>
         {
             ButterFly.Update();
@@ -34,13 +39,18 @@ namespace Ortolan
                 slime.Sprite = "Slime1";
             else if (StandAlone.FrameTimer % 60 == 0)
                 slime.Sprite = "Slime2";
-
+            testCent.Update(Cursor.Pos,5.0);
          
 
         }, () =>
         {
             StandAlone.DrawFullScreen("Title");
             slime.Draw();
+            testCent.Head.Draw(Color.White);
+            foreach(Gfx2D g in testCent.Bodies)
+            {
+                g.Draw(Color.White);
+            }
             Fader.DrawAll();
 
         });
@@ -48,7 +58,34 @@ namespace Ortolan
 
     public class Centipede
     {
-        
+        public Gfx2D Head;
+        public List<Gfx2D> Bodies=new List<Gfx2D>();
+
+        public Centipede(Gfx2D head)
+        {
+            Head = head;
+        }
+        public void Update(REMOPoint destination, double speed)
+        { 
+            Vector2 v = Vector2.Normalize((destination - Head.Center).ToVector2());
+            Vector2 n = new Vector2(v.Y, -v.X);
+
+            Head.MoveByVector((v-4*n*(float)Math.Sin(0.1f*StandAlone.FrameTimer))*10.0f, speed);
+            for(int i=0;i<Bodies.Count;i++)
+            {
+                
+            {
+                    float f= (Bodies[i].Center - Head.Center).ToVector2().Length()-25;
+                if (i == 0&&f > 0)
+                    Bodies[i].MoveTo(Head.Center, f/4);
+                if(i!=0)
+                    f = (Bodies[i].Center - Bodies[i - 1].Center).ToVector2().Length() - 25;
+                if (i != 0 && f>0)
+                    Bodies[i].MoveTo(Bodies[i - 1].Center, f/4);
+            }
+        }
+        }
+
     }
     
     public static class ButterFly
