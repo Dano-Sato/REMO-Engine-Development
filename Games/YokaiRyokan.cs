@@ -25,6 +25,7 @@ namespace Yokai
         public static string[] Scripts = TxtEditor.ReadAllLines("Scripts", "Tutorial");
         public static string currentString="";
         public static Action AfterAction=()=> { };
+        public static Gfx2D testCG = new Gfx2D("YOKAI.TestCG2", new REMOPoint(800, 0), 0.6f);
 
         public static void EnterScript(string ScriptName, Action afterAction)
         {
@@ -50,7 +51,7 @@ namespace Yokai
                 {
                     currentString = s.Substring(0, currentString.Length + 1);
                 }
-                StandAlone.DrawString(20, "KoreanFont", currentString, new REMOPoint(300, 500), Color.White); });
+                StandAlone.DrawString(20, "KoreanFont", currentString, new REMOPoint(300, 500), Color.Black); });
 
         }, () =>
         {
@@ -77,6 +78,8 @@ namespace Yokai
 
         }, () =>
         {
+            Filter.Absolute(StandAlone.FullScreen, Color.White);
+            testCG.Draw();
             ScriptReader.ReadLine(Scripts[line]);
             Cursor.Draw(Color.White);
 
@@ -171,17 +174,17 @@ namespace Yokai
     public static class Test_Scripter
     {
         public static Ingredient testIngredient = new Ingredient(1, "SClass","Fermented");
-        public static Gfx2D testCG;
         public static Scene scn = new Scene(() =>
         {
-            testCG = new Gfx2D("testCG", new REMOPoint(800, 0), 0.8f);
+            StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
         }, () =>
         {            
 
         }, () =>
         {
+            StandAlone.DrawFullScreen("RyokanBG");
             StandAlone.DrawString(testIngredient.ToScript(), new REMOPoint(200, 200), Color.White);
-            testCG.Draw();
+            StandAlone.DrawString(50, "KoreanFont", "요괴 여관",new REMOPoint(50,50), Color.Black);
 
         });
 

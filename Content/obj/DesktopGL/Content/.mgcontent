@@ -22,8 +22,12 @@
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.Light.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/REMO.WhiteSpace.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/YOKA.testCG.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/YOKAI.RyokanBG.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/YOKAI.TestCG2.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

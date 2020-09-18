@@ -264,7 +264,8 @@ namespace REMOEngine
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build("ORTO", Ortolan.Testboard.scn);
+            GAMEOPTION.Build("YOKAI",Yokai.ScripterScene.scn );
+
 
         }
 
