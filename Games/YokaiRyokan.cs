@@ -22,7 +22,7 @@ namespace Yokai
     {
         public static Scripter ScriptReader = new Scripter();
         public static int line = 0;
-        public static string[] Scripts = TxtEditor.ReadAllLines("Scripts", "Tutorial");
+        public static string[] Scripts = TxtEditor.ReadAllLines("Scripts", "Test");
         public static string currentString="";
         public static Action AfterAction=()=> { };
         public static Gfx2D testCG = new Gfx2D("YOKAI.TestCG2", new REMOPoint(800, 0), 0.6f);
@@ -42,14 +42,14 @@ namespace Yokai
 
 
             //Rule for Name
-            ScriptReader.AddRule("n", (s) => { StandAlone.DrawString(20, "KoreanFont", s, new REMOPoint(300, 300), Color.White); });
+            ScriptReader.AddRule("n", (s) => { StandAlone.DrawString(20, "KoreanFont", s, new REMOPoint(300, 300), Color.Black); });
             //Rule for Script
             ScriptReader.AddRule("s", (s) => {
 
-
+                s = s.Replace("@", "\n");   
                 if (currentString.Length < s.Length&&StandAlone.FrameTimer%4==0)
                 {
-                    currentString = s.Substring(0, currentString.Length + 1);
+                    currentString = s.Replace("%%", "\n").Substring(0, currentString.Length + 1);
                 }
                 StandAlone.DrawString(20, "KoreanFont", currentString, new REMOPoint(300, 500), Color.Black); });
 
@@ -59,6 +59,7 @@ namespace Yokai
             if (User.JustPressed(Keys.Z)||User.JustPressed(Keys.Space)||User.JustLeftClicked())
             {
                 string currentScript = ScriptReader.ParseLine("s", Scripts[line]);
+                currentScript = currentScript.Replace("@", "\n");
                 if (currentString.Length == currentScript.Length)
                 {
                     line++; //다음 라인으로 넘어갑니다.
@@ -81,7 +82,7 @@ namespace Yokai
             Filter.Absolute(StandAlone.FullScreen, Color.White);
             testCG.Draw();
             ScriptReader.ReadLine(Scripts[line]);
-            Cursor.Draw(Color.White);
+            Cursor.Draw(Color.Black);
 
         });
     }
