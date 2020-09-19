@@ -264,7 +264,7 @@ namespace REMOEngine
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build("YOKAI",Yokai.ScripterScene.scn );
+            GAMEOPTION.Build(MineCrazy.MiningScene.scn );
 
 
         }

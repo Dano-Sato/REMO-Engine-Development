@@ -65,6 +65,7 @@
     <Compile Include="Games\FlickerGame.cs" />
     <Compile Include="Games\ExampleGame.cs" />
     <Compile Include="Games\Mahjong.cs" />
+    <Compile Include="Games\MineCrazy.cs" />
     <Compile Include="Games\Ortolan.cs" />
     <Compile Include="Games\YokaiRyokan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
