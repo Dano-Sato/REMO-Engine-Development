@@ -210,7 +210,11 @@ namespace MineCrazy
         
         });
 
-        public static Aligned<Button> EnchantSlots = new Aligned<Button>(new REMOPoint(50, 270), new REMOPoint(0, 50));
+        public static string EnchantSlotDescription(string EnchantScript)
+        {
+            return "";
+        }
+
             
         public static Scene scn = new Scene(() =>
         {
@@ -239,8 +243,16 @@ namespace MineCrazy
             {
                 EnchantButton.DrawWithAccent(Color.LightBlue, Color.Red);
                 StandAlone.DrawString("Enchant Slot", new REMOPoint(50, 220), Color.LightBlue);
-
+                for(int i=0;i<3;i++)
+                {
+                    StandAlone.DrawString("Slot " + (i + 1) + " : " + EnchantSlotDescription(""), new REMOPoint(50, 270 + i * 50), Color.LightBlue);
+                }
+                if(SelectedSlots.Count==0)
+                {
+                    StandAlone.DrawString("Cost : 0 (Please select slot!)", EnchantButton.Pos + new REMOPoint(0, 50), Color.LightBlue);
+                }
             }
+            
 
             Cursor.Draw(Color.White);
         });
