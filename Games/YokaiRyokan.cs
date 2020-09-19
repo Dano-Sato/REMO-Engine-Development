@@ -25,7 +25,7 @@ namespace Yokai
         public static string[] Scripts = TxtEditor.ReadAllLines("Scripts", "Test");
         public static string currentString="";
         public static Action AfterAction=()=> { };
-        public static Gfx2D testCG = new Gfx2D("YOKAI.TestCG2", new REMOPoint(800, 0), 0.6f);
+        public static Gfx2D testCG = new Gfx2D("YOKAI.TestCG3", new REMOPoint(800, 0), 0.6f);
 
         public static void EnterScript(string ScriptName, Action afterAction)
         {
@@ -49,7 +49,7 @@ namespace Yokai
                 s = s.Replace("@", "\n");   
                 if (currentString.Length < s.Length&&StandAlone.FrameTimer%4==0)
                 {
-                    currentString = s.Replace("%%", "\n").Substring(0, currentString.Length + 1);
+                    currentString = s.Substring(0, currentString.Length + 1);
                 }
                 StandAlone.DrawString(20, "KoreanFont", currentString, new REMOPoint(300, 500), Color.Black); });
 
