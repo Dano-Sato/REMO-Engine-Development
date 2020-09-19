@@ -48,10 +48,11 @@ namespace MineCrazy
     public static class UserInterface
     {
         public static int Gold = 0;
+        public static int EnchantStone = 0;
         public static int Trash = 0;
-        public static Button TuningSceneButton = new Button(new GfxStr("(→)Go To Tuning Scene", new REMOPoint(800, 100)), () => {
+        public static Button TuningSceneButton = new Button(new GfxStr("Go To Tuning Scene(→)", new REMOPoint(700, 100)), () => {
             Projectors.Projector.SwapTo(TuningScene.scn); });
-        public static Button MiningSceneButton = new Button(new GfxStr("(←)Go To Mining Scene", new REMOPoint(800, 100)), () => {
+        public static Button MiningSceneButton = new Button(new GfxStr("Go To Mining Scene(←)", new REMOPoint(700, 100)), () => {
             Projectors.Projector.SwapTo(MiningScene.scn); });
         public static Aligned<Button> CurrentButtons=new Aligned<Button>(new REMOPoint(700,100),new REMOPoint(0,50)); 
 
@@ -82,6 +83,9 @@ namespace MineCrazy
                 StandAlone.DrawString(20, "Trash : " + Trash, new REMOPoint(400, 100), Color.White);
                 StandAlone.DrawString(20, "Trash : " + Trash, new REMOPoint(400, 100), Color.Gray * 0.6f);
             }
+            if(EnchantStone>0)
+                StandAlone.DrawString(20, "Enchant Stone : " + EnchantStone, new REMOPoint(700, 50), Color.SkyBlue);
+
 
             foreach (Button b in CurrentButtons.Components)
             {
@@ -140,7 +144,8 @@ namespace MineCrazy
             }
             public static void GetReward()
             {
-                UserInterface.Gold += 10*(int)Math.Pow(2,Level-1);
+                UserInterface.Gold += (int)(10*Math.Pow(1.6,Level-1));
+                UserInterface.EnchantStone += Level / 5;
             }
 
             public static void Draw()
@@ -197,6 +202,16 @@ namespace MineCrazy
 
                    }
                });
+        public static int EnchantFee = 1;
+        public static List<int> SelectedSlots = new List<int>();
+        public static Button EnchantButton = new Button(new GfxStr("Enchant(E)", ReinforceButton.Pos + new REMOPoint(0, 120)),()=> 
+        { 
+        
+        
+        });
+
+        public static Aligned<Button> EnchantSlots = new Aligned<Button>(new REMOPoint(50, 270), new REMOPoint(0, 50));
+            
         public static Scene scn = new Scene(() =>
         {
             UserInterface.SetButtons(UserInterface.MiningSceneButton);
@@ -220,6 +235,13 @@ namespace MineCrazy
             StandAlone.DrawString("Possibility : " + (int)(ReinforcePossibility*100)+"%", ReinforceButton.Pos + new REMOPoint(0, 50), Color.White);
             UserInterface.Draw();
             ReinforceButton.DrawWithAccent(Color.Gold, Color.Red);
+            if(UserInterface.EnchantStone>0)
+            {
+                EnchantButton.DrawWithAccent(Color.LightBlue, Color.Red);
+                StandAlone.DrawString("Enchant Slot", new REMOPoint(50, 220), Color.LightBlue);
+
+            }
+
             Cursor.Draw(Color.White);
         });
 
