@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/YOKAI.TestCG3.png</SourceFile>
-  <SourceTime>2020-09-19T16:53:17.9679569+09:00</SourceTime>
+  <SourceTime>2020-09-19T17:22:02.566158+09:00</SourceTime>
   <DestFile>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/bin/DesktopGL/Content/YOKAI.TestCG3.xnb</DestFile>
-  <DestTime>2020-09-19T16:54:20.3883532+09:00</DestTime>
+  <DestTime>2020-09-19T17:22:32.3097947+09:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-09T01:35:54+09:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

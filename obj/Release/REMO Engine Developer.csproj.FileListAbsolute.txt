@@ -72,3 +72,5 @@ C:\Users\satodano\source\repos\REMO_Engine_Developer\REMO_Engine_Developer\obj\R
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\FLICK.Journey.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\ORTO.Title.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\YOKAI.TestCG3.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\YOKAI.TestCG4.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\YOKAI.TestCG5.xnb

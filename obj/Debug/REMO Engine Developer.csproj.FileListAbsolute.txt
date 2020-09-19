@@ -119,3 +119,6 @@ C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\bin\Desk
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\ORTO.Centipede.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\YOKAI.RyokanBG.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\YOKAI.TestCG2.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\YOKAI.TestCG3.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\YOKAI.TestCG4.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\YOKAI.TestCG5.xnb

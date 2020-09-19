@@ -22,10 +22,10 @@ namespace Yokai
     {
         public static Scripter ScriptReader = new Scripter();
         public static int line = 0;
-        public static string[] Scripts = TxtEditor.ReadAllLines("Scripts", "Test");
+        public static string[] Scripts = TxtEditor.ReadAllLines("Scripts", "Tutorial");
         public static string currentString="";
         public static Action AfterAction=()=> { };
-        public static Gfx2D testCG = new Gfx2D("YOKAI.TestCG3", new REMOPoint(800, 0), 0.6f);
+        public static Dictionary<string, Gfx2D> CGPipeline = new Dictionary<string, Gfx2D>();
 
         public static void EnterScript(string ScriptName, Action afterAction)
         {
@@ -34,24 +34,33 @@ namespace Yokai
             AfterAction = afterAction;
  
         }
-        
+
         public static Scene scn = new Scene(() =>
         {
 
-            StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
+        StandAlone.FullScreen = new Rectangle(0, 0, 1920, 1080);
 
 
-            //Rule for Name
-            ScriptReader.AddRule("n", (s) => { StandAlone.DrawString(20, "KoreanFont", s, new REMOPoint(300, 300), Color.Black); });
-            //Rule for Script
-            ScriptReader.AddRule("s", (s) => {
 
-                s = s.Replace("@", "\n");   
-                if (currentString.Length < s.Length&&StandAlone.FrameTimer%4==0)
-                {
-                    currentString = s.Substring(0, currentString.Length + 1);
-                }
-                StandAlone.DrawString(20, "KoreanFont", currentString, new REMOPoint(300, 500), Color.Black); });
+        ScriptReader.AddRule("CG", (s) =>
+        {
+            CGPipeline[s].Draw();
+        });
+        //Rule for Name
+        ScriptReader.AddRule("n", (s) => { StandAlone.DrawString(20, "KoreanFont", s, new REMOPoint(300, 300), Color.Black); });
+        //Rule for Script
+        ScriptReader.AddRule("s", (s) => {
+
+            s = s.Replace("@", "\n");
+            if (currentString.Length < s.Length && StandAlone.FrameTimer % 4 == 0)
+            {
+                currentString = s.Substring(0, currentString.Length + 1);
+            }
+            StandAlone.DrawString(20, "KoreanFont", currentString, new REMOPoint(300, 500), Color.Black); });
+
+            CGPipeline.Add("CG1", new Gfx2D("TestCG3", new REMOPoint(800, -50), 0.6f));
+            CGPipeline.Add("CG2", new Gfx2D("TestCG4", new REMOPoint(800, -50), 0.6f));
+            CGPipeline.Add("CG3", new Gfx2D("TestCG5", new REMOPoint(800, 0), 0.8f));
 
         }, () =>
         {
@@ -80,7 +89,6 @@ namespace Yokai
         }, () =>
         {
             Filter.Absolute(StandAlone.FullScreen, Color.White);
-            testCG.Draw();
             ScriptReader.ReadLine(Scripts[line]);
             Cursor.Draw(Color.Black);
 
