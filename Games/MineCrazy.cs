@@ -639,7 +639,7 @@ namespace MineCrazy
             }
             else if (SelectedItem == ItemSelection.Item2)
             {
-                return 100 * (int)Math.Pow(5,Item2_Count);
+                return 100 * (int)Math.Pow(4,Item2_Count);
             }
             return -1;
         }
