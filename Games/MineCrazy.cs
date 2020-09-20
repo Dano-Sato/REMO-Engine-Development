@@ -222,7 +222,7 @@ namespace MineCrazy
                     level = value;
                     MaxHP = (int)(30 * Math.Pow(1.5, level - 1));
                     CurrentHP = MaxHP;
-                    MaxDEF = (int)(Math.Pow(1.5, level - 1));
+                    MaxDEF = (int)(Math.Pow(1.7, level - 1));
                     CurrentDEF = MaxDEF;
                 
                 
@@ -635,7 +635,7 @@ namespace MineCrazy
         {
             if (SelectedItem == ItemSelection.Item1)
             {
-                return 10 * (Item1_Count + Used_Item1_Count+ 1);
+                return 5 * (Item1_Count + Used_Item1_Count+ 1);
             }
             else if (SelectedItem == ItemSelection.Item2)
             {
