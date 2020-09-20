@@ -16,6 +16,8 @@
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Item1.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Item2.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Pickaxe.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Player.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Rock.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/ORTO.Centipede.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/ORTO.CURSOR1.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/ORTO.CURSOR2.png</File>
@@ -36,6 +38,8 @@
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/YOKAI.TestCG5.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

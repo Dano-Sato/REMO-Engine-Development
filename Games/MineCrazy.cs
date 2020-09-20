@@ -141,7 +141,7 @@ namespace MineCrazy
 
     public static class UserInterface
     {
-        public static int Gold = 0;
+        public static ulong Gold = 0;
         public static int EnchantStone = 0;
         public static int Trash = 0;
         public static Button TuningSceneButton = new Button(new GfxStr("Go To Tuning Scene(→)", new REMOPoint(700, 100)), () => {
@@ -163,7 +163,7 @@ namespace MineCrazy
 
 
 
-        public static Aligned<Button> CurrentButtons=new Aligned<Button>(new REMOPoint(700,100),new REMOPoint(0,50)); 
+        public static Aligned<Button> CurrentButtons=new Aligned<Button>(new REMOPoint(700,100),new REMOPoint(0,40)); 
 
 
         public static void SetButtons(params Button[] buttons)
@@ -191,8 +191,8 @@ namespace MineCrazy
             StandAlone.DrawString(20, "Gold : " + Gold+"G", new REMOPoint(400, 50), Color.Gold);
             if(Trash>0)
             {
-                StandAlone.DrawString(20, "Trash : " + Trash, new REMOPoint(400, 100), Color.White);
-                StandAlone.DrawString(20, "Trash : " + Trash, new REMOPoint(400, 100), Color.Gray * 0.6f);
+                StandAlone.DrawString(20, "Trash : " + Trash, new REMOPoint(400, 90), Color.White);
+                StandAlone.DrawString(20, "Trash : " + Trash, new REMOPoint(400, 90), Color.Gray * 0.6f);
             }
             if(EnchantStone> 0 ||Pickaxe.Enchants[0].Item1 != "" || Pickaxe.Enchants[1].Item1 != "" || Pickaxe.Enchants[2].Item1 != "")
                 StandAlone.DrawString(20, "Enchant Stone : " + EnchantStone+"S", new REMOPoint(700, 50), Color.SkyBlue);
@@ -212,7 +212,7 @@ namespace MineCrazy
         public static Gfx2D PickaxeGrapic = new Gfx2D("MINE.Pickaxe", Rock.Graphic.Center + new REMOPoint(70, -100), 0.5f);
         public static class Rock
         {
-            public static Gfx2D Graphic=new Gfx2D(new Rectangle(100,100,200,200));
+            public static Gfx2D Graphic=new Gfx2D("MINE.Rock",new Rectangle(150,100,200,200));
             private static int level=1;
             public static int Level
             {
@@ -268,20 +268,22 @@ namespace MineCrazy
                     GetReward();
                 }
                 if (User.JustPressed(Keys.S))
-                    Rock.Level++;
+                    NextRockButton.ButtonClickAction();
                 if (User.JustPressed(Keys.A))
-                    Rock.Level=Math.Max(1,Rock.level-1);
+                    PrevRockButton.ButtonClickAction();
 
             }
             public static void GetReward()
             {
-                UserInterface.Gold += (int)(10*Math.Pow(1.6,Level-1));
+                UserInterface.Gold += (ulong)(10*Math.Pow(1.5,Level-1));
                 UserInterface.EnchantStone += Level / 5;
             }
 
             public static void Draw()
             {
-                Rock.Graphic.Draw(Color.White);
+                Color[] RockColors = new Color[] { Color.White, Color.Orange, Color.DarkRed, Color.Aqua, Color.LightCoral, Color.Pink,Color.Lavender, Color.PaleVioletRed,Color.BlueViolet,Color.LightGreen,Color.LightSeaGreen };
+                Rock.Graphic.Draw(RockColors[Math.Min(RockColors.Length-1, Level/5)]);
+
 
                 if (Rock.Graphic.ContainsCursor())
                     Rock.Graphic.Draw(Color.Red);
@@ -295,6 +297,19 @@ namespace MineCrazy
         }
 
         public static int MiningTimer = 0;
+
+        public static Button PrevRockButton = new Button(new GfxStr("Prev Rock(A)", new REMOPoint(450,300)), () => 
+        {
+            Rock.Level = Math.Max(1, Rock.Level - 1);
+        });
+        public static Button NextRockButton = new Button(new GfxStr("Next Rock(S)", PrevRockButton.Pos+new REMOPoint(150,0)), () =>
+        {
+            Rock.Level = Math.Min(45,Rock.Level+1);
+
+        });
+
+        public static Gfx2D Player = new Gfx2D("MINE.Player", PickaxeGrapic.Center-new REMOPoint(30,80), 0.5f);
+
         public static Scene scn = new Scene(() =>
         {
             UserInterface.SetButtons(UserInterface.TuningSceneButton,UserInterface.LandFillSceneButton2);
@@ -311,14 +326,22 @@ namespace MineCrazy
             if (User.Pressing(Keys.Z)|| User.Pressing(Keys.X)|| User.Pressing(Keys.C)|| User.Pressing(Keys.V))
                 MiningTimer++;
             Rock.Update();
+            PrevRockButton.Enable();
+            NextRockButton.Enable();
+
         }, () =>
         {
+            Rock.Draw();
             PickaxeGrapic.Draw();
+            Player.Draw();
+
             if (Pickaxe.Level >= 10)
                 PickaxeGrapic.Draw(Color.LightBlue);
-            Rock.Draw();
-            StandAlone.DrawString("Press Z,X,C,V to Mine!(Z,X,C,V)", new REMOPoint(400,200), Color.White);
+            StandAlone.DrawString("Press Z,X,C,V to Mine!(Z,X,C,V)", new REMOPoint(450,260), Color.White);
             UserInterface.Draw();
+            PrevRockButton.DrawWithAccent(Color.White, Color.Red);
+            NextRockButton.DrawWithAccent(Color.White, Color.Red);
+
             Cursor.Draw(Color.White);
         });
     }
@@ -329,18 +352,25 @@ namespace MineCrazy
         public static float ReinforcePossibility = 1.0f;
         public static Button ReinforceButton = new Button(new GfxStr("Reinforce(R) : " + Reinforcefee+"G", new REMOPoint(400, 200)), () =>
                {
-                   if(UserInterface.Gold>=Reinforcefee)
+                   if(UserInterface.Gold>=(ulong)Reinforcefee)
                    {
-                       UserInterface.Gold -= Reinforcefee;
+                       UserInterface.Gold -= (ulong)Reinforcefee;
                        if(StandAlone.Random()<ReinforcePossibility)
                            Pickaxe.Level += 1;
-                       else
+                       else if(!Protected.isChecked||LandFillScene.Item1_Count==0)
                        {
                            UserInterface.Trash += Pickaxe.Level;
-                           Pickaxe.Level = 1;
+                           Pickaxe.Level = Math.Max(1,LandFillScene.Item2_Count*5);
                            Pickaxe.Enchants = new Tuple<string, double>[] { new Tuple<string, double>("", 0), new Tuple<string, double>("", 0), new Tuple<string, double>("", 0) };
                            EnchantSlot.Make();
                        }
+
+                       if (Protected.isChecked && LandFillScene.Item1_Count > 0)
+                       {
+                           LandFillScene.Item1_Count--;
+                           LandFillScene.Used_Item1_Count++;
+                       }
+
 
                    }
                });
@@ -379,7 +409,7 @@ namespace MineCrazy
                 Slot3=4,
             }
             
-            public static Aligned<GfxStr> Slots = new Aligned<GfxStr>(new REMOPoint(50, 270), new REMOPoint(0, 50));
+            public static Aligned<GfxStr> Slots = new Aligned<GfxStr>(new REMOPoint(70, 270), new REMOPoint(0, 40));
             public static SelectedSlot SelectedSlots = SelectedSlot.None;
             public static SelectedSlot[] Flags = new SelectedSlot[] { SelectedSlot.Slot1, SelectedSlot.Slot2, SelectedSlot.Slot3 };
 
@@ -458,7 +488,7 @@ namespace MineCrazy
             }
             public static void Draw()
             {
-                StandAlone.DrawString("Enchant Slot", new REMOPoint(50, 220), Color.LightBlue);
+                StandAlone.DrawString("Enchant Slot", new REMOPoint(70, 220), Color.LightBlue);
 
                 for (int i=0;i<3;i++)
                 {
@@ -485,6 +515,8 @@ namespace MineCrazy
 
 
         public static int PressingRTimer = 0;
+
+        public static CheckBox Protected = new CheckBox(15, "Protect(P)", ReinforceButton.Pos + new REMOPoint(0, -50));
 
         public static Scene scn = new Scene(() =>
         {
@@ -518,13 +550,25 @@ namespace MineCrazy
             if (UserInterface.EnchantStone > 0)
                 EnchantButton.Enable();
             EnchantSlot.Update();
+            Protected.Description.Text = "Protect Destruction(P)" + "("+ LandFillScene.Item1_Count + ")";
+
+            if (LandFillScene.Item1_Count > 0)
+            {
+                Protected.Update();
+            }
+            else
+            {
+                Protected.isChecked = false;
+            }
+            if (User.JustPressed(Keys.P))
+                Protected.isChecked = !Protected.isChecked;
            
 
         }, () =>
         {
-            StandAlone.DrawString("(Let's make level 30!)", new REMOPoint(50, 50), Color.Gray);
+            StandAlone.DrawString("(Let's make level 30!)", new REMOPoint(70, 50), Color.Gray);
 
-            StandAlone.DrawString("level " + Pickaxe.Level + " Pickaxe", new REMOPoint(50, 100), Color.White);
+            StandAlone.DrawString("level " + Pickaxe.Level + " Pickaxe", new REMOPoint(70, 90), Color.White);
             StringBuilder PowerDescription = new StringBuilder();
             PowerDescription.Append("Power : ");
             PowerDescription.Append(Pickaxe.GetPower());
@@ -536,8 +580,8 @@ namespace MineCrazy
                     PowerDescription.Append("+");
                 PowerDescription.Append(powerChanged + ")");
             }
-            StandAlone.DrawString(PowerDescription.ToString(), new REMOPoint(50, 150), Color.White);
-            StandAlone.DrawString("Possibility : " + (int)(ReinforcePossibility*100)+"%", ReinforceButton.Pos + new REMOPoint(0, 50), Color.White);
+            StandAlone.DrawString(PowerDescription.ToString(), new REMOPoint(70, 130), Color.White);
+            StandAlone.DrawString("Possibility : " + (int)(ReinforcePossibility*100)+"%", ReinforceButton.Pos + new REMOPoint(0, 40), Color.White);
             UserInterface.Draw();
             ReinforceButton.DrawWithAccent(Color.Gold, Color.Red);
             if(UserInterface.EnchantStone>0)
@@ -550,6 +594,8 @@ namespace MineCrazy
                 EnchantButton.DrawWithAccent(Color.LightBlue, Color.Red);
                 EnchantSlot.Draw();
             }
+           if (LandFillScene.Item1_Count > 0)
+                Protected.Draw(Color.White);
 
 
 
@@ -568,6 +614,7 @@ namespace MineCrazy
         public static ItemSelection SelectedItem = ItemSelection.None;
         public static Gfx2D Item1 = new Gfx2D("MINE.Item1", new REMOPoint(300, 150), 0.4f);
         public static int Item1_Count = 0;
+        public static int Used_Item1_Count = 0;
         public static int Item2_Count = 0;
         public static Gfx2D Item2 = new Gfx2D("MINE.Item2", new REMOPoint(400, 150), 0.4f);
         public static Gfx2D GarbageGirl = new Gfx2D("MINE.Garbage3", new REMOPoint(0, 190), 0.5f);
@@ -588,7 +635,7 @@ namespace MineCrazy
         {
             if (SelectedItem == ItemSelection.Item1)
             {
-                return 10 * (Item1_Count + 1);
+                return 10 * (Item1_Count + Used_Item1_Count+ 1);
             }
             else if (SelectedItem == ItemSelection.Item2)
             {
@@ -649,8 +696,8 @@ namespace MineCrazy
             else
                 BuyButton.Draw(Color.Gray);
 
-            StandAlone.DrawString("Protection Charm : " + Item1_Count, new REMOPoint(50, 50), Color.White);
-            StandAlone.DrawString("Iron Ore : " + Item2_Count, new REMOPoint(50, 80), Color.White);
+            StandAlone.DrawString("Protection Charm : " + Item1_Count, new REMOPoint(50, 80), Color.White);
+            StandAlone.DrawString("Iron Ore : " + Item2_Count, new REMOPoint(50, 110), Color.White);
 
 
             Cursor.Draw(Color.White);
