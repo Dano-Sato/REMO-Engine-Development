@@ -18,6 +18,7 @@ using REMOEngine;
 using System.Runtime.ExceptionServices;
 using Steamworks;
 using System.Security.Policy;
+using System.Diagnostics.Tracing;
 
 namespace MineCrazy
 {
@@ -281,13 +282,14 @@ namespace MineCrazy
             public static void Draw()
             {
                 Rock.Graphic.Draw(Color.White);
+
                 if (Rock.Graphic.ContainsCursor())
                     Rock.Graphic.Draw(Color.Red);
                 StandAlone.DrawString("level "+level+" Rock", Rock.Graphic.Center - new REMOPoint(50, 20), Color.Black);
                 HPGauge.Draw(Color.Red);
-                StandAlone.DrawString("HP : "+Rock.CurrentHP, HPGauge.Graphic.Pos-new REMOPoint(0,30), Color.Red);
+                StandAlone.DrawString("ROCK HP : "+Rock.CurrentHP, HPGauge.Graphic.Pos-new REMOPoint(0,30), Color.Red);
                 DEFGauge.Draw(Color.Green);
-                StandAlone.DrawString("DEF :"+Rock.CurrentDEF, DEFGauge.Graphic.Pos - new REMOPoint(0, 30), Color.Green);
+                StandAlone.DrawString("ROCK DEF :"+Rock.CurrentDEF, DEFGauge.Graphic.Pos - new REMOPoint(0, 30), Color.Green);
 
             }
         }
@@ -558,9 +560,42 @@ namespace MineCrazy
 
     public static class LandFillScene
     {
-        public static GfxStr Item1 = new GfxStr("Protection Charm", new REMOPoint(200, 500));
-        public static Gfx2D GarbageGirl = new Gfx2D("MINE.Garbage2", new REMOPoint(0, 180), 0.5f);
+        [Flags]
+        public enum ItemSelection
+        {
+            None = 0, Item1 = 1, Item2 = 2
+        }
+        public static ItemSelection SelectedItem = ItemSelection.None;
+        public static Gfx2D Item1 = new Gfx2D("MINE.Item1", new REMOPoint(300, 150), 0.4f);
+        public static int Item1_Count = 0;
+        public static int Item2_Count = 0;
+        public static Gfx2D Item2 = new Gfx2D("MINE.Item2", new REMOPoint(400, 150), 0.4f);
+        public static Gfx2D GarbageGirl = new Gfx2D("MINE.Garbage3", new REMOPoint(0, 190), 0.5f);
         public static GfxStr CurrentTalk = new GfxStr("Hello.. Mister... What do you want to exchange?", new REMOPoint(300, 400));
+        public static Button BuyButton = new Button(new Gfx2D("BuyButton", new REMOPoint(700, 200), 0.5f), () =>
+              {
+                  if(UserInterface.Trash>=GetPrice())
+                  {
+                      UserInterface.Trash -= GetPrice();
+                      if (SelectedItem == ItemSelection.Item1)
+                          Item1_Count++;
+                      if (SelectedItem == ItemSelection.Item2)
+                          Item2_Count++;
+                  }
+              });
+
+        public static int GetPrice()
+        {
+            if (SelectedItem == ItemSelection.Item1)
+            {
+                return 10 * (Item1_Count + 1);
+            }
+            else if (SelectedItem == ItemSelection.Item2)
+            {
+                return 100 * (int)Math.Pow(5,Item2_Count);
+            }
+            return -1;
+        }
         public static Scene scn = new Scene(() =>
         {
             UserInterface.SetButtons(UserInterface.MiningSceneButton2, UserInterface.TuningSceneButton2);
@@ -570,12 +605,54 @@ namespace MineCrazy
                 Projectors.Projector.SwapTo(TuningScene.scn);
             if (User.JustPressed(Keys.Right))
                 Projectors.Projector.SwapTo(MiningScene.scn);
+            if(User.JustLeftClicked(Item1)||User.JustPressed(Keys.D1))
+            {
+                if (SelectedItem != ItemSelection.Item1)
+                    SelectedItem = ItemSelection.Item1;
+                else
+                    SelectedItem = ItemSelection.None;
+            }
+            if (User.JustLeftClicked(Item2) || User.JustPressed(Keys.D2))
+            {
+                if (SelectedItem != ItemSelection.Item2)
+                    SelectedItem = ItemSelection.Item2;
+                else
+                    SelectedItem = ItemSelection.None;
+            }
+
+            BuyButton.Enable();
+
             UserInterface.Update();
         }, () =>
         {
             UserInterface.Draw();
+            Item1.Draw();
+            Item2.Draw();
             GarbageGirl.Draw();
             CurrentTalk.Draw(Color.White);
+            if(SelectedItem==ItemSelection.Item1)
+            {
+                Item1.Draw(Color.Red * 0.3f);
+                StandAlone.DrawString("Protection Charm", Item1.Pos + new REMOPoint(0, 90),Color.Yellow);
+                StandAlone.DrawString("Protects destruction of pickaxe(1 time)", Item1.Pos + new REMOPoint(0, 120), Color.White);
+                StandAlone.DrawString("Price : " + GetPrice() + " Trash", Item1.Pos + new REMOPoint(0, 160), Color.White) ;
+                BuyButton.DrawWithAccent(Color.White, Color.Pink);
+            }
+            else if (SelectedItem == ItemSelection.Item2)
+            {
+                Item2.Draw(Color.Red * 0.3f);
+                StandAlone.DrawString("Iron Ore", Item1.Pos + new REMOPoint(0, 90), Color.Yellow);
+                StandAlone.DrawString("When you make new pickaxe, it's level is "+5*(Item2_Count+1)+".", Item1.Pos + new REMOPoint(0, 120), Color.White);
+                StandAlone.DrawString("Price : "+GetPrice()+" Trash", Item1.Pos + new REMOPoint(0, 160), Color.White);
+                BuyButton.DrawWithAccent(Color.White, Color.Pink);
+            }
+            else
+                BuyButton.Draw(Color.Gray);
+
+            StandAlone.DrawString("Protection Charm : " + Item1_Count, new REMOPoint(50, 50), Color.White);
+            StandAlone.DrawString("Iron Ore : " + Item2_Count, new REMOPoint(50, 80), Color.White);
+
+
             Cursor.Draw(Color.White);
         });
 

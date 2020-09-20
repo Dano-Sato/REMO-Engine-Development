@@ -77,3 +77,7 @@ C:\Users\satodano\source\repos\REMO_Engine_Developer\REMO_Engine_Developer\obj\R
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\MINE.Garbage.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\MINE.Pickaxe.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\MINE.Garbage2.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\MINE.Garbage3.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\MINE.Item2.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\MINE.Item1.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\MINE.BuyButton.xnb
