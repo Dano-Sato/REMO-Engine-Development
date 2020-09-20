@@ -25,8 +25,8 @@ namespace MineCrazy
 
     public static class Pickaxe
     {
-        public static int Power=10;
-        private static int level=1;
+        public static int Power = 10;
+        private static int level = 1;
         public static int Level
         {
             get
@@ -36,13 +36,106 @@ namespace MineCrazy
             set
             {
                 level = value;
-                Power = level * 9+(int)Math.Pow(1.5,level);
-                TuningScene.Reinforcefee = (int)(50*(Math.Pow(1.5, level-1)));
+                Power = level * 9 + (int)Math.Pow(1.5, level);
+                TuningScene.Reinforcefee = (int)(50 * (Math.Pow(1.5, level - 1)));
                 TuningScene.ReinforcePossibility = (float)(1.0 * Math.Pow(0.98, level - 1));
                 TuningScene.ReinforceButton.ButtonGraphic = new GfxStr("Reinforce(R) : " + TuningScene.Reinforcefee + "G", new REMOPoint(400, 200));
             }
         }
-        public static List<string> Enchants=new List<string>();
+        public static Tuple<string, double>[] Enchants = new Tuple<string, double>[] {new Tuple<string, double>("",0), new Tuple<string, double>("", 0) , new Tuple<string, double>("", 0) };
+        public static void Enchant(int SlotNum)
+        {
+            if(TuningScene.EnchantFee==TuningScene.EnchantNormalFee)
+            {
+                double r = StandAlone.Random();
+                if(r<0.3)
+                {
+                    Enchants[SlotNum] = new Tuple<string, double>("A", StandAlone.Random(0.2, 2));
+                }
+                else if(r<0.6)
+                {
+                    Enchants[SlotNum] = new Tuple<string, double>("BD", StandAlone.Random(0.0, 1));
+                }
+                else if(r<0.8)
+                    Enchants[SlotNum] = new Tuple<string, double>("CC", StandAlone.Random(0.0, 1));
+                else if(r<0.9)
+                    Enchants[SlotNum] = new Tuple<string, double>("CD", StandAlone.Random(0.0, 10));
+                else
+                    Enchants[SlotNum] = new Tuple<string, double>("AM", StandAlone.Random(0.0, 10));
+
+
+            }
+        }
+
+        public static int GetPower()
+        {
+            int result=Power;
+            double a = 1;
+            for(int i=0;i<3;i++)
+            {
+                if(Enchants[i].Item1=="A")
+                {
+                    a += (Enchants[i].Item2-1);
+                }
+            }
+            result = (int)Math.Max(0, result * a);
+            return result;
+        }
+
+        public static double GetBD()
+        {
+            double bd = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                if (Enchants[i].Item1 == "BD")
+                {
+                    bd += (Enchants[i].Item2);
+                }
+            }
+            return bd;
+        }
+
+        public static bool CheckCritical()
+        {
+            double cc = 0.1;
+            for (int i = 0; i < 3; i++)
+            {
+                if (Enchants[i].Item1 == "CC")
+                {
+                    cc += (Enchants[i].Item2);
+                }
+            }
+            if (StandAlone.Random() < cc)
+                return true;
+            else
+                return false;
+        }
+        public static double GetCD()
+        {
+            double cd = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                if (Enchants[i].Item1 == "CD")
+                {
+                    cd += (Enchants[i].Item2);
+                }
+            }
+            return cd;
+        }
+        public static double Get(string text)
+        {
+            double result=0;
+            for (int i = 0; i < 3; i++)
+            {
+                if (Enchants[i].Item1 == text)
+                {
+                    result += (Enchants[i].Item2);
+                }
+            }
+            return result;
+        }
+
+
     }
 
     public static class UserInterface
@@ -54,6 +147,21 @@ namespace MineCrazy
             Projectors.Projector.SwapTo(TuningScene.scn); });
         public static Button MiningSceneButton = new Button(new GfxStr("Go To Mining Scene(←)", new REMOPoint(700, 100)), () => {
             Projectors.Projector.SwapTo(MiningScene.scn); });
+        public static Button LandFillSceneButton = new Button(new GfxStr("Go To Landfill Scene(→)", new REMOPoint(700, 100)), () => {
+            Projectors.Projector.SwapTo(LandFillScene.scn);
+        });
+        public static Button TuningSceneButton2 = new Button(new GfxStr("Go To Tuning Scene(←)", new REMOPoint(700, 100)), () => {
+            Projectors.Projector.SwapTo(TuningScene.scn);
+        });
+        public static Button MiningSceneButton2 = new Button(new GfxStr("Go To Mining Scene(→)", new REMOPoint(700, 100)), () => {
+            Projectors.Projector.SwapTo(MiningScene.scn);
+        });
+        public static Button LandFillSceneButton2 = new Button(new GfxStr("Go To Landfill Scene(←)", new REMOPoint(700, 100)), () => {
+            Projectors.Projector.SwapTo(LandFillScene.scn);
+        });
+
+
+
         public static Aligned<Button> CurrentButtons=new Aligned<Button>(new REMOPoint(700,100),new REMOPoint(0,50)); 
 
 
@@ -64,6 +172,8 @@ namespace MineCrazy
             {
                 CurrentButtons.Add(b);
             }
+            CurrentButtons.Align();
+
         }
         public static void Update()
         {
@@ -83,8 +193,8 @@ namespace MineCrazy
                 StandAlone.DrawString(20, "Trash : " + Trash, new REMOPoint(400, 100), Color.White);
                 StandAlone.DrawString(20, "Trash : " + Trash, new REMOPoint(400, 100), Color.Gray * 0.6f);
             }
-            if(EnchantStone>0)
-                StandAlone.DrawString(20, "Enchant Stone : " + EnchantStone, new REMOPoint(700, 50), Color.SkyBlue);
+            if(EnchantStone> 0 ||Pickaxe.Enchants[0].Item1 != "" || Pickaxe.Enchants[1].Item1 != "" || Pickaxe.Enchants[2].Item1 != "")
+                StandAlone.DrawString(20, "Enchant Stone : " + EnchantStone+"S", new REMOPoint(700, 50), Color.SkyBlue);
 
 
             foreach (Button b in CurrentButtons.Components)
@@ -97,6 +207,8 @@ namespace MineCrazy
     }
     public static class MiningScene
     {
+
+        public static Gfx2D PickaxeGrapic = new Gfx2D("MINE.Pickaxe", Rock.Graphic.Center + new REMOPoint(70, -100), 0.5f);
         public static class Rock
         {
             public static Gfx2D Graphic=new Gfx2D(new Rectangle(100,100,200,200));
@@ -126,12 +238,30 @@ namespace MineCrazy
 
             public static void Update()
             {
+                CurrentDEF = (int)Math.Max(0, MaxDEF * (1 - Pickaxe.GetBD()));
                 HPGauge.Update(CurrentHP, MaxHP);
-                if(User.JustLeftClicked(Rock.Graphic)||User.JustPressed(Keys.Z))
+                DEFGauge.Update(CurrentDEF, MaxDEF);
+                if(User.JustLeftClicked(Rock.Graphic)||User.JustPressed(Keys.Z)|| User.JustPressed(Keys.X) || User.JustPressed(Keys.C) || User.JustPressed(Keys.V)||MiningTimer>5)
                 {
-                    Rock.CurrentHP -= Math.Max(0, Pickaxe.Power - Rock.CurrentDEF);
+                    MiningTimer = 0;
+                    PickaxeGrapic.Rotate = (float)StandAlone.Random()*1.5f;
+                    if(!Pickaxe.CheckCritical())
+                        Rock.CurrentHP -= Math.Max(0, Pickaxe.GetPower() - Rock.CurrentDEF);
+                    else
+                        Rock.CurrentHP -= Math.Max(0, (int)(Pickaxe.GetPower()*(2+Pickaxe.GetCD()) - Rock.CurrentDEF));
                 }
-                if(Rock.CurrentHP<=0)
+                if(StandAlone.FrameTimer%60==0)
+                {
+                    if(Pickaxe.Get("AM")>0)
+                        PickaxeGrapic.Rotate = (float)StandAlone.Random() * 1.5f;
+                    if (!Pickaxe.CheckCritical())
+                        Rock.CurrentHP -= (int)Math.Max(0, Pickaxe.GetPower()*Pickaxe.Get("AM") - Rock.CurrentDEF);
+                    else
+                        Rock.CurrentHP -= Math.Max(0, (int)(Pickaxe.GetPower()*Pickaxe.Get("AM") * (2 + Pickaxe.GetCD()) - Rock.CurrentDEF));
+
+                }
+
+                if (Rock.CurrentHP<=0)
                 {
                     Rock.CurrentHP = Rock.MaxHP;
                     GetReward();
@@ -162,10 +292,10 @@ namespace MineCrazy
             }
         }
 
-
+        public static int MiningTimer = 0;
         public static Scene scn = new Scene(() =>
         {
-            UserInterface.SetButtons(UserInterface.TuningSceneButton);
+            UserInterface.SetButtons(UserInterface.TuningSceneButton,UserInterface.LandFillSceneButton2);
 
             StandAlone.FullScreen = new Rectangle(0, 0, 1000, 500);
         }, () =>
@@ -173,11 +303,19 @@ namespace MineCrazy
             UserInterface.Update();
             if (User.JustPressed(Keys.Right))
                 Projectors.Projector.SwapTo(TuningScene.scn);
+            if (User.JustPressed(Keys.Left))
+                Projectors.Projector.SwapTo(LandFillScene.scn);
+
+            if (User.Pressing(Keys.Z)|| User.Pressing(Keys.X)|| User.Pressing(Keys.C)|| User.Pressing(Keys.V))
+                MiningTimer++;
             Rock.Update();
         }, () =>
         {
+            PickaxeGrapic.Draw();
+            if (Pickaxe.Level >= 10)
+                PickaxeGrapic.Draw(Color.LightBlue);
             Rock.Draw();
-            StandAlone.DrawString("Press Z to Mine!", new REMOPoint(400,200), Color.White);
+            StandAlone.DrawString("Press Z,X,C,V to Mine!(Z,X,C,V)", new REMOPoint(400,200), Color.White);
             UserInterface.Draw();
             Cursor.Draw(Color.White);
         });
@@ -198,61 +336,220 @@ namespace MineCrazy
                        {
                            UserInterface.Trash += Pickaxe.Level;
                            Pickaxe.Level = 1;
+                           Pickaxe.Enchants = new Tuple<string, double>[] { new Tuple<string, double>("", 0), new Tuple<string, double>("", 0), new Tuple<string, double>("", 0) };
+                           EnchantSlot.Make();
                        }
 
                    }
                });
-        public static int EnchantFee = 1;
-        public static List<int> SelectedSlots = new List<int>();
+        public static readonly int EnchantNormalFee = 100;
+        public static int EnchantFee = EnchantNormalFee;
         public static Button EnchantButton = new Button(new GfxStr("Enchant(E)", ReinforceButton.Pos + new REMOPoint(0, 120)),()=> 
         { 
-        
-        
+            if(UserInterface.EnchantStone>=EnchantSlot.GetCost())
+            {
+                UserInterface.EnchantStone -= EnchantSlot.GetCost();
+
+                for (int i=0;i<3;i++)
+                {
+                    if(EnchantSlot.SelectedSlots.HasFlag(EnchantSlot.Flags[i]))
+                    {
+                        Pickaxe.Enchant(i);
+                        TuningScene.EnchantSlot.Make();
+                    }
+                }
+                EnchantSlot.SelectedSlots = EnchantSlot.SelectedSlot.None;
+
+            }
+
+
+
         });
 
-        public static string EnchantSlotDescription(string EnchantScript)
+        public static class EnchantSlot
         {
-            return "";
+            [Flags] 
+            public enum SelectedSlot
+            {
+                None=0,
+                Slot1=1,
+                Slot2=2,
+                Slot3=4,
+            }
+            
+            public static Aligned<GfxStr> Slots = new Aligned<GfxStr>(new REMOPoint(50, 270), new REMOPoint(0, 50));
+            public static SelectedSlot SelectedSlots = SelectedSlot.None;
+            public static SelectedSlot[] Flags = new SelectedSlot[] { SelectedSlot.Slot1, SelectedSlot.Slot2, SelectedSlot.Slot3 };
+
+            public static void Make()
+            {
+                Slots.Clear();
+                for(int i=0;i<3;i++)
+                {
+                    StringBuilder s = new StringBuilder();
+                    s.Append("Slot " + (i + 1) +"("+(i+1)+")"+" : ");
+                    if (Pickaxe.Enchants[i].Item1 == "A")
+                    {
+                        s.Append("Attack Increase ");
+                        s.Append((int)(Pickaxe.Enchants[i].Item2 * 100)-100);
+                        s.Append("%");
+                    }
+                    if (Pickaxe.Enchants[i].Item1 == "BD")
+                    {
+                        s.Append("Breaking Defense ");
+                        s.Append((int)(Pickaxe.Enchants[i].Item2 * 100));
+                        s.Append("%");
+                    }
+                    if (Pickaxe.Enchants[i].Item1 == "CC")
+                    {
+                        s.Append("Critical Chance ");
+                        s.Append((int)(Pickaxe.Enchants[i].Item2 * 100));
+                        s.Append("%");
+                    }
+                    if (Pickaxe.Enchants[i].Item1 == "CD")
+                    {
+                        s.Append("Critical Damage ");
+                        s.Append((int)(Pickaxe.Enchants[i].Item2 * 100));
+                        s.Append("%");
+                    }
+                    if (Pickaxe.Enchants[i].Item1 == "AM")
+                    {
+                        s.Append("Auto Mining(1sec) ");
+                        s.Append((int)(Pickaxe.Enchants[i].Item2 * 100));
+                        s.Append("%");
+                    }
+
+
+
+
+                    Slots.Add(new GfxStr(s.ToString()));
+                }
+
+            }
+            public static void Update()
+            {
+                Slots.Align();
+                if(User.JustPressed(Keys.D1)||User.JustLeftClicked(Slots[0]))
+                {
+                    SelectedSlots ^= SelectedSlot.Slot1;
+                }
+                if (User.JustPressed(Keys.D2) || User.JustLeftClicked(Slots[1]))
+                {
+                    SelectedSlots ^= SelectedSlot.Slot2;
+                }
+                if (User.JustPressed(Keys.D3) || User.JustLeftClicked(Slots[2]))
+                {
+                    SelectedSlots ^= SelectedSlot.Slot3;
+                }
+            }
+
+            public static int GetCost()
+            {
+                int c = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    if (EnchantSlot.SelectedSlots.HasFlag(EnchantSlot.Flags[i]))
+                        c++;
+                }
+
+                return EnchantFee * c;
+            }
+            public static void Draw()
+            {
+                StandAlone.DrawString("Enchant Slot", new REMOPoint(50, 220), Color.LightBlue);
+
+                for (int i=0;i<3;i++)
+                {
+                    if (SelectedSlots.HasFlag(Flags[i]))
+                    {
+                        Slots[i].Draw(Color.Yellow);
+                    }
+                    else
+                        Slots[i].Draw(Color.LightBlue);
+ 
+
+                }
+                if (EnchantSlot.SelectedSlots == EnchantSlot.SelectedSlot.None)
+                {
+                    StandAlone.DrawString("Cost : 0 (Please select slot!)", EnchantButton.Pos + new REMOPoint(0, 50), Color.LightBlue);
+                }
+                else
+                {
+                    StandAlone.DrawString("Cost : " + GetCost()+"S", EnchantButton.Pos + new REMOPoint(0, 50), Color.Yellow);
+                }
+
+            }
         }
 
-            
+
+        public static int PressingRTimer = 0;
+
         public static Scene scn = new Scene(() =>
         {
-            UserInterface.SetButtons(UserInterface.MiningSceneButton);
-
+            UserInterface.SetButtons( UserInterface.LandFillSceneButton, UserInterface.MiningSceneButton);
+            scn.InitOnce(() =>
+            {
+                EnchantSlot.Make();
+            });
         }, () =>
         {
             UserInterface.Update();
             if (User.JustPressed(Keys.Left))
                 Projectors.Projector.SwapTo(MiningScene.scn);
+            if (User.JustPressed(Keys.Right))
+                Projectors.Projector.SwapTo(LandFillScene.scn);
+
 
             ReinforceButton.Enable();
-            if(User.JustPressed(Keys.R))
+            if (User.Pressing(Keys.R))
+                PressingRTimer++;
+            if (User.JustPressed(Keys.R)||PressingRTimer>10)
             {
-                ReinforceButton.ButtonClickAction();      
+                PressingRTimer = 0;
+                ReinforceButton.ButtonClickAction();
             }
+            if(User.JustPressed(Keys.E))
+            {
+                EnchantButton.ButtonClickAction();
+            }
+
+            if (UserInterface.EnchantStone > 0)
+                EnchantButton.Enable();
+            EnchantSlot.Update();
+           
 
         }, () =>
         {
+            StandAlone.DrawString("(Let's make level 30!)", new REMOPoint(50, 50), Color.Gray);
+
             StandAlone.DrawString("level " + Pickaxe.Level + " Pickaxe", new REMOPoint(50, 100), Color.White);
-            StandAlone.DrawString("Power : "+Pickaxe.Power, new REMOPoint(50, 150), Color.White);
+            StringBuilder PowerDescription = new StringBuilder();
+            PowerDescription.Append("Power : ");
+            PowerDescription.Append(Pickaxe.GetPower());
+            int powerChanged = Pickaxe.GetPower() - Pickaxe.Power;
+            if(powerChanged!=0)
+            {
+                PowerDescription.Append("(");
+                if (powerChanged > 0)
+                    PowerDescription.Append("+");
+                PowerDescription.Append(powerChanged + ")");
+            }
+            StandAlone.DrawString(PowerDescription.ToString(), new REMOPoint(50, 150), Color.White);
             StandAlone.DrawString("Possibility : " + (int)(ReinforcePossibility*100)+"%", ReinforceButton.Pos + new REMOPoint(0, 50), Color.White);
             UserInterface.Draw();
             ReinforceButton.DrawWithAccent(Color.Gold, Color.Red);
             if(UserInterface.EnchantStone>0)
             {
                 EnchantButton.DrawWithAccent(Color.LightBlue, Color.Red);
-                StandAlone.DrawString("Enchant Slot", new REMOPoint(50, 220), Color.LightBlue);
-                for(int i=0;i<3;i++)
-                {
-                    StandAlone.DrawString("Slot " + (i + 1) + " : " + EnchantSlotDescription(""), new REMOPoint(50, 270 + i * 50), Color.LightBlue);
-                }
-                if(SelectedSlots.Count==0)
-                {
-                    StandAlone.DrawString("Cost : 0 (Please select slot!)", EnchantButton.Pos + new REMOPoint(0, 50), Color.LightBlue);
-                }
+                EnchantSlot.Draw();
             }
-            
+            if(Pickaxe.Enchants[0].Item1!=""|| Pickaxe.Enchants[1].Item1 != ""|| Pickaxe.Enchants[2].Item1 != "")
+            {
+                EnchantButton.DrawWithAccent(Color.LightBlue, Color.Red);
+                EnchantSlot.Draw();
+            }
+
+
 
             Cursor.Draw(Color.White);
         });
@@ -261,6 +558,26 @@ namespace MineCrazy
 
     public static class LandFillScene
     {
+        public static GfxStr Item1 = new GfxStr("Protection Charm", new REMOPoint(200, 500));
+        public static Gfx2D GarbageGirl = new Gfx2D("MINE.Garbage2", new REMOPoint(0, 180), 0.5f);
+        public static GfxStr CurrentTalk = new GfxStr("Hello.. Mister... What do you want to exchange?", new REMOPoint(300, 400));
+        public static Scene scn = new Scene(() =>
+        {
+            UserInterface.SetButtons(UserInterface.MiningSceneButton2, UserInterface.TuningSceneButton2);
+        }, () =>
+        {
+            if (User.JustPressed(Keys.Left))
+                Projectors.Projector.SwapTo(TuningScene.scn);
+            if (User.JustPressed(Keys.Right))
+                Projectors.Projector.SwapTo(MiningScene.scn);
+            UserInterface.Update();
+        }, () =>
+        {
+            UserInterface.Draw();
+            GarbageGirl.Draw();
+            CurrentTalk.Draw(Color.White);
+            Cursor.Draw(Color.White);
+        });
 
     }
 

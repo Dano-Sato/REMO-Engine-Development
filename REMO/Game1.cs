@@ -264,7 +264,7 @@ namespace REMOEngine
 
         protected void CustomInit()
         {
-            GAMEOPTION.Build(MineCrazy.MiningScene.scn );
+            GAMEOPTION.Build("MINE",MineCrazy.MiningScene.scn );
 
 
         }

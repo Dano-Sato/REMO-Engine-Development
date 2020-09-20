@@ -168,6 +168,11 @@ namespace REMOEngine
             return random.Next(Math.Min(x, y), Math.Max(x, y));
         }
 
+        public static double Random(double x, double y)
+        {
+            return Random() * (y - x) + x;
+        }
+
         public static double Random()
         {
             return random.NextDouble();
