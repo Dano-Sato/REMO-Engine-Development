@@ -144,26 +144,26 @@ namespace MineCrazy
         public static ulong Gold = 0;
         public static int EnchantStone = 0;
         public static int Trash = 0;
-        public static Button TuningSceneButton = new Button(new GfxStr("Go To Tuning Scene(→)", new REMOPoint(700, 100)), () => {
+        public static Button TuningSceneButton = new Button(new GfxStr("Go To Blacksmith(→)", new REMOPoint(700, 100)), () => {
             Projectors.Projector.SwapTo(TuningScene.scn); });
-        public static Button MiningSceneButton = new Button(new GfxStr("Go To Mining Scene(←)", new REMOPoint(700, 100)), () => {
+        public static Button MiningSceneButton = new Button(new GfxStr("Go To Mine(←)", new REMOPoint(700, 100)), () => {
             Projectors.Projector.SwapTo(MiningScene.scn); });
-        public static Button LandFillSceneButton = new Button(new GfxStr("Go To Landfill Scene(→)", new REMOPoint(700, 100)), () => {
+        public static Button LandFillSceneButton = new Button(new GfxStr("Go To Landfill(→)", new REMOPoint(700, 100)), () => {
             Projectors.Projector.SwapTo(LandFillScene.scn);
         });
-        public static Button TuningSceneButton2 = new Button(new GfxStr("Go To Tuning Scene(←)", new REMOPoint(700, 100)), () => {
+        public static Button TuningSceneButton2 = new Button(new GfxStr("Go To Blacksmith(←)", new REMOPoint(700, 100)), () => {
             Projectors.Projector.SwapTo(TuningScene.scn);
         });
-        public static Button MiningSceneButton2 = new Button(new GfxStr("Go To Mining Scene(→)", new REMOPoint(700, 100)), () => {
+        public static Button MiningSceneButton2 = new Button(new GfxStr("Go To Mine(→)", new REMOPoint(700, 100)), () => {
             Projectors.Projector.SwapTo(MiningScene.scn);
         });
-        public static Button LandFillSceneButton2 = new Button(new GfxStr("Go To Landfill Scene(←)", new REMOPoint(700, 100)), () => {
+        public static Button LandFillSceneButton2 = new Button(new GfxStr("Go To Landfill(←)", new REMOPoint(700, 100)), () => {
             Projectors.Projector.SwapTo(LandFillScene.scn);
         });
 
 
 
-        public static Aligned<Button> CurrentButtons=new Aligned<Button>(new REMOPoint(700,100),new REMOPoint(0,40)); 
+        public static Aligned<Button> CurrentButtons=new Aligned<Button>(new REMOPoint(800,100),new REMOPoint(0,40)); 
 
 
         public static void SetButtons(params Button[] buttons)
@@ -242,7 +242,7 @@ namespace MineCrazy
                 CurrentDEF = (int)Math.Max(0, MaxDEF * (1 - Pickaxe.GetBD()));
                 HPGauge.Update(CurrentHP, MaxHP);
                 DEFGauge.Update(CurrentDEF, MaxDEF);
-                if(User.JustLeftClicked(Rock.Graphic)||User.JustPressed(Keys.Z)|| User.JustPressed(Keys.X) || User.JustPressed(Keys.C) || User.JustPressed(Keys.V)||MiningTimer>5)
+                if(User.JustLeftClicked(Rock.Graphic)||User.JustPressed(Keys.Z)||MiningTimer>5)
                 {
                     MiningTimer = 0;
                     PickaxeGrapic.Rotate = (float)StandAlone.Random()*1.5f;
@@ -264,6 +264,7 @@ namespace MineCrazy
 
                 if (Rock.CurrentHP<=0)
                 {
+                    MusicBox.PlaySE("Mining",0.15f);
                     Rock.CurrentHP = Rock.MaxHP;
                     GetReward();
                 }
@@ -308,7 +309,6 @@ namespace MineCrazy
 
         });
 
-        public static Gfx2D Player = new Gfx2D("MINE.Player", PickaxeGrapic.Center-new REMOPoint(30,80), 0.5f);
 
         public static Scene scn = new Scene(() =>
         {
@@ -333,11 +333,10 @@ namespace MineCrazy
         {
             Rock.Draw();
             PickaxeGrapic.Draw();
-            Player.Draw();
 
             if (Pickaxe.Level >= 10)
                 PickaxeGrapic.Draw(Color.LightBlue);
-            StandAlone.DrawString("Press Z,X,C,V to Mine!(Z,X,C,V)", new REMOPoint(450,260), Color.White);
+            StandAlone.DrawString("Press Z to Mine!(Z)", new REMOPoint(450,260), Color.White);
             UserInterface.Draw();
             PrevRockButton.DrawWithAccent(Color.White, Color.Red);
             NextRockButton.DrawWithAccent(Color.White, Color.Red);
@@ -356,9 +355,14 @@ namespace MineCrazy
                    {
                        UserInterface.Gold -= (ulong)Reinforcefee;
                        if(StandAlone.Random()<ReinforcePossibility)
+                       {
+                           MusicBox.PlaySE("MINE.Smith",0.5f);
+                           Fader.Add(new GfxStr(PickaxeLevelString), 60, Color.Yellow);
                            Pickaxe.Level += 1;
+                       }
                        else if(!Protected.isChecked||LandFillScene.Item1_Count==0)
                        {
+                           Fader.Add(new GfxStr(PickaxeLevelString), 60, Color.Red);
                            UserInterface.Trash += Pickaxe.Level;
                            Pickaxe.Level = Math.Max(1,LandFillScene.Item2_Count*5);
                            Pickaxe.Enchants = new Tuple<string, double>[] { new Tuple<string, double>("", 0), new Tuple<string, double>("", 0), new Tuple<string, double>("", 0) };
@@ -388,6 +392,8 @@ namespace MineCrazy
                     {
                         Pickaxe.Enchant(i);
                         TuningScene.EnchantSlot.Make();
+                        EnchantSlot.Slots.Align();
+                        Fader.Add(new GfxStr(EnchantSlot.Slots[i]), 50, Color.Yellow);
                     }
                 }
                 EnchantSlot.SelectedSlots = EnchantSlot.SelectedSlot.None;
@@ -515,6 +521,8 @@ namespace MineCrazy
 
 
         public static int PressingRTimer = 0;
+        public static GfxStr PickaxeLevelString = new GfxStr("level " + Pickaxe.Level + " Pickaxe", new REMOPoint(70, 90));
+
 
         public static CheckBox Protected = new CheckBox(15, "Protect(P)", ReinforceButton.Pos + new REMOPoint(0, -50));
 
@@ -562,13 +570,16 @@ namespace MineCrazy
             }
             if (User.JustPressed(Keys.P))
                 Protected.isChecked = !Protected.isChecked;
-           
+
+            PickaxeLevelString.Text = "level " + Pickaxe.Level + " Pickaxe";
+
 
         }, () =>
         {
             StandAlone.DrawString("(Let's make level 30!)", new REMOPoint(70, 50), Color.Gray);
 
             StandAlone.DrawString("level " + Pickaxe.Level + " Pickaxe", new REMOPoint(70, 90), Color.White);
+            PickaxeLevelString.Draw();
             StringBuilder PowerDescription = new StringBuilder();
             PowerDescription.Append("Power : ");
             PowerDescription.Append(Pickaxe.GetPower());
@@ -598,7 +609,7 @@ namespace MineCrazy
                 Protected.Draw(Color.White);
 
 
-
+            Fader.DrawAll();
             Cursor.Draw(Color.White);
         });
 

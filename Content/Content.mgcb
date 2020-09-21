@@ -115,6 +115,12 @@
 /processorParam:TextureFormat=Color
 /build:MINE.Item2.png
 
+#begin MINE.Mining.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:MINE.Mining.wav
+
 #begin MINE.Pickaxe.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -150,6 +156,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:MINE.Rock.png
+
+#begin MINE.Smith.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:MINE.Smith.wav
 
 #begin ORTO.Centipede.png
 /importer:TextureImporter

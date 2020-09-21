@@ -40,13 +40,9 @@ C:\Users\satodano\source\repos\REMO_Engine_Developer\REMO_Engine_Developer\obj\R
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\REMO.Light.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\REMO.Cursor.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\MonoGame.Framework.dll.config
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\REMO Engine.exe
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\REMO Engine.pdb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\MonoGame.Framework.dll
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Release\REMO Engine Developer.csprojAssemblyReference.cache
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Release\REMO Engine Developer.csproj.CopyComplete
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Release\REMO Engine.exe
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Release\REMO Engine.pdb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\REMO.KoreanFont.spritefont
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\YOKA.testCG.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\REMO.KoreanFont.xnb
@@ -83,3 +79,9 @@ C:\Users\satodano\source\repos\REMO_Engine_Developer\REMO_Engine_Developer\obj\R
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\MINE.BuyButton.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\MINE.Player.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\MINE.Rock.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Mine Crazy.exe
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Mine Crazy.pdb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Release\Mine Crazy.exe
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Release\Mine Crazy.pdb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\MINE.Smith.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Release\Content\MINE.Mining.xnb

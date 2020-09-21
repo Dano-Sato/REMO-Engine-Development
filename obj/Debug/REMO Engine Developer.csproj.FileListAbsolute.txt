@@ -88,13 +88,9 @@ C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\bin\Desk
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.Light.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.Cursor.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll.config
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\REMO Engine.exe
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\REMO Engine.pdb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine Developer.csprojAssemblyReference.cache
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine Developer.csproj.CopyComplete
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine.exe
-\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine.pdb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine Developer.csproj.CoreCompileInputs.cache
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\REMO Engine Developer.csproj.GenerateResource.cache
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\REMO.KoreanFont.spritefont
@@ -122,3 +118,18 @@ C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\bin\Desk
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\YOKAI.TestCG3.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\YOKAI.TestCG4.xnb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\YOKAI.TestCG5.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.Garbage2.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.Garbage3.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.Mining.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.Item2.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.Item1.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.Player.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.Smith.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.Pickaxe.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.Rock.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.BuyButton.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.Garbage.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Mine Crazy.exe
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Mine Crazy.pdb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\Mine Crazy.exe
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\Mine Crazy.pdb
