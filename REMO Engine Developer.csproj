@@ -244,6 +244,10 @@
     <Content Include="Content\REMO.WhiteSpace.png" />
     <Content Include="KakaoTalk_Image_2020-09-15-19-22-17-2.ico" />
     <Content Include="REMO_icon.ico" />
+    <Content Include="Scripts\TestScript.txt" />
+    <Content Include="Scripts\MINE.Landfill.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Steamworks.NET.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -19,6 +19,7 @@ using System.Runtime.ExceptionServices;
 using Steamworks;
 using System.Security.Policy;
 using System.Diagnostics.Tracing;
+using Yokai;
 
 namespace MineCrazy
 {
@@ -312,7 +313,10 @@ namespace MineCrazy
 
         public static Scene scn = new Scene(() =>
         {
-            UserInterface.SetButtons(UserInterface.TuningSceneButton,UserInterface.LandFillSceneButton2);
+            if(LandFillScene.trigger==1)
+                UserInterface.SetButtons(UserInterface.TuningSceneButton,UserInterface.LandFillSceneButton2);
+            else
+                UserInterface.SetButtons(UserInterface.TuningSceneButton);
 
             StandAlone.FullScreen = new Rectangle(0, 0, 1000, 500);
         }, () =>
@@ -320,7 +324,7 @@ namespace MineCrazy
             UserInterface.Update();
             if (User.JustPressed(Keys.Right))
                 Projectors.Projector.SwapTo(TuningScene.scn);
-            if (User.JustPressed(Keys.Left))
+            if (User.JustPressed(Keys.Left) && LandFillScene.trigger == 1)
                 Projectors.Projector.SwapTo(LandFillScene.scn);
 
             if (User.Pressing(Keys.Z)|| User.Pressing(Keys.X)|| User.Pressing(Keys.C)|| User.Pressing(Keys.V))
@@ -367,6 +371,11 @@ namespace MineCrazy
                            Pickaxe.Level = Math.Max(1,LandFillScene.Item2_Count*5);
                            Pickaxe.Enchants = new Tuple<string, double>[] { new Tuple<string, double>("", 0), new Tuple<string, double>("", 0), new Tuple<string, double>("", 0) };
                            EnchantSlot.Make();
+                           if(UserInterface.Trash>=30&&LandFillScene.trigger==-1)
+                           {
+                               LandFillScene.trigger = 0;
+                           }
+
                        }
 
                        if (Protected.isChecked && LandFillScene.Item1_Count > 0)
@@ -526,19 +535,36 @@ namespace MineCrazy
 
         public static CheckBox Protected = new CheckBox(15, "Protect(P)", ReinforceButton.Pos + new REMOPoint(0, -50));
 
+
+        public static Button LandfillChan = new Button(new Gfx2D("Garbage3", new REMOPoint(800, 400), 0.5f), () =>
+        {
+
+            ScriptScene.dialogLoader.EnterScript("MINE.Landfill", () =>
+            {
+                LandFillScene.trigger = 1;
+                Projectors.Projector.SwapTo(TuningScene.scn);
+            });
+
+        });
+
         public static Scene scn = new Scene(() =>
         {
-            UserInterface.SetButtons( UserInterface.LandFillSceneButton, UserInterface.MiningSceneButton);
+            if(LandFillScene.trigger==1)
+                UserInterface.SetButtons( UserInterface.LandFillSceneButton, UserInterface.MiningSceneButton);
+            else
+                UserInterface.SetButtons(UserInterface.MiningSceneButton);
+
             scn.InitOnce(() =>
             {
                 EnchantSlot.Make();
+                ScriptScene.dialogLoader.CGPipeline.Add("CG1", new Gfx2D("Garbage3", new REMOPoint(700, 200), 0.5f));
             });
         }, () =>
         {
             UserInterface.Update();
             if (User.JustPressed(Keys.Left))
                 Projectors.Projector.SwapTo(MiningScene.scn);
-            if (User.JustPressed(Keys.Right))
+            if (User.JustPressed(Keys.Right) && LandFillScene.trigger == 1)
                 Projectors.Projector.SwapTo(LandFillScene.scn);
 
 
@@ -573,6 +599,8 @@ namespace MineCrazy
 
             PickaxeLevelString.Text = "level " + Pickaxe.Level + " Pickaxe";
 
+            if (LandFillScene.trigger == 0)
+                LandfillChan.Enable();
 
         }, () =>
         {
@@ -607,6 +635,8 @@ namespace MineCrazy
             }
            if (LandFillScene.Item1_Count > 0)
                 Protected.Draw(Color.White);
+            if (LandFillScene.trigger == 0)
+                LandfillChan.DrawWithAccent(Color.White,Color.Red);
 
 
             Fader.DrawAll();
@@ -617,6 +647,7 @@ namespace MineCrazy
 
     public static class LandFillScene
     {
+        public static int trigger=-1;
         [Flags]
         public enum ItemSelection
         {
@@ -719,21 +750,8 @@ namespace MineCrazy
 
     public static class ScriptScene
     {
-        public static Scripter DialogReader = new Scripter();
-        public static Scene scn = new Scene(() =>
-        {
-            scn.InitOnce(() =>
-            {
-                DialogReader.AddRule("n", (s) => { });
-            });
-
-        }, () =>
-        {
-
-        }, () =>
-        {
-
-        });
+        public static DialogLoader dialogLoader = new DialogLoader(20, new REMOPoint(50,250), new REMOPoint(50, 300), Color.White,Color.Black);
+    
 
     }
 

@@ -807,7 +807,7 @@ namespace REMOEngine
         {
             FontName = fontName;
             Pos = _Pos;
-            LetterSpacing = _LetterSpacing;
+            LetterSpacing = _LetterSpacing;\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\Games\YokaiRyokan.cs
             LineSpacing = _LineSpacing;
             LineWidth = _LineWidth;
         }
@@ -841,5 +841,78 @@ namespace REMOEngine
 
     }
     */
+
+    public class DialogLoader
+    {
+        public Scripter ScriptReader = new Scripter();
+        public int line = 0;
+        public string[] Scripts;
+        public string currentString = "";
+        public Action AfterAction = () => { };
+        public Dictionary<string, Gfx2D> CGPipeline = new Dictionary<string, Gfx2D>();
+
+
+        public DialogLoader(int fontsize, REMOPoint Name_Pos, REMOPoint Dialog_Pos, Color StringColor,Color BackgroundColor)
+        {
+            ScriptReader.AddRule("CG", (s) =>
+            {
+                CGPipeline[s].Draw();
+            });
+            ScriptReader.AddRule("n", (s) => { StandAlone.DrawString(fontsize, "KoreanFont", s, Name_Pos, StringColor); });
+            ScriptReader.AddRule("s", (s) => {
+
+                s = s.Replace("@", "\n");
+                if (currentString.Length < s.Length && StandAlone.FrameTimer % 4 == 0)
+                {
+                    currentString = s.Substring(0, currentString.Length + 1);
+                }
+                StandAlone.DrawString(fontsize, "KoreanFont", currentString, Dialog_Pos, StringColor);
+            });
+
+            scn = new Scene(() =>
+            {
+
+            }, () =>
+            {
+                if (User.JustPressed(Keys.Z) || User.JustPressed(Keys.Space) || User.JustLeftClicked())
+                {
+                    string currentScript = ScriptReader.ParseLine("s", Scripts[line]);
+                    currentScript = currentScript.Replace("@", "\n");
+                    if (currentString.Length == currentScript.Length)
+                    {
+                        line++; //다음 라인으로 넘어갑니다.
+                        currentString = "";
+                        if (line == Scripts.Length)//스크립트를 다 읽었을 경우, 지정해둔 액션으로 넘어갑니다.
+                        {
+                            Projectors.Projector.Unload(scn);
+                            AfterAction();
+                        }
+                    }
+                    else
+                    {
+                        currentString = currentScript;
+                    }
+                }
+            }, () =>
+            {
+                Filter.Absolute(StandAlone.FullScreen, BackgroundColor);
+                ScriptReader.ReadLine(Scripts[line]);
+                Cursor.Draw(Color.Black);
+
+            });
+        }
+
+        public void EnterScript(string ScriptName, Action afterAction)
+        {
+            Scripts = TxtEditor.ReadAllLines("Scripts", ScriptName);
+            Projectors.Projector.Clear();
+            Projectors.Projector.Load(scn);
+            AfterAction = afterAction;
+        }
+
+        public Scene scn;
+
+
+    }
 
 }

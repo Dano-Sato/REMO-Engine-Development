@@ -27,12 +27,12 @@ namespace REMOEngine
         /// <summary>
         /// 한 프레임에서 다음 프레임으로 넘어가는 밀리초를 측정합니다.
         /// </summary>
-        public static int ElapsedMillisec = 0; 
+        public static int ElapsedMillisec = 0;
 
         /// <summary>
         /// 이것은 함부로 불러서는 안됩니다.
         /// </summary>
-        public static void InternalUpdate() 
+        public static void InternalUpdate()
         {
             FrameTimer++;
             Fader.Update();
@@ -41,7 +41,7 @@ namespace REMOEngine
         /// <summary>
         /// 이것은 함부로 불러서는 안됩니다. 
         /// </summary>
-        public static void InternalDraw() 
+        public static void InternalDraw()
         {
             /*
             Game1.Painter.OpenCanvas(() =>
@@ -101,13 +101,13 @@ namespace REMOEngine
         /// <summary>
         /// 고정된 사이즈의 게임스크린을 설정하고, 이후 이 스크린을 카메라를 통해 매핑하는 형식으로 해상도를 조정하는 것이 좋습니다. 게임스크린 사이즈가 지원하는 해상도보다 커야 합니다.
         /// </summary>
-        public static readonly Rectangle GameScreen = new Rectangle(0,0,800,480);   
+        public static readonly Rectangle GameScreen = new Rectangle(0, 0, 800, 480);
 
 
         /// <summary>
         /// 현재 게임의 풀스크린을 다룹니다.
         /// </summary>
-        public static Rectangle FullScreen 
+        public static Rectangle FullScreen
         {
             set
             {
@@ -121,7 +121,7 @@ namespace REMOEngine
         /// <summary>
         /// 윈도우 상단바가 없는 풀스크린 모드로 전환합니다.
         /// </summary>
-        public static void ToggleFullScreen() 
+        public static void ToggleFullScreen()
         {
             Game1.graphics.ToggleFullScreen();
         }
@@ -183,7 +183,7 @@ namespace REMOEngine
         /// <typeparam name="T"></typeparam>
         /// <param name="Ts"></param>
         /// <returns></returns>
-        public static T RandomPick<T>(List<T> Ts) 
+        public static T RandomPick<T>(List<T> Ts)
         {
             double r = StandAlone.Random();
             double m = 1.0 / Ts.Count;
@@ -195,6 +195,18 @@ namespace REMOEngine
                 }
             }
             return Ts[0];
+        }
+
+
+        public static Rectangle ExpandBound(Rectangle r, int edge)
+        {
+            Rectangle result = new Rectangle(r.Location - new REMOPoint(edge, edge), r.Size + 2 * new REMOPoint(edge, edge));
+            return result;
+        }
+
+        public static Rectangle ExpandBound(IBoundable g, int edge)
+        {
+            return ExpandBound(g.Bound, edge);
         }
 
     }

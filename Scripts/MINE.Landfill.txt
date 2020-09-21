@@ -1,0 +1,3 @@
+﻿<CG>CG1<n>Unknown girl<s>Hello... Mister...
+<CG>CG1<n>Unknown girl<s>I'm collecting garbages... like you have..
+<CG>CG1<n>Unknown girl<s>Please visit the Landfill @if you want to exchange your garbages...!
