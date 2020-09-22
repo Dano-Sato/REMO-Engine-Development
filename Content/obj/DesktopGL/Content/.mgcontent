@@ -9,17 +9,27 @@
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.SE2.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.StillGood.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.SummerNight.wav</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Board2.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Break.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.BuyButton.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Egg.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Egg2.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.EnchantSE.wav</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Ending.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Garbage.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Garbage2.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Garbage3.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Item1.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Item2.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Mining.wav</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.NotBreakedSE.wav</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.PetSlime.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Pickaxe.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Player.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Present.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Rock.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Smith.wav</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Snail.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/ORTO.Centipede.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/ORTO.CURSOR1.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/ORTO.CURSOR2.png</File>
@@ -40,6 +50,16 @@
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/YOKAI.TestCG5.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

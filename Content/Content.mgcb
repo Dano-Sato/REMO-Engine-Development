@@ -43,6 +43,24 @@
 /processorParam:Quality=Best
 /build:FLICK.SummerNight.wav
 
+#begin MINE.Board2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MINE.Board2.png
+
+#begin MINE.Break.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:MINE.Break.wav
+
 #begin MINE.BuyButton.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -54,6 +72,48 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:MINE.BuyButton.png
+
+#begin MINE.Egg.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MINE.Egg.png
+
+#begin MINE.Egg2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MINE.Egg2.png
+
+#begin MINE.EnchantSE.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:MINE.EnchantSE.wav
+
+#begin MINE.Ending.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MINE.Ending.png
 
 #begin MINE.Garbage.png
 /importer:TextureImporter
@@ -121,6 +181,24 @@
 /processorParam:Quality=Best
 /build:MINE.Mining.wav
 
+#begin MINE.NotBreakedSE.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:MINE.NotBreakedSE.wav
+
+#begin MINE.PetSlime.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MINE.PetSlime.png
+
 #begin MINE.Pickaxe.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -145,6 +223,18 @@
 /processorParam:TextureFormat=Color
 /build:MINE.Player.png
 
+#begin MINE.Present.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MINE.Present.png
+
 #begin MINE.Rock.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -162,6 +252,18 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:MINE.Smith.wav
+
+#begin MINE.Snail.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MINE.Snail.png
 
 #begin ORTO.Centipede.png
 /importer:TextureImporter

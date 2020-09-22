@@ -25,6 +25,184 @@ namespace MineCrazy
 {
 
 
+    public static class Pet
+    {
+        public static Gfx2D PetGraphic=new Gfx2D(new Rectangle(500,150,100,100));
+        public static Tuple<string, double> OptionSlot = new Tuple<string, double>("", 0);
+
+        public static string[] PetCodes = new string[] { "BS", "YS", "RS", "GS", "US" };
+        public static Dictionary<string, string> PetNames = new Dictionary<string, string>();
+
+        private static string petCode="";
+        public static string PetCode
+        {
+            get { return petCode; }
+            set 
+            {
+                petCode = value;
+                if (PetCode == "US")
+                    PetGraphic.Sprite = "Snail";
+                else
+                    PetGraphic.Sprite = "PetSlime";
+             
+                switch (PetCode)
+                {
+                    case "US":
+                        OptionSlot = new Tuple<string, double>("", 0);
+                        break;
+                    case "GS":
+                        OptionSlot = new Tuple<string, double>("UB", 0.5);
+                        break;
+                    case "YS":
+                        OptionSlot = new Tuple<string, double>("CC", 0.5);
+                        break;
+                    case "BS":
+                        OptionSlot = new Tuple<string, double>("CD", 3.0);
+                        break;
+                    case "RS":
+                        OptionSlot = new Tuple<string, double>("A", 1.7);
+                        break;
+                }
+
+                if(PetCode=="")
+                {
+                    PetGraphic.Sprite = "WhiteSpace";
+                    OptionSlot = new Tuple<string, double>("", 0);
+                }
+            }
+        }
+        public static void GetPet()
+        {
+            //get random pet
+            double r = StandAlone.Random();
+            if (r < 0.4)
+            {
+                PetCode = "US";
+            }
+            else if (r < 0.55)
+                PetCode = "BS";
+            else if(r<0.7)
+                PetCode = "YS";
+            else if (r < 0.85)
+                PetCode = "RS";
+            else
+                PetCode = "GS";
+
+
+        
+
+
+        }
+
+        public static void Init()
+        {
+            PetNames.Add("BS", "Blue Slime");
+            PetNames.Add("YS", "Yellow Slime");
+            PetNames.Add("RS", "Red Slime");
+            PetNames.Add("GS", "Green Slime");
+            PetNames.Add("US", "Useless Snail");
+            PetGraphic.Sprite = "PetSlime";
+
+        }
+
+        public static void Update()
+        {
+            if(PetCode!="" && User.JustLeftClicked(PetGraphic))
+            {
+                Projectors.Projector.PauseAll();
+                Projectors.Projector.Load(scn);
+            }
+            if(LandFillScene.EggTimer>0&&User.JustLeftClicked(PetGraphic))
+            {
+                MusicBox.PlaySE("Mining",0.15f);
+                LandFillScene.EggTimer = Math.Max(10, LandFillScene.EggTimer - 100);
+            }
+        }
+
+        public static void Draw()
+        {
+            switch(PetCode)
+            {
+                case "BS":
+                    PetGraphic.Draw(Color.LightBlue,Color.Blue*0.4f);
+                    break;
+                case "YS":
+                    PetGraphic.Draw(Color.Yellow);
+                    break;
+                case "RS":
+                    PetGraphic.Draw(Color.IndianRed);
+                    break;
+                case "GS":
+                    PetGraphic.Draw(Color.LightSeaGreen);
+                    break;
+                case "US":
+                    PetGraphic.Draw();
+                    break;
+            }
+            if(LandFillScene.EggTimer>0)
+            {
+                PetGraphic.Draw();
+            }
+        }
+
+        public static Gfx2D board = new Gfx2D("MINE.Board2", new Rectangle(650, 150, 300, 250));
+        public static Button Discard = new Button(new GfxStr("Discard", new REMOPoint(760, 340)), () => {
+            Pet.PetCode = "";        
+        
+        });
+
+        public static Scene scn = new Scene(() =>
+        {
+
+        }, () =>
+        {
+            if(User.JustLeftClicked())
+            {
+                Projectors.Projector.Unload(scn);
+                Projectors.Projector.ResumeAll();
+            }
+            Discard.Enable();
+        }, () =>
+        {
+            board.Draw();
+            switch(PetCode)
+            {
+                case "US":
+                    StandAlone.DrawString("Useless Snail", new REMOPoint(750, 200), Color.Black);
+                    StandAlone.DrawString("Useless", new REMOPoint(770, 250), Color.Black);
+                    break;
+                case "RS":
+                    StandAlone.DrawString("Red Slime", new REMOPoint(750, 200), Color.Black);
+                    StandAlone.DrawString("Option", new REMOPoint(770, 250), Color.Black);
+                    StandAlone.DrawString("Attack Increase 70%", new REMOPoint(720, 290), Color.Black);
+                    break;
+                case "YS":
+                    StandAlone.DrawString("Yellow Slime", new REMOPoint(750, 200), Color.Black);
+                    StandAlone.DrawString("Option", new REMOPoint(770, 250), Color.Black);
+                    StandAlone.DrawString("Critical Chance 50%", new REMOPoint(720, 290), Color.Black);
+                    break;
+                case "BS":
+                    StandAlone.DrawString("Blue Slime", new REMOPoint(750, 200), Color.Black);
+                    StandAlone.DrawString("Option", new REMOPoint(770, 250), Color.Black);
+                    StandAlone.DrawString("Critical Damage 300%", new REMOPoint(720, 290), Color.Black);
+                    break;
+                case "GS":
+                    StandAlone.DrawString("Green Slime", new REMOPoint(750, 200), Color.Black);
+                    StandAlone.DrawString("Option", new REMOPoint(770, 250), Color.Black);
+                    StandAlone.DrawString("Unbreakable 50%", new REMOPoint(720, 290), Color.Black);
+                    break;
+
+
+
+
+            }
+            Discard.DrawWithAccent(Color.Black,Color.Red);
+            if (board.ContainsCursor())
+                Cursor.Draw(Color.Black);
+        });
+
+    }
+
     public static class Pickaxe
     {
         public static int Power = 10;
@@ -50,11 +228,13 @@ namespace MineCrazy
             if(TuningScene.EnchantFee==TuningScene.EnchantNormalFee)
             {
                 double r = StandAlone.Random();
-                if(r<0.3)
+                if(r<0.2)
                 {
                     Enchants[SlotNum] = new Tuple<string, double>("A", StandAlone.Random(0.2, 2));
                 }
-                else if(r<0.6)
+                else if(r<0.3)
+                    Enchants[SlotNum] = new Tuple<string, double>("UB", StandAlone.Random(0, 0.8));
+                else if (r<0.6)
                 {
                     Enchants[SlotNum] = new Tuple<string, double>("BD", StandAlone.Random(0.0, 1));
                 }
@@ -80,6 +260,9 @@ namespace MineCrazy
                     a += (Enchants[i].Item2-1);
                 }
             }
+            if(Pet.OptionSlot.Item1=="A")
+                a += (Pet.OptionSlot.Item2 - 1);
+
             result = (int)Math.Max(0, result * a);
             return result;
         }
@@ -97,6 +280,26 @@ namespace MineCrazy
             return bd;
         }
 
+        public static bool CheckBreak()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (Enchants[i].Item1 == "UB")
+                {
+                    if (StandAlone.Random() < Enchants[i].Item2)
+                        return false;
+                }
+            }
+
+            if (Pet.OptionSlot.Item1 == "UB")
+            {
+                if (StandAlone.Random() < Pet.OptionSlot.Item2)
+                    return false;
+            }
+            return true;
+
+        }
+
         public static bool CheckCritical()
         {
             double cc = 0.1;
@@ -107,6 +310,9 @@ namespace MineCrazy
                     cc += (Enchants[i].Item2);
                 }
             }
+            if(Pet.OptionSlot.Item1=="CC")
+                cc += (Pet.OptionSlot.Item2);
+
             if (StandAlone.Random() < cc)
                 return true;
             else
@@ -122,6 +328,8 @@ namespace MineCrazy
                     cd += (Enchants[i].Item2);
                 }
             }
+            if (Pet.OptionSlot.Item1 == "CD")
+                cd += Pet.OptionSlot.Item2;
             return cd;
         }
         public static double Get(string text)
@@ -185,6 +393,14 @@ namespace MineCrazy
                 b.Enable();
                 if (User.JustLeftClicked(b))
                     break;
+            }
+            if (LandFillScene.EggTimer > 0)
+            {
+                LandFillScene.EggTimer--;
+                if(LandFillScene.EggTimer==0)
+                {
+                    Pet.GetPet();
+                }
             }
         }
         public static void Draw()
@@ -319,6 +535,7 @@ namespace MineCrazy
                 UserInterface.SetButtons(UserInterface.TuningSceneButton);
 
             StandAlone.FullScreen = new Rectangle(0, 0, 1000, 500);
+
         }, () =>
         {
             UserInterface.Update();
@@ -332,6 +549,7 @@ namespace MineCrazy
             Rock.Update();
             PrevRockButton.Enable();
             NextRockButton.Enable();
+            Pet.Update();
 
         }, () =>
         {
@@ -345,6 +563,8 @@ namespace MineCrazy
             PrevRockButton.DrawWithAccent(Color.White, Color.Red);
             NextRockButton.DrawWithAccent(Color.White, Color.Red);
 
+            Pet.Draw();
+
             Cursor.Draw(Color.White);
         });
     }
@@ -353,77 +573,86 @@ namespace MineCrazy
     {
         public static int Reinforcefee = 50;
         public static float ReinforcePossibility = 1.0f;
-        public static Button ReinforceButton = new Button(new GfxStr("Reinforce(R) : " + Reinforcefee+"G", new REMOPoint(400, 200)), () =>
-               {
-                   if(UserInterface.Gold>=(ulong)Reinforcefee)
-                   {
-                       UserInterface.Gold -= (ulong)Reinforcefee;
-                       if(StandAlone.Random()<ReinforcePossibility)
-                       {
-                           MusicBox.PlaySE("MINE.Smith",0.5f);
-                           Fader.Add(new GfxStr(PickaxeLevelString), 60, Color.Yellow);
-                           Pickaxe.Level += 1;
-                       }
-                       else if(!Protected.isChecked||LandFillScene.Item1_Count==0)
-                       {
-                           Fader.Add(new GfxStr(PickaxeLevelString), 60, Color.Red);
-                           UserInterface.Trash += Pickaxe.Level;
-                           Pickaxe.Level = Math.Max(1,LandFillScene.Item2_Count*5);
-                           Pickaxe.Enchants = new Tuple<string, double>[] { new Tuple<string, double>("", 0), new Tuple<string, double>("", 0), new Tuple<string, double>("", 0) };
-                           EnchantSlot.Make();
-                           if(UserInterface.Trash>=30&&LandFillScene.trigger==-1)
-                           {
-                               LandFillScene.trigger = 0;
-                           }
+        public static Button ReinforceButton = new Button(new GfxStr("Reinforce(R) : " + Reinforcefee + "G", new REMOPoint(400, 200)), () =>
+                 {
+                     if (UserInterface.Gold >= (ulong)Reinforcefee)
+                     {
+                         UserInterface.Gold -= (ulong)Reinforcefee;
+                         if (StandAlone.Random() < ReinforcePossibility)
+                         {
+                           //Reinforce
+                           MusicBox.PlaySE("MINE.Smith", 0.5f);
+                             Fader.Add(new GfxStr(PickaxeLevelString), 60, Color.Yellow);
+                             Pickaxe.Level += 1;
+                         }
+                         else if (Pickaxe.CheckBreak() && (!Protected.isChecked || LandFillScene.Item1_Count == 0))
+                         {
+                           //Break
+                           MusicBox.PlaySE("Break");
+                             Fader.Add(new GfxStr(PickaxeLevelString), 60, Color.Red);
+                             UserInterface.Trash += Pickaxe.Level;
+                             Pickaxe.Level = Math.Max(1, LandFillScene.Item2_Count * 5);
+                             Pickaxe.Enchants = new Tuple<string, double>[] { new Tuple<string, double>("", 0), new Tuple<string, double>("", 0), new Tuple<string, double>("", 0) };
+                             EnchantSlot.Make();
+                             if (UserInterface.Trash >= 30 && LandFillScene.trigger == -1)
+                             {
+                                 LandFillScene.trigger = 0;
+                             }
+                         }
+                         else
+                         {
+                             MusicBox.PlaySE("NotBreakedSE");
+                         }
 
-                       }
 
-                       if (Protected.isChecked && LandFillScene.Item1_Count > 0)
-                       {
-                           LandFillScene.Item1_Count--;
-                           LandFillScene.Used_Item1_Count++;
-                       }
+                         if (Protected.isChecked && LandFillScene.Item1_Count > 0)
+                         {
+                             LandFillScene.Item1_Count--;
+                             LandFillScene.Used_Item1_Count++;
+                         }
 
 
-                   }
-               });
+                     }
+                 });
         public static readonly int EnchantNormalFee = 100;
         public static int EnchantFee = EnchantNormalFee;
-        public static Button EnchantButton = new Button(new GfxStr("Enchant(E)", ReinforceButton.Pos + new REMOPoint(0, 120)),()=> 
-        { 
-            if(UserInterface.EnchantStone>=EnchantSlot.GetCost())
-            {
-                UserInterface.EnchantStone -= EnchantSlot.GetCost();
+        public static Button EnchantButton = new Button(new GfxStr("Enchant(E)", ReinforceButton.Pos + new REMOPoint(0, 120)), () =>
+         {
+             if (UserInterface.EnchantStone >= EnchantSlot.GetCost())
+             {
+                 if (EnchantSlot.GetCost() > 0)
+                     MusicBox.PlaySE("EnchantSE", 0.5f);
+                 UserInterface.EnchantStone -= EnchantSlot.GetCost();
 
-                for (int i=0;i<3;i++)
-                {
-                    if(EnchantSlot.SelectedSlots.HasFlag(EnchantSlot.Flags[i]))
-                    {
-                        Pickaxe.Enchant(i);
-                        TuningScene.EnchantSlot.Make();
-                        EnchantSlot.Slots.Align();
-                        Fader.Add(new GfxStr(EnchantSlot.Slots[i]), 50, Color.Yellow);
-                    }
-                }
-                EnchantSlot.SelectedSlots = EnchantSlot.SelectedSlot.None;
+                 for (int i = 0; i < 3; i++)
+                 {
+                     if (EnchantSlot.SelectedSlots.HasFlag(EnchantSlot.Flags[i]))
+                     {
+                         Pickaxe.Enchant(i);
+                         TuningScene.EnchantSlot.Make();
+                         EnchantSlot.Slots.Align();
+                         Fader.Add(new GfxStr(EnchantSlot.Slots[i]), 50, Color.Yellow);
+                     }
+                 }
+                 EnchantSlot.SelectedSlots = EnchantSlot.SelectedSlot.None;
 
-            }
+             }
 
 
 
-        });
+         });
 
         public static class EnchantSlot
         {
-            [Flags] 
+            [Flags]
             public enum SelectedSlot
             {
-                None=0,
-                Slot1=1,
-                Slot2=2,
-                Slot3=4,
+                None = 0,
+                Slot1 = 1,
+                Slot2 = 2,
+                Slot3 = 4,
             }
-            
+
             public static Aligned<GfxStr> Slots = new Aligned<GfxStr>(new REMOPoint(70, 270), new REMOPoint(0, 40));
             public static SelectedSlot SelectedSlots = SelectedSlot.None;
             public static SelectedSlot[] Flags = new SelectedSlot[] { SelectedSlot.Slot1, SelectedSlot.Slot2, SelectedSlot.Slot3 };
@@ -431,19 +660,19 @@ namespace MineCrazy
             public static void Make()
             {
                 Slots.Clear();
-                for(int i=0;i<3;i++)
+                for (int i = 0; i < 3; i++)
                 {
                     StringBuilder s = new StringBuilder();
-                    s.Append("Slot " + (i + 1) +"("+(i+1)+")"+" : ");
+                    s.Append("Slot " + (i + 1) + "(" + (i + 1) + ")" + " : ");
                     if (Pickaxe.Enchants[i].Item1 == "A")
                     {
                         s.Append("Attack Increase ");
-                        s.Append((int)(Pickaxe.Enchants[i].Item2 * 100)-100);
+                        s.Append((int)(Pickaxe.Enchants[i].Item2 * 100) - 100);
                         s.Append("%");
                     }
                     if (Pickaxe.Enchants[i].Item1 == "BD")
                     {
-                        s.Append("Breaking Defense ");
+                        s.Append("Defense Breaking ");
                         s.Append((int)(Pickaxe.Enchants[i].Item2 * 100));
                         s.Append("%");
                     }
@@ -465,6 +694,13 @@ namespace MineCrazy
                         s.Append((int)(Pickaxe.Enchants[i].Item2 * 100));
                         s.Append("%");
                     }
+                    if (Pickaxe.Enchants[i].Item1 == "UB")
+                    {
+                        s.Append("Unbreakable ");
+                        s.Append((int)(Pickaxe.Enchants[i].Item2 * 100));
+                        s.Append("%");
+                    }
+
 
 
 
@@ -476,7 +712,7 @@ namespace MineCrazy
             public static void Update()
             {
                 Slots.Align();
-                if(User.JustPressed(Keys.D1)||User.JustLeftClicked(Slots[0]))
+                if (User.JustPressed(Keys.D1) || User.JustLeftClicked(Slots[0]))
                 {
                     SelectedSlots ^= SelectedSlot.Slot1;
                 }
@@ -505,7 +741,7 @@ namespace MineCrazy
             {
                 StandAlone.DrawString("Enchant Slot", new REMOPoint(70, 220), Color.LightBlue);
 
-                for (int i=0;i<3;i++)
+                for (int i = 0; i < 3; i++)
                 {
                     if (SelectedSlots.HasFlag(Flags[i]))
                     {
@@ -513,7 +749,7 @@ namespace MineCrazy
                     }
                     else
                         Slots[i].Draw(Color.LightBlue);
- 
+
 
                 }
                 if (EnchantSlot.SelectedSlots == EnchantSlot.SelectedSlot.None)
@@ -522,7 +758,7 @@ namespace MineCrazy
                 }
                 else
                 {
-                    StandAlone.DrawString("Cost : " + GetCost()+"S", EnchantButton.Pos + new REMOPoint(0, 50), Color.Yellow);
+                    StandAlone.DrawString("Cost : " + GetCost() + "S", EnchantButton.Pos + new REMOPoint(0, 50), Color.Yellow);
                 }
 
             }
@@ -536,7 +772,7 @@ namespace MineCrazy
         public static CheckBox Protected = new CheckBox(15, "Protect(P)", ReinforceButton.Pos + new REMOPoint(0, -50));
 
 
-        public static Button LandfillChan = new Button(new Gfx2D("Garbage3", new REMOPoint(800, 400), 0.5f), () =>
+        public static Button LandfillChan = new Button(new Gfx2D("Garbage3", new REMOPoint(750, 300), 0.5f), () =>
         {
 
             ScriptScene.dialogLoader.EnterScript("MINE.Landfill", () =>
@@ -546,6 +782,8 @@ namespace MineCrazy
             });
 
         });
+
+        public static Button Present = new Button(new Gfx2D("Present", new REMOPoint(280, 30), 0.1f),()=>{ Projectors.Projector.SwapTo(PresentScene.scn); });
 
         public static Scene scn = new Scene(() =>
         {
@@ -601,7 +839,8 @@ namespace MineCrazy
 
             if (LandFillScene.trigger == 0)
                 LandfillChan.Enable();
-
+            if (Pickaxe.Level >= 30)
+                Present.Enable();
         }, () =>
         {
             StandAlone.DrawString("(Let's make level 30!)", new REMOPoint(70, 50), Color.Gray);
@@ -638,6 +877,8 @@ namespace MineCrazy
             if (LandFillScene.trigger == 0)
                 LandfillChan.DrawWithAccent(Color.White,Color.Red);
 
+            if (Pickaxe.Level >= 30)
+                Present.DrawWithAccent(Color.White,Color.Pink);
 
             Fader.DrawAll();
             Cursor.Draw(Color.White);
@@ -645,31 +886,81 @@ namespace MineCrazy
 
     }
 
+    public static class PresentScene
+    {
+        
+        public static Scene scn = new Scene(() =>
+        {
+
+        }, () =>
+        {
+            if(User.JustLeftClicked())
+            {
+                Projectors.Projector.SwapTo(TuningScene.scn);
+            }
+
+        }, () =>
+        {
+            StandAlone.DrawFullScreen("Ending");
+            Cursor.Draw(Color.White);
+        });
+
+
+
+
+    }
+
+
     public static class LandFillScene
     {
         public static int trigger=-1;
         [Flags]
         public enum ItemSelection
         {
-            None = 0, Item1 = 1, Item2 = 2
+            None = 0, Item1 = 1, Item2 = 2, Item3 =3,
         }
         public static ItemSelection SelectedItem = ItemSelection.None;
         public static Gfx2D Item1 = new Gfx2D("MINE.Item1", new REMOPoint(300, 150), 0.4f);
         public static int Item1_Count = 0;
         public static int Used_Item1_Count = 0;
         public static int Item2_Count = 0;
+        public static int Item3_Count = 0;
+        public static int EggTimer = 0;
         public static Gfx2D Item2 = new Gfx2D("MINE.Item2", new REMOPoint(400, 150), 0.4f);
+        public static Gfx2D Item3 = new Gfx2D("MINE.Egg", new REMOPoint(500, 150), 0.4f);
+
         public static Gfx2D GarbageGirl = new Gfx2D("MINE.Garbage3", new REMOPoint(0, 190), 0.5f);
         public static GfxStr CurrentTalk = new GfxStr("Hello.. Mister... What do you want to exchange?", new REMOPoint(300, 400));
         public static Button BuyButton = new Button(new Gfx2D("BuyButton", new REMOPoint(700, 200), 0.5f), () =>
               {
                   if(UserInterface.Trash>=GetPrice())
                   {
-                      UserInterface.Trash -= GetPrice();
                       if (SelectedItem == ItemSelection.Item1)
+                      {
+                          UserInterface.Trash -= GetPrice();
                           Item1_Count++;
+                      }
                       if (SelectedItem == ItemSelection.Item2)
+                      {
+                          UserInterface.Trash -= GetPrice();
                           Item2_Count++;
+                      }
+                      if (SelectedItem == ItemSelection.Item3)
+                      {
+                          if (Pet.PetCode==""&&EggTimer==0)
+                          {
+                              UserInterface.Trash -= GetPrice();
+                              Item3_Count++;
+                              Pet.PetGraphic.Sprite = "Egg2";
+                              EggTimer = 3600;
+                          }
+                          else
+                          {
+                              CurrentTalk.Text = "You already have one...";
+                          }
+
+                      }
+
                   }
               });
 
@@ -683,11 +974,17 @@ namespace MineCrazy
             {
                 return 100 * (int)Math.Pow(4,Item2_Count);
             }
+            else if (SelectedItem == ItemSelection.Item3)
+            {
+                return 30 * (Item3_Count+1);
+            }
+
             return -1;
         }
         public static Scene scn = new Scene(() =>
         {
             UserInterface.SetButtons(UserInterface.MiningSceneButton2, UserInterface.TuningSceneButton2);
+            CurrentTalk.Text = "Hello.. Mister... What do you want to exchange?";
         }, () =>
         {
             if (User.JustPressed(Keys.Left))
@@ -708,6 +1005,16 @@ namespace MineCrazy
                 else
                     SelectedItem = ItemSelection.None;
             }
+            if (User.JustLeftClicked(Item3) || User.JustPressed(Keys.D3))
+            {
+                if (SelectedItem != ItemSelection.Item3)
+                    SelectedItem = ItemSelection.Item3;
+                else
+                    SelectedItem = ItemSelection.None;
+            }
+            if (User.JustPressed(Keys.B))
+                BuyButton.ButtonClickAction();
+
 
             BuyButton.Enable();
 
@@ -717,13 +1024,14 @@ namespace MineCrazy
             UserInterface.Draw();
             Item1.Draw();
             Item2.Draw();
+            Item3.Draw();
             GarbageGirl.Draw();
             CurrentTalk.Draw(Color.White);
             if(SelectedItem==ItemSelection.Item1)
             {
                 Item1.Draw(Color.Red * 0.3f);
                 StandAlone.DrawString("Protection Charm", Item1.Pos + new REMOPoint(0, 90),Color.Yellow);
-                StandAlone.DrawString("Protects destruction of pickaxe(1 time)", Item1.Pos + new REMOPoint(0, 120), Color.White);
+                StandAlone.DrawString("Protects breaking of pickaxe(1 time)", Item1.Pos + new REMOPoint(0, 120), Color.White);
                 StandAlone.DrawString("Price : " + GetPrice() + " Trash", Item1.Pos + new REMOPoint(0, 160), Color.White) ;
                 BuyButton.DrawWithAccent(Color.White, Color.Pink);
             }
@@ -731,8 +1039,16 @@ namespace MineCrazy
             {
                 Item2.Draw(Color.Red * 0.3f);
                 StandAlone.DrawString("Iron Ore", Item1.Pos + new REMOPoint(0, 90), Color.Yellow);
-                StandAlone.DrawString("When you make new pickaxe, it's level is "+5*(Item2_Count+1)+".", Item1.Pos + new REMOPoint(0, 120), Color.White);
+                StandAlone.DrawString("When you make new pickaxe, it's level would be "+5*(Item2_Count+1)+".", Item1.Pos + new REMOPoint(0, 120), Color.White);
                 StandAlone.DrawString("Price : "+GetPrice()+" Trash", Item1.Pos + new REMOPoint(0, 160), Color.White);
+                BuyButton.DrawWithAccent(Color.White, Color.Pink);
+            }
+            else if (SelectedItem == ItemSelection.Item3)
+            {
+                Item3.Draw(Color.Red * 0.3f);
+                StandAlone.DrawString("Weird Egg", Item1.Pos + new REMOPoint(0, 90), Color.Yellow);
+                StandAlone.DrawString("This might contains a life...", Item1.Pos + new REMOPoint(0, 120), Color.White);
+                StandAlone.DrawString("Price : " + GetPrice() + " Trash", Item1.Pos + new REMOPoint(0, 160), Color.White);
                 BuyButton.DrawWithAccent(Color.White, Color.Pink);
             }
             else

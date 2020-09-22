@@ -134,3 +134,10 @@ C:\Users\owner\source\repos\REMO Engine Developer\REMO Engine Developer\bin\Desk
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\Mine Crazy.exe
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\obj\Debug\Mine Crazy.pdb
 \\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Scripts\MINE.Landfill.txt
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.EnchantSE.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.Break.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.NotBreakedSE.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.Egg.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.PetSlime.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\MINE.Snail.xnb
+\\Mac\Home\Documents\REMO_Engine_Developer\REMO_Engine_Developer\bin\DesktopGL\AnyCPU\Debug\Content\Mine.Board2.xnb
