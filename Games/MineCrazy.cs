@@ -538,6 +538,8 @@ namespace MineCrazy
         }
         public static void Update()
         {
+            TuningScene.EnchantSlot.SlotLists = new Tuple<string, double>[] { Pickaxe.Enchants[0], Pickaxe.Enchants[1], Pickaxe.Enchants[2], Pet.OptionSlot, Waifu.OptionSlot };
+
             CurrentButtons.Align();
             foreach(Button b in CurrentButtons.Components)
             {
@@ -553,6 +555,7 @@ namespace MineCrazy
                     Pet.GetPet();
                 }
             }
+
         }
         public static void Draw()
         {
