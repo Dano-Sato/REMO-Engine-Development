@@ -60,7 +60,7 @@ namespace MineCrazy
                         OptionSlot = new Tuple<string, double>("CD", 3.0);
                         break;
                     case "RS":
-                        OptionSlot = new Tuple<string, double>("BD", 0.7);
+                        OptionSlot = new Tuple<string, double>("BD", 1.0);
                         break;
                 }
 
@@ -174,7 +174,7 @@ namespace MineCrazy
                 case "RS":
                     StandAlone.DrawString("Red Slime", new REMOPoint(750, 200), Color.Black);
                     StandAlone.DrawString("Option", new REMOPoint(770, 250), Color.Black);
-                    StandAlone.DrawString("Attack Increase 70%", new REMOPoint(720, 290), Color.Black);
+                    StandAlone.DrawString("Breaking Defense 100%", new REMOPoint(720, 290), Color.Black);
                     break;
                 case "YS":
                     StandAlone.DrawString("Yellow Slime", new REMOPoint(750, 200), Color.Black);
@@ -240,9 +240,9 @@ namespace MineCrazy
             CGPipeline.Add("Sleepy", new Gfx2D("Sleepy3", Pet.PetGraphic.Pos + new REMOPoint(250, 30), 0.6f));
             CGPipeline.Add("CatEar", new Gfx2D("Cat", Pet.PetGraphic.Pos + new REMOPoint(250, 30), 0.7f));
             OptionPipeline.Add("", new Tuple<string, double>("", 0));
-            OptionPipeline.Add("Bunny", new Tuple<string, double>("CC", 0.7));
-            OptionPipeline.Add("Sleepy", new Tuple<string, double>("UB", 0.6));
-            OptionPipeline.Add("CatEar", new Tuple<string, double>("AM", 0.6));
+            OptionPipeline.Add("Bunny", new Tuple<string, double>("CC", 1.0));
+            OptionPipeline.Add("Sleepy", new Tuple<string, double>("UB", 0.8));
+            OptionPipeline.Add("CatEar", new Tuple<string, double>("AM", 1.0));
           
         }
         public static void GetWaifu()
@@ -280,7 +280,7 @@ namespace MineCrazy
             {
                 case "Bunny":
                     StandAlone.DrawString("Bunny Waifu", board.Pos + new REMOPoint(200, 50), Color.Black);
-                    StandAlone.DrawString("Critical Chance + 70%", board.Pos + new REMOPoint(150, 100), Color.Black);
+                    StandAlone.DrawString("Critical Chance + 100%", board.Pos + new REMOPoint(150, 100), Color.Black);
                     if(Love<20)
                     StandAlone.DrawString("\"I was supposed to be the heroine of \n the special event. But when I woke up \n I realized I'm abandoned...\"", board.Pos + new REMOPoint(100, 150), Color.Black);
                     else if(Love<30)
@@ -306,7 +306,7 @@ namespace MineCrazy
                     break;
                 case "Sleepy":
                     StandAlone.DrawString("Sleepy Waifu", board.Pos + new REMOPoint(200, 50), Color.Black);
-                    StandAlone.DrawString("Unbreakable + 60%", board.Pos + new REMOPoint(150, 100), Color.Black);
+                    StandAlone.DrawString("Unbreakable + 80%", board.Pos + new REMOPoint(150, 100), Color.Black);
                     if (Love < 20)
                         StandAlone.DrawString("\"I just want more sleep...\"", board.Pos + new REMOPoint(100, 150), Color.Black);
                     else if(Love < 30)
@@ -331,7 +331,7 @@ namespace MineCrazy
                     break;
                 case "CatEar":
                     StandAlone.DrawString("Cat Ear Waifu", board.Pos + new REMOPoint(200, 50), Color.Black);
-                    StandAlone.DrawString("Attack Speed+ 60%", board.Pos + new REMOPoint(150, 100), Color.Black);
+                    StandAlone.DrawString("Attack Speed+ 100%", board.Pos + new REMOPoint(150, 100), Color.Black);
                     if (Love < 20)
                         StandAlone.DrawString("\"Nice to meet you Nya!\"", board.Pos + new REMOPoint(100, 150), Color.Black);
                     else if (Love < 30)
@@ -1152,7 +1152,7 @@ namespace MineCrazy
                 return 30 * (Item3_Count + 1);
             }
             else if (SelectedItem == ItemSelection.Item4)
-                return 1000;
+                return 500;
 
             return -1;
         }
