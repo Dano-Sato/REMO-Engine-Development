@@ -60,7 +60,7 @@ namespace MineCrazy
                         OptionSlot = new Tuple<string, double>("CD", 3.0);
                         break;
                     case "RS":
-                        OptionSlot = new Tuple<string, double>("A", 1.7);
+                        OptionSlot = new Tuple<string, double>("BD", 0.7);
                         break;
                 }
 
@@ -203,6 +203,164 @@ namespace MineCrazy
 
     }
 
+    public static class Waifu
+    {
+        public static Gfx2D board = new Gfx2D("MINE.Board2", new Rectangle(150, 150, 500, 350));
+
+        public static string[] WaifuCodes = new string[] { "Bunny", "Sleepy","CatEar" };
+        public static Tuple<string, double> OptionSlot = new Tuple<string, double>("", 0);
+
+        public static Gfx2D Graphic = new Gfx2D(new Rectangle());
+        public static Button Discard = new Button(new GfxStr("Discard", new REMOPoint(380, 400)), () =>
+        {
+            Code = "";
+        });
+        public static Dictionary<string, Gfx2D> CGPipeline = new Dictionary<string, Gfx2D>();
+        public static Dictionary<string, Tuple<string, double>> OptionPipeline = new Dictionary<string, Tuple<string, double>>();
+
+        private static string code = "";
+        public static string Code
+        {
+            get { return code; }
+            set
+            {
+                code = value;
+                Graphic = CGPipeline[code];
+                OptionSlot = OptionPipeline[code];
+            }
+        }
+
+        public static int Love = 0;
+        public static double ScriptCoefficient = 0;
+
+        public static void Init()
+        {
+            CGPipeline.Add("", new Gfx2D(new Rectangle()));
+            CGPipeline.Add("Bunny", new Gfx2D("Bunny", Pet.PetGraphic.Pos + new REMOPoint(220, 0), 0.8f));
+            CGPipeline.Add("Sleepy", new Gfx2D("Sleepy3", Pet.PetGraphic.Pos + new REMOPoint(250, 30), 0.6f));
+            CGPipeline.Add("CatEar", new Gfx2D("Cat", Pet.PetGraphic.Pos + new REMOPoint(250, 30), 0.7f));
+            OptionPipeline.Add("", new Tuple<string, double>("", 0));
+            OptionPipeline.Add("Bunny", new Tuple<string, double>("CC", 0.7));
+            OptionPipeline.Add("Sleepy", new Tuple<string, double>("UB", 0.6));
+            OptionPipeline.Add("CatEar", new Tuple<string, double>("AM", 0.6));
+          
+        }
+        public static void GetWaifu()
+        {
+            Love = 0;
+            Code = StandAlone.RandomPick(WaifuCodes.ToList());
+
+        }
+        public static void Update()
+        {
+            if(User.JustLeftClicked(Graphic))
+            {
+                Projectors.Projector.PauseAll();
+                Projectors.Projector.Load(scn);
+                Love += 10;
+                ScriptCoefficient = StandAlone.Random();
+            }
+        }
+        public static Scene scn = new Scene(() =>
+        {
+
+        }, () =>
+        {
+            if (User.JustLeftClicked())
+            {
+                Projectors.Projector.Unload(scn);
+                Projectors.Projector.ResumeAll();
+            }
+            Discard.Enable();
+
+        }, () =>
+        {
+            board.Draw();
+            switch (Code)
+            {
+                case "Bunny":
+                    StandAlone.DrawString("Bunny Waifu", board.Pos + new REMOPoint(200, 50), Color.Black);
+                    StandAlone.DrawString("Critical Chance + 70%", board.Pos + new REMOPoint(150, 100), Color.Black);
+                    if(Love<20)
+                    StandAlone.DrawString("\"I was supposed to be the heroine of \n the special event. But when I woke up \n I realized I'm abandoned...\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                    else if(Love<30)
+                        StandAlone.DrawString("\"You wouldn't abandon me, \n would you?\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                    else if (Love < 40)
+                        StandAlone.DrawString("\"I think that you're a good person!\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                    else if (Love < 50)
+                        StandAlone.DrawString("\"I'm happy to be with you... \"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                    else
+                    {
+                        double r = ScriptCoefficient;
+                        if(r<0.25)
+                        {
+                            StandAlone.DrawString("\"I'm glad to be with you... \"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                        }
+                        else if(r<0.5)
+                            StandAlone.DrawString("\"I think that you like me too!\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                        else if(r<0.75)
+                            StandAlone.DrawString("\"I'm not useless... am I?\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                        else
+                            StandAlone.DrawString("\"I want to be with you... \"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                    }
+                    break;
+                case "Sleepy":
+                    StandAlone.DrawString("Sleepy Waifu", board.Pos + new REMOPoint(200, 50), Color.Black);
+                    StandAlone.DrawString("Unbreakable + 60%", board.Pos + new REMOPoint(150, 100), Color.Black);
+                    if (Love < 20)
+                        StandAlone.DrawString("\"I just want more sleep...\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                    else if(Love < 30)
+                        StandAlone.DrawString("\"Zzz... What?\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                    else if (Love < 40)
+                        StandAlone.DrawString("\"I don't want to be awake...\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                    else
+                    {
+                        if(ScriptCoefficient<0.6)
+                        {
+                            Graphic.Sprite = "Sleepy3";
+                            StandAlone.DrawString("\"Zzz...\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                        }
+                        else
+                        {
+                            Graphic.Sprite = "Sleepy";
+                            StandAlone.DrawString("\"Why did you wake me up?\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                        }
+                    }
+
+
+                    break;
+                case "CatEar":
+                    StandAlone.DrawString("Cat Ear Waifu", board.Pos + new REMOPoint(200, 50), Color.Black);
+                    StandAlone.DrawString("Attack Speed+ 60%", board.Pos + new REMOPoint(150, 100), Color.Black);
+                    if (Love < 20)
+                        StandAlone.DrawString("\"Nice to meet you Nya!\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                    else if (Love < 30)
+                        StandAlone.DrawString("\"How could I serve you Nya?\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                    else if (Love < 40)
+                        StandAlone.DrawString("\"I would do my best Nya!\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                    else
+                    {
+                        if (ScriptCoefficient < 0.5)
+                        {
+                            StandAlone.DrawString("\"I love my master Nya!\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                        }
+                        else
+                        {
+                            StandAlone.DrawString("\"Give me an order Nya!\n Anything is okay Nya!\"", board.Pos + new REMOPoint(100, 150), Color.Black);
+                        }
+                    }
+
+
+
+                    break;
+            }
+            Discard.DrawWithAccent(Color.Black,Color.Red);
+            if (board.ContainsCursor())
+                Cursor.Draw(Color.Black);
+        });
+
+    }
+
     public static class Pickaxe
     {
         public static int Power = 10;
@@ -217,7 +375,7 @@ namespace MineCrazy
             {
                 level = value;
                 Power = level * 9 + (int)Math.Pow(1.5, level);
-                TuningScene.Reinforcefee = (int)(50 * (Math.Pow(1.5, level - 1)));
+                TuningScene.Reinforcefee = (ulong)(50 * (Math.Pow(1.5, level - 1)));
                 TuningScene.ReinforcePossibility = (float)(1.0 * Math.Pow(0.98, level - 1));
                 TuningScene.ReinforceButton.ButtonGraphic = new GfxStr("Reinforce(R) : " + TuningScene.Reinforcefee + "G", new REMOPoint(400, 200));
             }
@@ -232,7 +390,7 @@ namespace MineCrazy
                 {
                     Enchants[SlotNum] = new Tuple<string, double>("A", StandAlone.Random(0.2, 2));
                 }
-                else if(r<0.3)
+                else if(r<0.25)
                     Enchants[SlotNum] = new Tuple<string, double>("UB", StandAlone.Random(0, 0.8));
                 else if (r<0.6)
                 {
@@ -243,15 +401,15 @@ namespace MineCrazy
                 else if(r<0.9)
                     Enchants[SlotNum] = new Tuple<string, double>("CD", StandAlone.Random(0.0, 10));
                 else
-                    Enchants[SlotNum] = new Tuple<string, double>("AM", StandAlone.Random(0.0, 10));
+                    Enchants[SlotNum] = new Tuple<string, double>("AM", StandAlone.Random(0.0, 1));
 
 
             }
         }
 
-        public static int GetPower()
+        public static long GetPower()
         {
-            int result=Power;
+            long result=Power;
             double a = 1;
             for(int i=0;i<3;i++)
             {
@@ -263,7 +421,7 @@ namespace MineCrazy
             if(Pet.OptionSlot.Item1=="A")
                 a += (Pet.OptionSlot.Item2 - 1);
 
-            result = (int)Math.Max(0, result * a);
+            result = (long)Math.Max(0, result * a);
             return result;
         }
 
@@ -277,41 +435,34 @@ namespace MineCrazy
                     bd += (Enchants[i].Item2);
                 }
             }
+            if (Pet.OptionSlot.Item1 == "BD")
+                bd += (Pet.OptionSlot.Item2);
+
             return bd;
         }
 
         public static bool CheckBreak()
         {
-            for (int i = 0; i < 3; i++)
+            foreach (Tuple<string, double> slot in TuningScene.EnchantSlot.SlotLists)
             {
-                if (Enchants[i].Item1 == "UB")
+                if (slot.Item1 == "UB")
                 {
-                    if (StandAlone.Random() < Enchants[i].Item2)
+                    if (StandAlone.Random() < slot.Item2)
                         return false;
                 }
             }
-
-            if (Pet.OptionSlot.Item1 == "UB")
-            {
-                if (StandAlone.Random() < Pet.OptionSlot.Item2)
-                    return false;
-            }
             return true;
-
         }
 
         public static bool CheckCritical()
         {
             double cc = 0.1;
-            for (int i = 0; i < 3; i++)
+
+            foreach(Tuple<string,double> slot in TuningScene.EnchantSlot.SlotLists)
             {
-                if (Enchants[i].Item1 == "CC")
-                {
-                    cc += (Enchants[i].Item2);
-                }
+                if (slot.Item1 == "CC")
+                    cc += slot.Item2;
             }
-            if(Pet.OptionSlot.Item1=="CC")
-                cc += (Pet.OptionSlot.Item2);
 
             if (StandAlone.Random() < cc)
                 return true;
@@ -437,18 +588,18 @@ namespace MineCrazy
                 set 
                 {
                     level = value;
-                    MaxHP = (int)(30 * Math.Pow(1.5, level - 1));
+                    MaxHP = (long)(30 * Math.Pow(1.5, level - 1));
                     CurrentHP = MaxHP;
-                    MaxDEF = (int)(Math.Pow(1.7, level - 1));
+                    MaxDEF = (long)(Math.Pow(1.7, level - 1));
                     CurrentDEF = MaxDEF;
                 
                 
                 }
             }
-            public static int MaxHP=30;
-            public static int MaxDEF=1;
-            public static int CurrentHP=30;
-            public static int CurrentDEF=1;
+            public static long MaxHP=30;
+            public static long MaxDEF=1;
+            public static long CurrentHP=30;
+            public static long CurrentDEF=1;
 
             public static SimpleGauge HPGauge = new SimpleGauge(new Gfx2D(new Rectangle(0, 370, 1000, 15)));
             public static SimpleGauge DEFGauge = new SimpleGauge(new Gfx2D(new Rectangle(0, 420, 1000, 15)));
@@ -456,28 +607,26 @@ namespace MineCrazy
 
             public static void Update()
             {
-                CurrentDEF = (int)Math.Max(0, MaxDEF * (1 - Pickaxe.GetBD()));
+                CurrentDEF = (long)Math.Max(0, MaxDEF * (1 - Pickaxe.GetBD()));
                 HPGauge.Update(CurrentHP, MaxHP);
                 DEFGauge.Update(CurrentDEF, MaxDEF);
-                if(User.JustLeftClicked(Rock.Graphic)||User.JustPressed(Keys.Z)||MiningTimer>5)
+                double a = 1;
+                foreach(Tuple<string, double> slot in TuningScene.EnchantSlot.SlotLists)
+                {
+                    if (slot.Item1 == "AM")
+                        a += slot.Item2;
+                }
+                double MiningTime = 5 /a;
+                if(MiningTimer>MiningTime)
                 {
                     MiningTimer = 0;
                     PickaxeGrapic.Rotate = (float)StandAlone.Random()*1.5f;
                     if(!Pickaxe.CheckCritical())
-                        Rock.CurrentHP -= Math.Max(0, Pickaxe.GetPower() - Rock.CurrentDEF);
+                        Rock.CurrentHP -= Math.Max(0, (long)Pickaxe.GetPower() - Rock.CurrentDEF);
                     else
-                        Rock.CurrentHP -= Math.Max(0, (int)(Pickaxe.GetPower()*(2+Pickaxe.GetCD()) - Rock.CurrentDEF));
+                        Rock.CurrentHP -= Math.Max(0, (long)(Pickaxe.GetPower()*(2+Pickaxe.GetCD()) - Rock.CurrentDEF));
                 }
-                if(StandAlone.FrameTimer%60==0)
-                {
-                    if(Pickaxe.Get("AM")>0)
-                        PickaxeGrapic.Rotate = (float)StandAlone.Random() * 1.5f;
-                    if (!Pickaxe.CheckCritical())
-                        Rock.CurrentHP -= (int)Math.Max(0, Pickaxe.GetPower()*Pickaxe.Get("AM") - Rock.CurrentDEF);
-                    else
-                        Rock.CurrentHP -= Math.Max(0, (int)(Pickaxe.GetPower()*Pickaxe.Get("AM") * (2 + Pickaxe.GetCD()) - Rock.CurrentDEF));
-
-                }
+           
 
                 if (Rock.CurrentHP<=0)
                 {
@@ -493,7 +642,7 @@ namespace MineCrazy
             }
             public static void GetReward()
             {
-                UserInterface.Gold += (ulong)(10*Math.Pow(1.5,Level-1));
+                UserInterface.Gold += (ulong)(10*Math.Pow(1.6,Level-1));
                 UserInterface.EnchantStone += Level / 5;
             }
 
@@ -503,8 +652,6 @@ namespace MineCrazy
                 Rock.Graphic.Draw(RockColors[Math.Min(RockColors.Length-1, Level/5)]);
 
 
-                if (Rock.Graphic.ContainsCursor())
-                    Rock.Graphic.Draw(Color.Red);
                 StandAlone.DrawString("level "+level+" Rock", Rock.Graphic.Center - new REMOPoint(50, 20), Color.Black);
                 HPGauge.Draw(Color.Red);
                 StandAlone.DrawString("ROCK HP : "+Rock.CurrentHP, HPGauge.Graphic.Pos-new REMOPoint(0,30), Color.Red);
@@ -533,6 +680,11 @@ namespace MineCrazy
                 UserInterface.SetButtons(UserInterface.TuningSceneButton,UserInterface.LandFillSceneButton2);
             else
                 UserInterface.SetButtons(UserInterface.TuningSceneButton);
+            scn.InitOnce(() =>
+            {
+                Waifu.Init();
+            });
+
 
             StandAlone.FullScreen = new Rectangle(0, 0, 1000, 500);
 
@@ -544,12 +696,13 @@ namespace MineCrazy
             if (User.JustPressed(Keys.Left) && LandFillScene.trigger == 1)
                 Projectors.Projector.SwapTo(LandFillScene.scn);
 
-            if (User.Pressing(Keys.Z)|| User.Pressing(Keys.X)|| User.Pressing(Keys.C)|| User.Pressing(Keys.V))
+            if (User.Pressing(Keys.Space))
                 MiningTimer++;
             Rock.Update();
             PrevRockButton.Enable();
             NextRockButton.Enable();
             Pet.Update();
+            Waifu.Update();
 
         }, () =>
         {
@@ -558,12 +711,13 @@ namespace MineCrazy
 
             if (Pickaxe.Level >= 10)
                 PickaxeGrapic.Draw(Color.LightBlue);
-            StandAlone.DrawString("Press Z to Mine!(Z)", new REMOPoint(450,260), Color.White);
+            StandAlone.DrawString("Press Space to Mine!(Space)", new REMOPoint(450,260), Color.White);
             UserInterface.Draw();
             PrevRockButton.DrawWithAccent(Color.White, Color.Red);
             NextRockButton.DrawWithAccent(Color.White, Color.Red);
 
             Pet.Draw();
+            Waifu.Graphic.Draw();
 
             Cursor.Draw(Color.White);
         });
@@ -571,13 +725,13 @@ namespace MineCrazy
 
     public static class TuningScene
     {
-        public static int Reinforcefee = 50;
+        public static ulong Reinforcefee = 50;
         public static float ReinforcePossibility = 1.0f;
         public static Button ReinforceButton = new Button(new GfxStr("Reinforce(R) : " + Reinforcefee + "G", new REMOPoint(400, 200)), () =>
                  {
-                     if (UserInterface.Gold >= (ulong)Reinforcefee)
+                     if (UserInterface.Gold >= Reinforcefee)
                      {
-                         UserInterface.Gold -= (ulong)Reinforcefee;
+                         UserInterface.Gold -= Reinforcefee;
                          if (StandAlone.Random() < ReinforcePossibility)
                          {
                            //Reinforce
@@ -657,6 +811,8 @@ namespace MineCrazy
             public static SelectedSlot SelectedSlots = SelectedSlot.None;
             public static SelectedSlot[] Flags = new SelectedSlot[] { SelectedSlot.Slot1, SelectedSlot.Slot2, SelectedSlot.Slot3 };
 
+            public static Tuple<string, double>[] SlotLists = new Tuple<string, double>[] { Pickaxe.Enchants[0], Pickaxe.Enchants[1], Pickaxe.Enchants[2], Pet.OptionSlot, Waifu.OptionSlot };
+
             public static void Make()
             {
                 Slots.Clear();
@@ -690,7 +846,7 @@ namespace MineCrazy
                     }
                     if (Pickaxe.Enchants[i].Item1 == "AM")
                     {
-                        s.Append("Auto Mining(1sec) ");
+                        s.Append("Attack Speed ");
                         s.Append((int)(Pickaxe.Enchants[i].Item2 * 100));
                         s.Append("%");
                     }
@@ -850,7 +1006,7 @@ namespace MineCrazy
             StringBuilder PowerDescription = new StringBuilder();
             PowerDescription.Append("Power : ");
             PowerDescription.Append(Pickaxe.GetPower());
-            int powerChanged = Pickaxe.GetPower() - Pickaxe.Power;
+            long powerChanged = Pickaxe.GetPower() - Pickaxe.Power;
             if(powerChanged!=0)
             {
                 PowerDescription.Append("(");
@@ -917,7 +1073,7 @@ namespace MineCrazy
         [Flags]
         public enum ItemSelection
         {
-            None = 0, Item1 = 1, Item2 = 2, Item3 =3,
+            None = 0, Item1 = 1, Item2 = 2, Item3 =3, Item4 = 4
         }
         public static ItemSelection SelectedItem = ItemSelection.None;
         public static Gfx2D Item1 = new Gfx2D("MINE.Item1", new REMOPoint(300, 150), 0.4f);
@@ -928,6 +1084,8 @@ namespace MineCrazy
         public static int EggTimer = 0;
         public static Gfx2D Item2 = new Gfx2D("MINE.Item2", new REMOPoint(400, 150), 0.4f);
         public static Gfx2D Item3 = new Gfx2D("MINE.Egg", new REMOPoint(500, 150), 0.4f);
+        public static Gfx2D Item4 = new Gfx2D("MINE.Gashapon",new REMOPoint(600,150),0.4f);
+
 
         public static Gfx2D GarbageGirl = new Gfx2D("MINE.Garbage3", new REMOPoint(0, 190), 0.5f);
         public static GfxStr CurrentTalk = new GfxStr("Hello.. Mister... What do you want to exchange?", new REMOPoint(300, 400));
@@ -958,6 +1116,18 @@ namespace MineCrazy
                           {
                               CurrentTalk.Text = "You already have one...";
                           }
+                      }
+                      if(SelectedItem == ItemSelection.Item4)
+                      {
+                          if(Waifu.Code=="")
+                          {
+                              UserInterface.Trash -= GetPrice();
+                              Projectors.Projector.SwapTo(GachaScene.scn);
+                          }
+                          else
+                          {
+                              CurrentTalk.Text = "You already have one...";
+                          }
 
                       }
 
@@ -968,16 +1138,18 @@ namespace MineCrazy
         {
             if (SelectedItem == ItemSelection.Item1)
             {
-                return 5 * (Item1_Count + Used_Item1_Count+ 1);
+                return 10 * (Item1_Count + Used_Item1_Count + 1);
             }
             else if (SelectedItem == ItemSelection.Item2)
             {
-                return 100 * (int)Math.Pow(4,Item2_Count);
+                return 100 * (int)Math.Pow(3, Item2_Count);
             }
             else if (SelectedItem == ItemSelection.Item3)
             {
-                return 30 * (Item3_Count+1);
+                return 30 * (Item3_Count + 1);
             }
+            else if (SelectedItem == ItemSelection.Item4)
+                return 1000;
 
             return -1;
         }
@@ -1012,6 +1184,14 @@ namespace MineCrazy
                 else
                     SelectedItem = ItemSelection.None;
             }
+            if (User.JustLeftClicked(Item4) || User.JustPressed(Keys.D4))
+            {
+                if (SelectedItem != ItemSelection.Item4)
+                    SelectedItem = ItemSelection.Item4;
+                else
+                    SelectedItem = ItemSelection.None;
+            }
+
             if (User.JustPressed(Keys.B))
                 BuyButton.ButtonClickAction();
 
@@ -1025,6 +1205,7 @@ namespace MineCrazy
             Item1.Draw();
             Item2.Draw();
             Item3.Draw();
+            Item4.Draw();
             GarbageGirl.Draw();
             CurrentTalk.Draw(Color.White);
             if(SelectedItem==ItemSelection.Item1)
@@ -1039,7 +1220,7 @@ namespace MineCrazy
             {
                 Item2.Draw(Color.Red * 0.3f);
                 StandAlone.DrawString("Iron Ore", Item1.Pos + new REMOPoint(0, 90), Color.Yellow);
-                StandAlone.DrawString("When you make new pickaxe, it's level would be "+5*(Item2_Count+1)+".", Item1.Pos + new REMOPoint(0, 120), Color.White);
+                StandAlone.DrawString("When you make new pickaxe, it's level is "+5*(Item2_Count+1)+".", Item1.Pos + new REMOPoint(0, 120), Color.White);
                 StandAlone.DrawString("Price : "+GetPrice()+" Trash", Item1.Pos + new REMOPoint(0, 160), Color.White);
                 BuyButton.DrawWithAccent(Color.White, Color.Pink);
             }
@@ -1048,6 +1229,14 @@ namespace MineCrazy
                 Item3.Draw(Color.Red * 0.3f);
                 StandAlone.DrawString("Weird Egg", Item1.Pos + new REMOPoint(0, 90), Color.Yellow);
                 StandAlone.DrawString("This might contains a life...", Item1.Pos + new REMOPoint(0, 120), Color.White);
+                StandAlone.DrawString("Price : " + GetPrice() + " Trash", Item1.Pos + new REMOPoint(0, 160), Color.White);
+                BuyButton.DrawWithAccent(Color.White, Color.Pink);
+            }
+            else if (SelectedItem == ItemSelection.Item4)
+            {
+                Item4.Draw(Color.Red * 0.3f);
+                StandAlone.DrawString("Waifu Gashapon", Item1.Pos + new REMOPoint(0, 90), Color.Yellow);
+                StandAlone.DrawString("Discarded from some other mobile game.", Item1.Pos + new REMOPoint(0, 120), Color.White);
                 StandAlone.DrawString("Price : " + GetPrice() + " Trash", Item1.Pos + new REMOPoint(0, 160), Color.White);
                 BuyButton.DrawWithAccent(Color.White, Color.Pink);
             }
@@ -1063,12 +1252,78 @@ namespace MineCrazy
 
     }
 
+    public static class GachaScene
+    {
+        public static Gfx2D Gacha = new Gfx2D("MINE.Gacha", new REMOPoint(-200, 200), 1.0f);
+        public static Color GachaColor;
+        public static int reward;
+        
+        public static Scene scn = new Scene(() =>
+        {
+            Gacha.Pos = new REMOPoint(-200, 200);
+            string[] RandomColors = new string[] { "Gacha", "RedGacha", "YellowGacha", "WaifuGacha" };
+            Gacha.Sprite = StandAlone.RandomPick(RandomColors.ToList());
+            switch(Gacha.Sprite)
+            {
+                case "Gacha":
+                    reward = StandAlone.Random(1, 10);
+                    break;
+                case "RedGacha":
+                    reward = StandAlone.Random(10, 100);
+                    break;
+                case "YellowGacha":
+                    reward = StandAlone.Random(100, 2000);
+                    break;
+                case "WaifuGacha":
+                    reward = -1;
+                    Waifu.GetWaifu();
+                    break;
+            }
+            if (reward >= 0)
+                UserInterface.Trash += reward;
+
+            StandAlone.FullScreen = new Rectangle(0,0,1000, 500);
+        }, () =>
+        {
+            Gacha.Rotate += 0.05f;
+            Gacha.MoveByVector(new REMOPoint(1, 0), 5);
+            if(User.JustLeftClicked())
+            {
+                Projectors.Projector.SwapTo(LandFillScene.scn);
+            }
+        }, () =>
+        {
+            Gacha.Draw();
+            if(reward>=0)
+                StandAlone.DrawString(30,"Trash +" + reward, new REMOPoint(300, 100), Color.White);
+            else
+                StandAlone.DrawString(30, "You got a Waifu!" , new REMOPoint(300, 100), Color.White);
+            Cursor.Draw(Color.White);
+
+        });
+    }
+
 
     public static class ScriptScene
     {
         public static DialogLoader dialogLoader = new DialogLoader(20, new REMOPoint(50,250), new REMOPoint(50, 300), Color.White,Color.Black);
     
 
+    }
+
+    public static class SettingScene
+    {
+        public static VolumeBar SEBar = new VolumeBar(new Gfx2D(new Rectangle(50, 50, 600, 50)), "WhiteSpace", 50, (c) => { MusicBox.SEVolume = c; });
+        public static Scene scn = new Scene(() =>
+        {
+            SEBar.Coefficient = 0.5f;
+        }, () =>
+        {
+            SEBar.Enable();
+        }, () =>
+        {
+            SEBar.Draw(Color.White, Color.Gray);
+        });
     }
 
 }
