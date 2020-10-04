@@ -389,7 +389,7 @@ namespace REMOEngine
             UpdateSceneEvent = () => { };
             DrawSceneEvent = () => { };
             PausedSceneEvent = () => { };
-            MusicBox.StopSong();
+            //MusicBox.StopSong(); //Debug
         }
 
         public bool Loaded(Scene s) // 특정 씬이 로드됐는지를 확인합니다. 정확히는 특정 씬이 드로우되고 있으면 로드되어있다고 판단합니다. 업데이트는 Pause에 의해 멈출 수 있지만 드로우는 로드되어있으면 멈추지 않기 떄문이죠.
@@ -421,7 +421,7 @@ namespace REMOEngine
                 UpdateSceneEvent -= s.updateAction;
                 DrawSceneEvent -= s.drawAction;
                 PausedSceneEvent -= s.updateAction;
-                MusicBox.StopSong();
+                //MusicBox.StopSong(); //Debug
             }
         }
 

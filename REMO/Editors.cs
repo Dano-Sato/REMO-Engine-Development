@@ -871,7 +871,7 @@ namespace REMOEngine
 
             scn = new Scene(() =>
             {
-
+                line = 0;
             }, () =>
             {
                 if (User.JustPressed(Keys.Z) || User.JustPressed(Keys.Space) || User.JustLeftClicked())
@@ -897,7 +897,7 @@ namespace REMOEngine
             {
                 Filter.Absolute(StandAlone.FullScreen, BackgroundColor);
                 ScriptReader.ReadLine(Scripts[line]);
-                Cursor.Draw(Color.Black);
+                Cursor.Draw(Color.White);
 
             });
         }

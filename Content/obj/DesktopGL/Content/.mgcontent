@@ -9,11 +9,24 @@
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.SE2.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.StillGood.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/FLICK.SummerNight.wav</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Back.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.bgm.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Board2.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Break.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Bunny.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Bunny2.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.BuyButton.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Card1.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Card10.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Card11.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Card2.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Card3.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Card4.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Card5.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Card6.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Card7.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Card8.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Card9.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Cat.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Egg.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Egg2.png</File>
@@ -26,6 +39,7 @@
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Gashapon.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Item1.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Item2.png</File>
+    <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Mail.png</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Mining.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.NotBreakedSE.wav</File>
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.PetSlime.png</File>
@@ -60,6 +74,20 @@
     <File>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/YOKAI.TestCG5.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

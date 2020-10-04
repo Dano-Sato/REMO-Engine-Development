@@ -3,7 +3,7 @@
   <SourceFile>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.Smith.wav</SourceFile>
   <SourceTime>2020-09-22T17:29:31.1242776+09:00</SourceTime>
   <DestFile>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/bin/DesktopGL/Content/MINE.Smith.xnb</DestFile>
-  <DestTime>2020-09-22T17:29:39.0604136+09:00</DestTime>
+  <DestTime>2020-10-05T08:10:13.3038013+09:00</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2018-12-09T01:35:54+09:00</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>

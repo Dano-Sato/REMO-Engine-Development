@@ -236,7 +236,7 @@ namespace MineCrazy
         public static void Init()
         {
             CGPipeline.Add("", new Gfx2D(new Rectangle()));
-            CGPipeline.Add("Bunny", new Gfx2D("Bunny", Pet.PetGraphic.Pos + new REMOPoint(220, 0), 0.8f));
+            CGPipeline.Add("Bunny", new Gfx2D("Bunny", Pet.PetGraphic.Pos + new REMOPoint(220, 30), 0.8f));
             CGPipeline.Add("Sleepy", new Gfx2D("Sleepy3", Pet.PetGraphic.Pos + new REMOPoint(250, 30), 0.6f));
             CGPipeline.Add("CatEar", new Gfx2D("Cat", Pet.PetGraphic.Pos + new REMOPoint(250, 30), 0.7f));
             OptionPipeline.Add("", new Tuple<string, double>("", 0));
@@ -501,7 +501,7 @@ namespace MineCrazy
 
     public static class UserInterface
     {
-        public static ulong Gold = 0;
+        public static ulong Gold = 2000000;
         public static int EnchantStone = 0;
         public static int Trash = 0;
         public static Button TuningSceneButton = new Button(new GfxStr("Go To Blacksmith(→)", new REMOPoint(700, 100)), () => {
@@ -514,13 +514,27 @@ namespace MineCrazy
         public static Button TuningSceneButton2 = new Button(new GfxStr("Go To Blacksmith(←)", new REMOPoint(700, 100)), () => {
             Projectors.Projector.SwapTo(TuningScene.scn);
         });
-        public static Button MiningSceneButton2 = new Button(new GfxStr("Go To Mine(→)", new REMOPoint(700, 100)), () => {
+        public static Button MiningSceneButton2 = new Button(new GfxStr("Go To Mine(→)", new REMOPoint(700, 100)), () =>
+        {
             Projectors.Projector.SwapTo(MiningScene.scn);
         });
+        public static Button MiningSceneButton3 = new Button(new GfxStr("Go To Mine(↓)", new REMOPoint(700, 100)), () => {
+            Projectors.Projector.SwapTo(MiningScene.scn);
+        });
+
         public static Button LandFillSceneButton2 = new Button(new GfxStr("Go To Landfill(←)", new REMOPoint(700, 100)), () => {
             Projectors.Projector.SwapTo(LandFillScene.scn);
         });
+        public static Button CasinoSceneButton = new Button(new GfxStr("Go To Casino(↑)", new REMOPoint(700, 100)), () => {
+            Projectors.Projector.SwapTo(UpDownScene.scn);
+        });
 
+
+
+
+        public static Button CasinoMailButton = new Button(new Gfx2D("Mail", new Rectangle(0, 100, 500, 500)), () => { ScriptScene.dialogLoader.EnterScript("MINE.Casino", () => { UpDownScene.CasinoState = 1;
+            Projectors.Projector.SwapTo(MiningScene.scn);        
+        }); });
 
 
         public static Aligned<Button> CurrentButtons=new Aligned<Button>(new REMOPoint(800,100),new REMOPoint(0,40)); 
@@ -534,7 +548,15 @@ namespace MineCrazy
                 CurrentButtons.Add(b);
             }
             CurrentButtons.Align();
+        }
 
+        public static void AddButtons(params Button[] buttons)
+        {
+            foreach (Button b in buttons)
+            {
+                CurrentButtons.Add(b);
+            }
+            CurrentButtons.Align();
         }
         public static void Update()
         {
@@ -556,6 +578,13 @@ namespace MineCrazy
                 }
             }
 
+            if(UpDownScene.CasinoState==-1&&Gold>100000)
+            {
+                UpDownScene.CasinoState = 0;
+            }
+            if (UpDownScene.CasinoState == 0)
+                CasinoMailButton.Enable();
+
         }
         public static void Draw()
         {
@@ -573,8 +602,11 @@ namespace MineCrazy
             {
                 b.DrawWithAccent(Color.White, Color.Red);
             }
-            StandAlone.DrawString("", new REMOPoint(800, 50), Color.White);
 
+            if (UpDownScene.CasinoState == 0)
+                CasinoMailButton.Draw(Color.White);
+
+            StandAlone.DrawString(15, "KoreanFont","Mine Crazy", new REMOPoint(880, 10), Color.White);
         }
     }
     public static class MiningScene
@@ -679,10 +711,14 @@ namespace MineCrazy
 
         public static Scene scn = new Scene(() =>
         {
+            scn.bgm = "bgm";
             if(LandFillScene.trigger==1)
                 UserInterface.SetButtons(UserInterface.TuningSceneButton,UserInterface.LandFillSceneButton2);
             else
                 UserInterface.SetButtons(UserInterface.TuningSceneButton);
+
+            if (UpDownScene.CasinoState == 1)
+                UserInterface.AddButtons(UserInterface.CasinoSceneButton);
             scn.InitOnce(() =>
             {
                 Waifu.Init();
@@ -698,6 +734,9 @@ namespace MineCrazy
                 Projectors.Projector.SwapTo(TuningScene.scn);
             if (User.JustPressed(Keys.Left) && LandFillScene.trigger == 1)
                 Projectors.Projector.SwapTo(LandFillScene.scn);
+
+            if (User.JustPressed(Keys.Up) && UpDownScene.CasinoState == 1)
+                Projectors.Projector.SwapTo(CasinoScene.scn);
 
             if (User.Pressing(Keys.Space))
                 MiningTimer++;
@@ -1158,8 +1197,13 @@ namespace MineCrazy
         }
         public static Scene scn = new Scene(() =>
         {
+
             UserInterface.SetButtons(UserInterface.MiningSceneButton2, UserInterface.TuningSceneButton2);
             CurrentTalk.Text = "Hello.. Mister... What do you want to exchange?";
+            if((ulong)UpDownScene.MoneyCheck>UserInterface.Gold&&StandAlone.Random()>0.6)
+            {
+                CurrentTalk.Text = "Hello.. Mister... Did you visit the Casino? \nMister, I think that you shouldn't visit the Casino...\nA lot of miners lost their mind, and even their life.";
+            }
         }, () =>
         {
             if (User.JustPressed(Keys.Left))
@@ -1263,6 +1307,7 @@ namespace MineCrazy
         
         public static Scene scn = new Scene(() =>
         {
+
             Gacha.Pos = new REMOPoint(-200, 200);
             string[] RandomColors = new string[] { "Gacha", "RedGacha", "YellowGacha", "WaifuGacha" };
             Gacha.Sprite = StandAlone.RandomPick(RandomColors.ToList());
@@ -1319,6 +1364,7 @@ namespace MineCrazy
         public static VolumeBar SEBar = new VolumeBar(new Gfx2D(new Rectangle(50, 50, 600, 50)), "WhiteSpace", 50, (c) => { MusicBox.SEVolume = c; });
         public static Scene scn = new Scene(() =>
         {
+
             SEBar.Coefficient = 0.5f;
         }, () =>
         {
@@ -1328,5 +1374,398 @@ namespace MineCrazy
             SEBar.Draw(Color.White, Color.Gray);
         });
     }
+
+
+    public static class UpDownScene
+    {
+        public static int Phase = 0;
+        public static int OpenCard=1;
+        public static int DealerCard=1;
+
+        public static ulong BetMoney = 1000;
+
+        public static long MoneyCheck = 0;
+
+        public static bool betUp = false;
+
+        public static Button UpButton = new Button(new GfxStr(20, "Up", new REMOPoint(300, 300)), () => { betUp = true; });
+        public static Button DownButton = new Button(new GfxStr(20, "Down", new REMOPoint(500, 300)), () => { betUp = false; });
+
+
+        public static Button RaiseButton1 = new Button(new GfxStr(20, "+10000", new REMOPoint(300, 300)), () => { BetMoney += 10000; });
+        public static Button RaiseButton2 = new Button(new GfxStr(20, "+100000", new REMOPoint(300, 340)), () => { BetMoney += 100000; });
+        public static Button RaiseButton3 = new Button(new GfxStr(20, "+1000000", new REMOPoint(300, 380)), () => { BetMoney += 1000000; });
+        public static Button RaiseButton4 = new Button(new GfxStr(20, "+10000000", new REMOPoint(300, 420)), () => { BetMoney += 10000000; });
+        public static Button RaiseButton5 = new Button(new GfxStr(20, "Quarter", new REMOPoint(100, 300)), () => { BetMoney = UserInterface.Gold / 4; });
+        public static Button RaiseButton6 = new Button(new GfxStr(20, "Half", new REMOPoint(100, 340)), () => { BetMoney = UserInterface.Gold / 2; });
+        public static Button RaiseButton7 = new Button(new GfxStr(20, "Full", new REMOPoint(100, 380)), () => { BetMoney = UserInterface.Gold; });
+
+
+        public static Button ClearButton = new Button(new GfxStr(20, "Clear", new REMOPoint(500, 300)), () => { BetMoney = 0; });
+        public static Button GoBackButton = new Button(new GfxStr(20, "Go Back", new REMOPoint(500, 350)), () => { Projectors.Projector.SwapTo(CasinoScene.scn); });
+        public static Button OKButton = new Button(new GfxStr(20, "OK", new REMOPoint(500, 400)), () => { Phase = 0; });
+
+
+
+        public static double CalculateUpOdds()
+        {
+            return Math.Truncate((double)10 / (11 - OpenCard)*10)/10-0.1;
+        }
+        public static double CalculateDownOdds()
+        {
+            return Math.Truncate((double)10 / (OpenCard - 1)*10)/10-0.1;
+        }
+        public static ulong CalMoney()
+        {
+            bool resultisUp = false;
+            if (DealerCard > OpenCard)
+                resultisUp = true;
+            else
+                resultisUp = false;
+
+            if(betUp==resultisUp)
+            {
+                if (betUp)
+                    return (ulong)(BetMoney * CalculateUpOdds());
+                else
+                    return (ulong)(BetMoney * CalculateDownOdds());
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
+
+        public static int CasinoState = -1;
+
+
+        public static Scene scn = new Scene(() =>
+        {
+            StandAlone.FullScreen = new Rectangle(0,0,1000, 500);
+            UserInterface.SetButtons();
+            Phase = 3;
+        }, () =>
+        {
+
+
+
+            UserInterface.Update();
+
+
+
+
+            if (Phase==0)
+            {
+                UserInterface.Gold -= (ulong)BetMoney;
+                MoneyCheck += (long)BetMoney;
+                OpenCard = StandAlone.Random(3, 9);
+                DealerCard = StandAlone.Random(1, 10);
+                if (DealerCard >= OpenCard)
+                    DealerCard++;
+                Phase++;
+            }
+            else if(Phase ==1)
+            {
+                UpButton.Enable();
+                DownButton.Enable();
+                if (User.JustLeftClicked(UpButton) || User.JustLeftClicked(DownButton))
+                    Phase++;
+            }
+            else if(Phase==2)
+            {
+                if(User.JustLeftClicked())
+                {
+                    Phase = 3;
+                    UserInterface.Gold += CalMoney();
+                    MoneyCheck -= (long)CalMoney();
+                }
+            }
+            else if(Phase == 3)
+            {
+                RaiseButton1.Enable();
+                RaiseButton2.Enable();
+                RaiseButton3.Enable();
+                RaiseButton4.Enable();
+                RaiseButton5.Enable();
+                RaiseButton6.Enable();
+                RaiseButton7.Enable();
+                ClearButton.Enable();
+                GoBackButton.Enable();
+                OKButton.Enable();
+                if (BetMoney > UserInterface.Gold)
+                    BetMoney = UserInterface.Gold;
+
+            }
+
+        }, () =>
+        {
+            UserInterface.Draw();
+            int StringPos = 300;
+            Gfx2D Card1 = new Gfx2D("Card"+OpenCard, new REMOPoint(700, 240), 0.3f);
+            Gfx2D Card2 = new Gfx2D("Back", new REMOPoint(850, 240), 0.3f);
+            if (Phase == 0)
+                StandAlone.DrawString(20, "Dealer opened Card " + OpenCard, new REMOPoint(StringPos, 200), Color.White);
+            if(Phase==1)
+            {
+                StandAlone.DrawString(20, "There's Card 1~11 and dealer picked two cards", new REMOPoint(StringPos-100, 160), Color.White);
+                StandAlone.DrawString(20, "Dealer opened Card " + OpenCard, new REMOPoint(StringPos, 200), Color.White);
+                StandAlone.DrawString(20, "Then the other card is", new REMOPoint(StringPos, 240), Color.White);
+                Card1.Draw();
+                Card2.Draw();
+
+                UpButton.DrawWithAccent(Color.White, Color.Red);
+                StandAlone.DrawString(20, "Odds : " + CalculateUpOdds(), UpButton.Pos + new REMOPoint(0, 40), Color.White);
+                StandAlone.DrawString(20, "Odds : " + CalculateDownOdds(), DownButton.Pos + new REMOPoint(0, 40), Color.White);
+                DownButton.DrawWithAccent(Color.White, Color.Red);
+            }
+            if(Phase==2)
+            {
+                Card2.Sprite = "Card" + DealerCard;
+                StandAlone.DrawString(20, "Dealer opened Card " + OpenCard, new REMOPoint(StringPos, 160), Color.White);
+                StandAlone.DrawString(20, "The other Card was " + DealerCard, new REMOPoint(StringPos, 200),Color.White);
+                Card1.Draw();
+                Card2.Draw();
+                if (CalMoney() == 0)
+                    StandAlone.DrawString(20, "You lost money", new REMOPoint(StringPos, 240), Color.White);
+                else
+                    StandAlone.DrawString(20, "You earned money "+CalMoney(), new REMOPoint(StringPos, 240), Color.White);
+            }
+            if(Phase ==3)
+            {
+                StandAlone.DrawString(20, "Please bet Money", new REMOPoint(StringPos, 160), Color.White);
+                StandAlone.DrawString(20, "You'll bet "+BetMoney.ToString()+"G", new REMOPoint(StringPos, 200), Color.White);
+                RaiseButton1.DrawWithAccent(Color.White,Color.Red);
+                RaiseButton2.DrawWithAccent(Color.White, Color.Red);
+                RaiseButton3.DrawWithAccent(Color.White, Color.Red);
+                RaiseButton4.DrawWithAccent(Color.White, Color.Red);
+                RaiseButton5.DrawWithAccent(Color.White, Color.Red);
+                RaiseButton6.DrawWithAccent(Color.White, Color.Red);
+                RaiseButton7.DrawWithAccent(Color.White, Color.Red);
+                ClearButton.DrawWithAccent(Color.White, Color.Red);
+                OKButton.DrawWithAccent(Color.White, Color.Red);
+                GoBackButton.DrawWithAccent(Color.White, Color.Red);
+            }
+            Cursor.Draw(Color.White);
+        });
+
+    }
+
+    public static class GraphGameScene
+    {
+
+        public static Gfx2D Seismograph = new Gfx2D(new Rectangle(600, 200, 5, 5));
+        public static long Price = 1000;
+        public static readonly int Tick = 4;
+        public static int TickTimer = 0;
+        public static int Amount = 0;
+        public static long BuyCheck = 0;
+
+        public static int r = 0;
+
+
+        public static void Buy(int i)
+        {
+            if (UserInterface.Gold >= (ulong)(Price*i))
+            {
+                UserInterface.Gold -= (ulong)(Price * i);
+                Amount += i;
+                BuyCheck += Price * i;
+            }
+            else
+            {
+                ulong c = UserInterface.Gold / (ulong)Price;
+                UserInterface.Gold -= c * (ulong)Price;
+                Amount += (int)c;
+                BuyCheck += Price * (int)c;
+            }
+
+        }
+
+        public static void Sell(int i)
+        {
+            if (Amount >= i)
+            {
+                UserInterface.Gold += (ulong)(Price*i);
+                Amount-=i;
+                BuyCheck -= Price*i;
+            }
+            else
+            {
+                UserInterface.Gold += (ulong)(Price * Amount);
+                BuyCheck -= Price * Amount;
+                Amount = 0;
+            }
+
+        }
+        public static Button BuyButton = new Button(new GfxStr("Buy 10", new REMOPoint(700, 370)), () => {
+            Buy(10);
+        });
+        public static Button BuyButton2 = new Button(new GfxStr("Buy 100", new REMOPoint(700, 400)), () => {
+            Buy(100);
+        });
+        public static Button BuyButton3 = new Button(new GfxStr("Buy 1000", new REMOPoint(700, 430)), () => {
+            Buy(1000);
+        });
+        public static Button BuyButton4 = new Button(new GfxStr("Buy 10000", new REMOPoint(700, 460)), () => {
+            Buy(10000);
+        });
+
+        public static Button SellButton = new Button(new GfxStr("Sell 10", new REMOPoint(800, 370)), () => {
+            Sell(10);
+        });
+        public static Button SellButton2 = new Button(new GfxStr("Sell 100", new REMOPoint(800, 400)), () => {
+            Sell(100);
+        });
+        public static Button SellButton3 = new Button(new GfxStr("Sell 1000", new REMOPoint(800, 430)), () => {
+            Sell(1000);
+        });
+        public static Button SellButton4 = new Button(new GfxStr("Sell 10000", new REMOPoint(800, 460)), () =>
+        {
+            Sell(10000);
+        });
+
+        public static Button GoBackButton= new Button(new GfxStr(20, "Go Back", new REMOPoint(700, 100)), () =>
+        {
+            Projectors.Projector.SwapTo(CasinoScene.scn);
+        });
+
+
+
+        public static double CheckYield()
+        {
+            if (BuyCheck < 0)
+                return -1;
+            else if(BuyCheck == 0)
+            {
+                if (Amount > 0)
+                    return -1;
+                else
+                    return 0;
+            }
+            else
+            {
+                return Math.Truncate((((double)Amount * Price / BuyCheck) - 1) * 100 * 10) / 10;
+            }
+        }
+        public static Scene scn = new Scene(() =>
+        {
+            StandAlone.FullScreen = new Rectangle(0, 0, 1000, 500);
+            UserInterface.SetButtons();
+        }, () =>
+        {
+           
+            if (TickTimer > 0)
+                TickTimer--;
+            else
+            {
+                TickTimer = Tick;
+                r = StandAlone.Random(6, -5);
+                double r2 = StandAlone.Random();
+                if (r2 < 0.002)
+                    r = StandAlone.Random(-300, 301);
+                if (r2 < 0.01)
+                    r = StandAlone.Random(-100, 101);
+                else if (StandAlone.Random() < 0.1)
+                    r = StandAlone.Random(21, -20);
+                Seismograph.Pos = new REMOPoint(Seismograph.Pos.X, Seismograph.Pos.Y - r);
+                if (Seismograph.Pos.Y  < 100)
+                    Seismograph.Pos = new REMOPoint(Seismograph.Pos.X, 200);
+                if(Seismograph.Pos.Y > 400)
+                    Seismograph.Pos = new REMOPoint(Seismograph.Pos.X, 200);
+
+                Price += r;
+                if(Price<0)
+                {
+                    Price = 1000;
+                    Amount = 0;
+                    Seismograph = new Gfx2D(new Rectangle(600, 200, 5, 5));
+                }
+            }
+            if(r>0)
+                Fader.Add(new Gfx2D(Seismograph.Bound), 300, Color.Green);
+            else
+                Fader.Add(new Gfx2D(Seismograph.Bound), 300, Color.Red);
+
+            foreach (Color c in Fader.FadeAnimations.Keys)
+            {
+                foreach (Gfx g in Fader.FadeAnimations[c].Keys)
+                {
+                    g.MoveByVector(new Point(-1, 0), 1);
+                }
+            }
+
+            UserInterface.Update();
+
+
+            BuyButton.Enable();
+            BuyButton2.Enable();
+            BuyButton3.Enable();
+            BuyButton4.Enable();
+            SellButton.Enable();
+            SellButton2.Enable();
+            SellButton3.Enable();
+            SellButton4.Enable();
+            GoBackButton.Enable();
+
+        }, () =>
+        {
+            Fader.DrawAll();
+            StandAlone.DrawString(20, "Casino Radish", new REMOPoint(700, 210), Color.White);
+            StandAlone.DrawString(20, "Price : " + Price, new REMOPoint(700, 250), Color.White);
+            StandAlone.DrawString(20, "Owns : " + Amount +" Radishes", new REMOPoint(700, 290), Color.White);
+            StandAlone.DrawString(20, "Earned : " + (Amount*Price- BuyCheck), new REMOPoint(700, 330), Color.White);
+            UserInterface.Draw();
+            BuyButton.DrawWithAccent(Color.White, Color.Red);
+            BuyButton2.DrawWithAccent(Color.White, Color.Red);
+            BuyButton3.DrawWithAccent(Color.White, Color.Red);
+            BuyButton4.DrawWithAccent(Color.White, Color.Red);
+            SellButton.DrawWithAccent(Color.White, Color.Red);
+            SellButton2.DrawWithAccent(Color.White, Color.Red);
+            SellButton3.DrawWithAccent(Color.White, Color.Red);
+            SellButton4.DrawWithAccent(Color.White, Color.Red);
+            GoBackButton.DrawWithAccent(Color.White, Color.Red);
+
+            Cursor.Draw(Color.White);
+        });
+    }
+
+
+    public static class CasinoScene
+    {
+
+        public static Button UpDownGameButton = new Button(new GfxStr("Up Down", new REMOPoint(300, 200)), () => {
+            Projectors.Projector.SwapTo(UpDownScene.scn);
+        });
+        public static Button GraphGameButton = new Button(new GfxStr("Radish Game", new REMOPoint(300, 240)), () => {
+            Projectors.Projector.SwapTo(GraphGameScene.scn);
+        });
+
+        public static Scene scn = new Scene(() =>
+        {
+            StandAlone.FullScreen = new Rectangle(0, 0, 1000, 500);
+            UserInterface.SetButtons(UserInterface.MiningSceneButton3);
+        }, () =>
+        {
+            UpDownGameButton.Enable();
+            GraphGameButton.Enable();
+            UserInterface.Update();
+
+            if (User.JustPressed(Keys.Down))
+                Projectors.Projector.SwapTo(MiningScene.scn);
+
+        }, () =>
+        {
+            UpDownGameButton.DrawWithAccent(Color.White, Color.Red);
+            GraphGameButton.DrawWithAccent(Color.White, Color.Red);
+            UserInterface.Draw();
+            Cursor.Draw(Color.White);
+        });
+
+
+
+
+    }
+
 
 }

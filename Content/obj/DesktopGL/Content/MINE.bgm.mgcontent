@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/MINE.bgm.wav</SourceFile>
+  <SourceTime>2020-09-27T23:17:21.8532994+09:00</SourceTime>
+  <DestFile>Y:/Documents/REMO_Engine_Developer/REMO_Engine_Developer/Content/bin/DesktopGL/Content/MINE.bgm.xnb</DestFile>
+  <DestTime>2020-10-05T08:10:11.7047367+09:00</DestTime>
+  <Importer>WavImporter</Importer>
+  <ImporterTime>2018-12-09T01:35:54+09:00</ImporterTime>
+  <Processor>SoundEffectProcessor</Processor>
+  <ProcessorTime>2018-12-09T01:35:54+09:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>
